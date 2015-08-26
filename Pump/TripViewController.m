@@ -46,4 +46,7 @@
     [_mapView addSubview:_startButton];
 }
 
+-(void) startTrip {
+    
+}
 @end
