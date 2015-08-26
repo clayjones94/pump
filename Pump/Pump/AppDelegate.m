@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "TripViewController.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    TripViewController *tripvc = [[TripViewController alloc] init];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tripvc];
+
+    
+    self.window.rootViewController = nav;
+    [self.window makeKeyAndVisible];
+
     
     return YES;
 }
