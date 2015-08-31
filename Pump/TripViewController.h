@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "TripManager.h"
+#import "KLCPopup.h"
 
-@interface TripViewController : UIViewController <TripManagerDelegate>
+@interface TripViewController : UIViewController <TripManagerDelegate, MKMapViewDelegate>
 
 @end

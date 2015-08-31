@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "TripViewController.h"
+#import "Utils.h"
 
 @interface AppDelegate ()
 
@@ -22,7 +23,15 @@
     
     TripViewController *tripvc = [[TripViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tripvc];
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:21];
+    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObjects:@[font, [UIColor whiteColor]]
+                                                                forKeys: @[NSFontAttributeName, NSForegroundColorAttributeName]];
+    
 
+    nav.navigationBar.topItem.title = @"Pump";
+    [nav.navigationBar setTitleTextAttributes:attrsDictionary];
+
+    nav.navigationBar.barTintColor = [Utils defaultColor];
     
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];

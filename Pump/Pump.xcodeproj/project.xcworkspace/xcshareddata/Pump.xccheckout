@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>7BE134D6-0B3D-40AA-801A-96DB67E1120B</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>Pump</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>81330F6BC08B97B5857701088C5384D9D8F87D7A</key>
 		<string>https://github.com/clayjones94/pump.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>Pump/Pump.xcodeproj/project.xcworkspace</string>
+	<string>Pump/Pump.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>81330F6BC08B97B5857701088C5384D9D8F87D7A</key>

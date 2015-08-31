@@ -10,7 +10,7 @@
 
 @implementation TripManager {
     NSMutableArray *_runningLocations;
-    
+    CLLocationManager *locationManager;
 }
 
 @synthesize distanceTraveled = _distanceTraveled;
@@ -27,9 +27,9 @@
 
 - (id)init {
     if (self == [super init]) {
-        
-        CLLocationManager *locationManager = [[CLLocationManager alloc] init];
-        locationManager.distanceFilter = kCLDistanceFilterNone;
+        _runningLocations = [[NSMutableArray alloc] init];
+        locationManager = [[CLLocationManager alloc] init];
+        locationManager.distanceFilter = 10;
         locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         locationManager.delegate = self;
         [locationManager startUpdatingLocation];
@@ -48,21 +48,46 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    if (RUNNING) {
+    if (_status == RUNNING) {
         [_runningLocations addObject: [locations lastObject]];
         if (_runningLocations.count > 1) {
-            _distanceTraveled += [[locations lastObject] distanceFromLocation:[locations objectAtIndex:locations.count - 2]];
+            _distanceTraveled += [[_runningLocations lastObject] distanceFromLocation:[_runningLocations objectAtIndex:_runningLocations.count - 2]];
+            NSLog(@"%f", _distanceTraveled);
         }
         
-        CLLocationCoordinate2D coordinates[_runningLocations.count];
-        for (int i = 0; i < _runningLocations.count; i++) {
+        NSUInteger count = _runningLocations.count;
+        CLLocationCoordinate2D coordinates[count];
+        for (int i = 0; i < count; i++) {
             CLLocation *location = [_runningLocations objectAtIndex:i];
-            coordinates[i] = location.coordinate;
+            CLLocationCoordinate2D coor = location.coordinate;
+            coordinates[i] = coor;
         }
         
-        _polyline = [MKPolyline polylineWithCoordinates:coordinates count:_runningLocations.count];
+        _polyline = [MKPolyline polylineWithCoordinates:coordinates count:count];
         [self.delegate tripManager:self didUpdateLocationWith:_distanceTraveled and:_polyline];
     }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    switch ([CLLocationManager authorizationStatus]) {
+        case kCLAuthorizationStatusAuthorizedWhenInUse:
+        case kCLAuthorizationStatusAuthorizedAlways:
+            [manager startUpdatingLocation];
+            break;
+        case kCLAuthorizationStatusNotDetermined:
+            if ([locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+                [locationManager requestWhenInUseAuthorization];
+            } else {
+                [locationManager startUpdatingLocation];
+            }
+            break;
+        default:
+            break;
+    }
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"LOCATION_AUTHORIZATION" object:nil];
+    });
 }
 
 -(void)setStatus:(TripStatusType *)status {
@@ -71,7 +96,7 @@
         _runningLocations = [[NSMutableArray alloc] init];
         _distanceTraveled = 0;
     }
-    if (_status == RUNNING) {
+    else if (_status == RUNNING) {
 
     }
     [self.delegate tripManager:self didUpdateStatus:_status];

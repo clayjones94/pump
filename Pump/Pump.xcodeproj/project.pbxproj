@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		406A1F8828F1BB1CEA295872 /* libPods-Pump.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19D28EC871CB1BDFBF350D92 /* libPods-Pump.a */; };
 		AE2F448E1B8E3C9D00F57579 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2F448D1B8E3C9D00F57579 /* main.m */; };
 		AE2F44911B8E3C9D00F57579 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2F44901B8E3C9D00F57579 /* AppDelegate.m */; };
 		AE2F44991B8E3C9D00F57579 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE2F44981B8E3C9D00F57579 /* Images.xcassets */; };
@@ -14,6 +15,12 @@
 		AE2F44B61B8E3D7A00F57579 /* TripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2F44B51B8E3D7A00F57579 /* TripViewController.m */; };
 		AE2F44B91B8E3F9C00F57579 /* TripManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2F44B81B8E3F9C00F57579 /* TripManager.m */; };
 		AE2F44C11B8E4C1000F57579 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2F44C01B8E4C1000F57579 /* Utils.m */; };
+		AE65D6B91B92979900FF4519 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE65D6B81B92979900FF4519 /* Default-568h@2x.png */; };
+		AE65D6BC1B92F9EF00FF4519 /* CreateNewRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AE65D6BB1B92F9EF00FF4519 /* CreateNewRequest.m */; };
+		AE65D6BF1B93D6F300FF4519 /* VenmoFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = AE65D6BE1B93D6F300FF4519 /* VenmoFriend.m */; };
+		AEC98B1D1B927B8900607E60 /* SearchUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC98B1C1B927B8900607E60 /* SearchUserView.m */; };
+		AEC98B1F1B9287DE00607E60 /* VENTokenField in Resources */ = {isa = PBXBuildFile; fileRef = AEC98B1E1B9287DE00607E60 /* VENTokenField */; };
+		AEC98B211B92882500607E60 /* KLCPopup in Resources */ = {isa = PBXBuildFile; fileRef = AEC98B201B92882500607E60 /* KLCPopup */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +34,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		19D28EC871CB1BDFBF350D92 /* libPods-Pump.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pump.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A04805ECEAF76BE8CAB45742 /* Pods-Pump.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pump.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pump/Pods-Pump.release.xcconfig"; sourceTree = "<group>"; };
 		AE2F44881B8E3C9D00F57579 /* Pump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pump.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE2F448C1B8E3C9D00F57579 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE2F448D1B8E3C9D00F57579 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -43,6 +52,16 @@
 		AE2F44BB1B8E406B00F57579 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		AE2F44BF1B8E4C1000F57579 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		AE2F44C01B8E4C1000F57579 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		AE65D6B81B92979900FF4519 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		AE65D6BA1B92F9EF00FF4519 /* CreateNewRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateNewRequest.h; sourceTree = "<group>"; };
+		AE65D6BB1B92F9EF00FF4519 /* CreateNewRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateNewRequest.m; sourceTree = "<group>"; };
+		AE65D6BD1B93D6F300FF4519 /* VenmoFriend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VenmoFriend.h; sourceTree = "<group>"; };
+		AE65D6BE1B93D6F300FF4519 /* VenmoFriend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VenmoFriend.m; sourceTree = "<group>"; };
+		AEC98B1B1B927B8900607E60 /* SearchUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchUserView.h; sourceTree = "<group>"; };
+		AEC98B1C1B927B8900607E60 /* SearchUserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchUserView.m; sourceTree = "<group>"; };
+		AEC98B1E1B9287DE00607E60 /* VENTokenField */ = {isa = PBXFileReference; lastKnownFileType = folder; name = VENTokenField; path = "../../../Downloads/VENTokenField-master/VENTokenField"; sourceTree = "<group>"; };
+		AEC98B201B92882500607E60 /* KLCPopup */ = {isa = PBXFileReference; lastKnownFileType = folder; name = KLCPopup; path = "../../../Downloads/KLCPopup-master/KLCPopup"; sourceTree = "<group>"; };
+		DDDC3F0DD874346966F3DE62 /* Pods-Pump.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pump.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pump/Pods-Pump.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				406A1F8828F1BB1CEA295872 /* libPods-Pump.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,12 +83,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		878D3B5312F74D150C297499 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DDDC3F0DD874346966F3DE62 /* Pods-Pump.debug.xcconfig */,
+				A04805ECEAF76BE8CAB45742 /* Pods-Pump.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		A9646CE394B3B6E054CEF9BE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AEC98B1E1B9287DE00607E60 /* VENTokenField */,
+				AEC98B201B92882500607E60 /* KLCPopup */,
+				19D28EC871CB1BDFBF350D92 /* libPods-Pump.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AE2F447F1B8E3C9D00F57579 = {
 			isa = PBXGroup;
 			children = (
+				AE65D6B81B92979900FF4519 /* Default-568h@2x.png */,
 				AE2F448A1B8E3C9D00F57579 /* Pump */,
 				AE2F44A41B8E3C9D00F57579 /* PumpTests */,
 				AE2F44891B8E3C9D00F57579 /* Products */,
+				A9646CE394B3B6E054CEF9BE /* Frameworks */,
+				878D3B5312F74D150C297499 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,6 +137,12 @@
 				AE2F44BB1B8E406B00F57579 /* Constants.h */,
 				AE2F44BF1B8E4C1000F57579 /* Utils.h */,
 				AE2F44C01B8E4C1000F57579 /* Utils.m */,
+				AEC98B1B1B927B8900607E60 /* SearchUserView.h */,
+				AEC98B1C1B927B8900607E60 /* SearchUserView.m */,
+				AE65D6BA1B92F9EF00FF4519 /* CreateNewRequest.h */,
+				AE65D6BB1B92F9EF00FF4519 /* CreateNewRequest.m */,
+				AE65D6BD1B93D6F300FF4519 /* VenmoFriend.h */,
+				AE65D6BE1B93D6F300FF4519 /* VenmoFriend.m */,
 			);
 			path = Pump;
 			sourceTree = "<group>";
@@ -132,9 +180,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AE2F44AB1B8E3C9D00F57579 /* Build configuration list for PBXNativeTarget "Pump" */;
 			buildPhases = (
+				B4FBFB6437D952AA89D9C4D9 /* Check Pods Manifest.lock */,
 				AE2F44841B8E3C9D00F57579 /* Sources */,
 				AE2F44851B8E3C9D00F57579 /* Frameworks */,
 				AE2F44861B8E3C9D00F57579 /* Resources */,
+				D75905A53967F0D51CB292CA /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -205,7 +255,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEC98B211B92882500607E60 /* KLCPopup in Resources */,
+				AE65D6B91B92979900FF4519 /* Default-568h@2x.png in Resources */,
 				AE2F44991B8E3C9D00F57579 /* Images.xcassets in Resources */,
+				AEC98B1F1B9287DE00607E60 /* VENTokenField in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -218,6 +271,39 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		B4FBFB6437D952AA89D9C4D9 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		D75905A53967F0D51CB292CA /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Pump/Pods-Pump-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		AE2F44841B8E3C9D00F57579 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -225,7 +311,10 @@
 			files = (
 				AE2F44B61B8E3D7A00F57579 /* TripViewController.m in Sources */,
 				AE2F44911B8E3C9D00F57579 /* AppDelegate.m in Sources */,
+				AE65D6BC1B92F9EF00FF4519 /* CreateNewRequest.m in Sources */,
 				AE2F44B91B8E3F9C00F57579 /* TripManager.m in Sources */,
+				AEC98B1D1B927B8900607E60 /* SearchUserView.m in Sources */,
+				AE65D6BF1B93D6F300FF4519 /* VenmoFriend.m in Sources */,
 				AE2F44C11B8E4C1000F57579 /* Utils.m in Sources */,
 				AE2F448E1B8E3C9D00F57579 /* main.m in Sources */,
 			);
@@ -286,6 +375,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(inherited)",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -323,6 +416,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(inherited)",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -332,8 +429,13 @@
 		};
 		AE2F44AC1B8E3C9D00F57579 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDDC3F0DD874346966F3DE62 /* Pods-Pump.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
 				INFOPLIST_FILE = Pump/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -342,8 +444,13 @@
 		};
 		AE2F44AD1B8E3C9D00F57579 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A04805ECEAF76BE8CAB45742 /* Pods-Pump.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
 				INFOPLIST_FILE = Pump/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -403,6 +510,7 @@
 				AE2F44AD1B8E3C9D00F57579 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		AE2F44AE1B8E3C9D00F57579 /* Build configuration list for PBXNativeTarget "PumpTests" */ = {
 			isa = XCConfigurationList;
@@ -411,6 +519,7 @@
 				AE2F44B01B8E3C9D00F57579 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
