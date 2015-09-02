@@ -132,8 +132,6 @@
 				AE2F44B51B8E3D7A00F57579 /* TripViewController.m */,
 				AE2F44B71B8E3F9C00F57579 /* TripManager.h */,
 				AE2F44B81B8E3F9C00F57579 /* TripManager.m */,
-				AE2F44981B8E3C9D00F57579 /* Images.xcassets */,
-				AE2F448B1B8E3C9D00F57579 /* Supporting Files */,
 				AE2F44BB1B8E406B00F57579 /* Constants.h */,
 				AE2F44BF1B8E4C1000F57579 /* Utils.h */,
 				AE2F44C01B8E4C1000F57579 /* Utils.m */,
@@ -143,6 +141,8 @@
 				AE65D6BB1B92F9EF00FF4519 /* CreateNewRequest.m */,
 				AE65D6BD1B93D6F300FF4519 /* VenmoFriend.h */,
 				AE65D6BE1B93D6F300FF4519 /* VenmoFriend.m */,
+				AE2F44981B8E3C9D00F57579 /* Images.xcassets */,
+				AE2F448B1B8E3C9D00F57579 /* Supporting Files */,
 			);
 			path = Pump;
 			sourceTree = "<group>";
