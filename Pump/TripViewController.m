@@ -12,6 +12,9 @@
 #import "Utils.h"
 #import "SearchUserView.h"
 #import "CreateNewRequest.h"
+#import "LoginViewController.h"
+#import <Venmo-iOS-SDK/Venmo.h>
+
 
 @implementation TripViewController {
     MKMapView *_mapView;
@@ -37,6 +40,14 @@
     
     
     [self setupMapView];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (![[Venmo sharedInstance] isSessionValid]) {
+        LoginViewController *loginvc = [LoginViewController new];
+        [self presentViewController:loginvc animated:YES completion:nil];
+    }
 }
 
 #pragma TripManagerDelegate
@@ -202,7 +213,7 @@
     UIButton *myCarButton = [UIButton buttonWithType: UIButtonTypeCustom];
     [myCarButton setBackgroundColor:[Utils defaultColor]];
     [myCarButton setFrame:CGRectMake(10, 55, popupView.frame.size.width - 20, 30)];
-    [myCarButton addTarget:self action:@selector(finishTrip) forControlEvents:UIControlEventTouchUpInside];
+    [myCarButton addTarget:self action:@selector(selectMyCar) forControlEvents:UIControlEventTouchUpInside];
     [popupView addSubview:myCarButton];
     
     NSAttributedString *titleString = [Utils defaultString:@"My Car" size:15 color:[UIColor whiteColor]];
@@ -214,6 +225,10 @@
     
     _popup = [KLCPopup popupWithContentView:popupView showType:KLCPopupShowTypeBounceInFromTop dismissType:KLCPopupDismissTypeBounceOutToBottom maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:NO dismissOnContentTouch:NO];
     [_popup show];
+}
+
+-(void)selectMyCar {
+    [self cancel];
 }
 
 -(void)cancel {
@@ -255,27 +270,39 @@
     [popupView addSubview:totalCostLabel];
     
     SearchUserView *searchView = [[SearchUserView alloc] initWithFrame:CGRectMake(0, 95, popupView.frame.size.width, popupView.frame.size.width - 95)];
-    [searchView.tokenField setPlaceholderText: @"Choose passengers..."];
+    //[searchView.tokenField setPlaceholderText: @"Choose passengers..."];
     [popupView addSubview:searchView];
     
     UIButton *venmoButton = [UIButton buttonWithType: UIButtonTypeCustom];
     [venmoButton setBackgroundColor:[Utils defaultColor]];
-    [venmoButton setFrame:CGRectMake(popupView.frame.size.width/8 , popupView.frame.size.height * .85, popupView.frame.size.width/4, 30)];
-    [venmoButton addTarget:self action:@selector(finishTrip) forControlEvents:UIControlEventTouchUpInside];
+    [venmoButton setFrame:CGRectMake(popupView.frame.size.width/12 , popupView.frame.size.height * .9, popupView.frame.size.width/3, 30)];
+    [venmoButton addTarget:self action:@selector(venmoPassengers) forControlEvents:UIControlEventTouchUpInside];
     [popupView addSubview:venmoButton];
     
     UIButton *saveButton = [UIButton buttonWithType: UIButtonTypeCustom];
-    [saveButton setBackgroundColor:[Utils defaultColor]];
-    [saveButton setFrame:CGRectMake(popupView.frame.size.width * 5/8 , popupView.frame.size.height * .85, popupView.frame.size.width/4, 30)];
-    [saveButton addTarget:self action:@selector(finishTrip) forControlEvents:UIControlEventTouchUpInside];
-    [popupView addSubview:venmoButton];
+    [saveButton setBackgroundColor:[UIColor lightGrayColor]];
+    [saveButton setFrame:CGRectMake(popupView.frame.size.width * 7/12 , popupView.frame.size.height * .9, popupView.frame.size.width/3, 30)];
+    [saveButton addTarget:self action:@selector(saveTrips) forControlEvents:UIControlEventTouchUpInside];
+    [popupView addSubview:saveButton];
     
-    NSAttributedString *titleString = [Utils defaultString:@"My Car" size:15 color:[UIColor whiteColor]];
+    NSAttributedString *titleString = [Utils defaultString:@"Venmo" size:15 color:[UIColor whiteColor]];
     [venmoButton.layer setCornerRadius:5];
     [venmoButton setAttributedTitle: titleString forState:UIControlStateNormal];
     
+    titleString = [Utils defaultString:@"Save" size:15 color:[UIColor whiteColor]];
+    [saveButton.layer setCornerRadius:5];
+    [saveButton setAttributedTitle: titleString forState:UIControlStateNormal];
+    
     _popup = [KLCPopup popupWithContentView:popupView showType:KLCPopupShowTypeBounceInFromTop dismissType:KLCPopupDismissTypeBounceOutToBottom maskType:KLCPopupMaskTypeDimmed dismissOnBackgroundTouch:NO dismissOnContentTouch:NO];
     [_popup show];
+}
+
+-(void) saveTrips {
+    
+}
+
+- (void) venmoPassengers {
+    
 }
 
 @end

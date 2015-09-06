@@ -9,6 +9,9 @@
 #import "AppDelegate.h"
 #import "TripViewController.h"
 #import "Utils.h"
+#import "Database.h"
+#import "Constants.h"
+#import <Venmo-iOS-SDK/Venmo.h>
 
 @interface AppDelegate ()
 
@@ -21,12 +24,24 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
+    [Venmo startWithAppId:VENMO_APP_ID secret:VENMO_APP_SECRET name: VENMO_APP_NAME];
+    
+    if (![Venmo isVenmoAppInstalled]) {
+        [[Venmo sharedInstance] setDefaultTransactionMethod:VENTransactionMethodAPI];
+    }
+    else {
+        [[Venmo sharedInstance] setDefaultTransactionMethod:VENTransactionMethodAppSwitch];
+    }
+    
     TripViewController *tripvc = [[TripViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tripvc];
     UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:21];
     NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObjects:@[font, [UIColor whiteColor]]
                                                                 forKeys: @[NSFontAttributeName, NSForegroundColorAttributeName]];
     
+    [Database createUserWithMPG:@3 forVenmoID:@"3242xczvewr324" withBlock:^(NSDictionary *data) {
+        NSLog(@"%@", data);
+    }];
 
     nav.navigationBar.topItem.title = @"Pump";
     [nav.navigationBar setTitleTextAttributes:attrsDictionary];
@@ -37,6 +52,13 @@
     [self.window makeKeyAndVisible];
 
     
+    return YES;
+}
+
+-(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+//    if ([[Venmo sharedInstance] handleOpenURL:url]) {
+//        return YES;
+//    }
     return YES;
 }
 

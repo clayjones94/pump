@@ -1,11 +1,11 @@
 # Uncomment this line to define a global platform for your project
-# platform :ios, '8.0'
+# platform :ios, '6.0'
 
 target 'Pump' do
 pod 'AFNetworking', '2.2.1'
 pod 'KLCPopup'
 pod 'VENTokenField'
-pod 'Venmo-iOS-SDK', '~>1.3'
+pod 'Venmo-iOS-SDK'
 end
 
 target 'PumpTests' do

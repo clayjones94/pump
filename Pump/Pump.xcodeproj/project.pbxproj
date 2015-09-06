@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		406A1F8828F1BB1CEA295872 /* libPods-Pump.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19D28EC871CB1BDFBF350D92 /* libPods-Pump.a */; };
+		AE14B5A61B994C7400398348 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = AE14B5A51B994C7400398348 /* Database.m */; };
+		AE14B5A91B9A277D00398348 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE14B5A81B9A277D00398348 /* LoginViewController.m */; };
 		AE2F448E1B8E3C9D00F57579 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2F448D1B8E3C9D00F57579 /* main.m */; };
 		AE2F44911B8E3C9D00F57579 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2F44901B8E3C9D00F57579 /* AppDelegate.m */; };
 		AE2F44991B8E3C9D00F57579 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE2F44981B8E3C9D00F57579 /* Images.xcassets */; };
@@ -17,10 +18,9 @@
 		AE2F44C11B8E4C1000F57579 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2F44C01B8E4C1000F57579 /* Utils.m */; };
 		AE65D6B91B92979900FF4519 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE65D6B81B92979900FF4519 /* Default-568h@2x.png */; };
 		AE65D6BC1B92F9EF00FF4519 /* CreateNewRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = AE65D6BB1B92F9EF00FF4519 /* CreateNewRequest.m */; };
-		AE65D6BF1B93D6F300FF4519 /* VenmoFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = AE65D6BE1B93D6F300FF4519 /* VenmoFriend.m */; };
 		AEC98B1D1B927B8900607E60 /* SearchUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC98B1C1B927B8900607E60 /* SearchUserView.m */; };
-		AEC98B1F1B9287DE00607E60 /* VENTokenField in Resources */ = {isa = PBXBuildFile; fileRef = AEC98B1E1B9287DE00607E60 /* VENTokenField */; };
 		AEC98B211B92882500607E60 /* KLCPopup in Resources */ = {isa = PBXBuildFile; fileRef = AEC98B201B92882500607E60 /* KLCPopup */; };
+		B6C506DD61CD2E72093DF946 /* libPods-Pump.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99633532325669FEA5A87E5B /* libPods-Pump.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,8 +34,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		19D28EC871CB1BDFBF350D92 /* libPods-Pump.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pump.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A04805ECEAF76BE8CAB45742 /* Pods-Pump.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pump.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pump/Pods-Pump.release.xcconfig"; sourceTree = "<group>"; };
+		99633532325669FEA5A87E5B /* libPods-Pump.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pump.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE14B5A41B994C7300398348 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
+		AE14B5A51B994C7400398348 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
+		AE14B5A71B9A277D00398348 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		AE14B5A81B9A277D00398348 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		AE14B61D1B9A89C400398348 /* Pods-Pump.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-Pump.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pump/Pods-Pump.debug.xcconfig"; sourceTree = "<group>"; };
+		AE14B61E1B9A89C400398348 /* Pods-Pump.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Pods-Pump.release.xcconfig"; path = "Pods/Target Support Files/Pods-Pump/Pods-Pump.release.xcconfig"; sourceTree = "<group>"; };
 		AE2F44881B8E3C9D00F57579 /* Pump.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pump.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE2F448C1B8E3C9D00F57579 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE2F448D1B8E3C9D00F57579 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -55,13 +60,9 @@
 		AE65D6B81B92979900FF4519 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		AE65D6BA1B92F9EF00FF4519 /* CreateNewRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateNewRequest.h; sourceTree = "<group>"; };
 		AE65D6BB1B92F9EF00FF4519 /* CreateNewRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateNewRequest.m; sourceTree = "<group>"; };
-		AE65D6BD1B93D6F300FF4519 /* VenmoFriend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VenmoFriend.h; sourceTree = "<group>"; };
-		AE65D6BE1B93D6F300FF4519 /* VenmoFriend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VenmoFriend.m; sourceTree = "<group>"; };
 		AEC98B1B1B927B8900607E60 /* SearchUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchUserView.h; sourceTree = "<group>"; };
 		AEC98B1C1B927B8900607E60 /* SearchUserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchUserView.m; sourceTree = "<group>"; };
-		AEC98B1E1B9287DE00607E60 /* VENTokenField */ = {isa = PBXFileReference; lastKnownFileType = folder; name = VENTokenField; path = "../../../Downloads/VENTokenField-master/VENTokenField"; sourceTree = "<group>"; };
 		AEC98B201B92882500607E60 /* KLCPopup */ = {isa = PBXFileReference; lastKnownFileType = folder; name = KLCPopup; path = "../../../Downloads/KLCPopup-master/KLCPopup"; sourceTree = "<group>"; };
-		DDDC3F0DD874346966F3DE62 /* Pods-Pump.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Pump.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Pump/Pods-Pump.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,7 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				406A1F8828F1BB1CEA295872 /* libPods-Pump.a in Frameworks */,
+				B6C506DD61CD2E72093DF946 /* libPods-Pump.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -86,8 +87,8 @@
 		878D3B5312F74D150C297499 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				DDDC3F0DD874346966F3DE62 /* Pods-Pump.debug.xcconfig */,
-				A04805ECEAF76BE8CAB45742 /* Pods-Pump.release.xcconfig */,
+				AE14B61D1B9A89C400398348 /* Pods-Pump.debug.xcconfig */,
+				AE14B61E1B9A89C400398348 /* Pods-Pump.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -95,9 +96,8 @@
 		A9646CE394B3B6E054CEF9BE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				AEC98B1E1B9287DE00607E60 /* VENTokenField */,
 				AEC98B201B92882500607E60 /* KLCPopup */,
-				19D28EC871CB1BDFBF350D92 /* libPods-Pump.a */,
+				99633532325669FEA5A87E5B /* libPods-Pump.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -139,10 +139,12 @@
 				AEC98B1C1B927B8900607E60 /* SearchUserView.m */,
 				AE65D6BA1B92F9EF00FF4519 /* CreateNewRequest.h */,
 				AE65D6BB1B92F9EF00FF4519 /* CreateNewRequest.m */,
-				AE65D6BD1B93D6F300FF4519 /* VenmoFriend.h */,
-				AE65D6BE1B93D6F300FF4519 /* VenmoFriend.m */,
 				AE2F44981B8E3C9D00F57579 /* Images.xcassets */,
 				AE2F448B1B8E3C9D00F57579 /* Supporting Files */,
+				AE14B5A41B994C7300398348 /* Database.h */,
+				AE14B5A51B994C7400398348 /* Database.m */,
+				AE14B5A71B9A277D00398348 /* LoginViewController.h */,
+				AE14B5A81B9A277D00398348 /* LoginViewController.m */,
 			);
 			path = Pump;
 			sourceTree = "<group>";
@@ -258,7 +260,6 @@
 				AEC98B211B92882500607E60 /* KLCPopup in Resources */,
 				AE65D6B91B92979900FF4519 /* Default-568h@2x.png in Resources */,
 				AE2F44991B8E3C9D00F57579 /* Images.xcassets in Resources */,
-				AEC98B1F1B9287DE00607E60 /* VENTokenField in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,9 +314,10 @@
 				AE2F44911B8E3C9D00F57579 /* AppDelegate.m in Sources */,
 				AE65D6BC1B92F9EF00FF4519 /* CreateNewRequest.m in Sources */,
 				AE2F44B91B8E3F9C00F57579 /* TripManager.m in Sources */,
+				AE14B5A91B9A277D00398348 /* LoginViewController.m in Sources */,
 				AEC98B1D1B927B8900607E60 /* SearchUserView.m in Sources */,
-				AE65D6BF1B93D6F300FF4519 /* VenmoFriend.m in Sources */,
 				AE2F44C11B8E4C1000F57579 /* Utils.m in Sources */,
+				AE14B5A61B994C7400398348 /* Database.m in Sources */,
 				AE2F448E1B8E3C9D00F57579 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -362,7 +364,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -409,7 +411,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_NO_COMMON_BLOCKS = NO;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -429,13 +431,10 @@
 		};
 		AE2F44AC1B8E3C9D00F57579 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DDDC3F0DD874346966F3DE62 /* Pods-Pump.debug.xcconfig */;
+			baseConfigurationReference = AE14B61D1B9A89C400398348 /* Pods-Pump.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-				);
+				GCC_NO_COMMON_BLOCKS = NO;
 				INFOPLIST_FILE = Pump/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -444,13 +443,10 @@
 		};
 		AE2F44AD1B8E3C9D00F57579 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A04805ECEAF76BE8CAB45742 /* Pods-Pump.release.xcconfig */;
+			baseConfigurationReference = AE14B61E1B9A89C400398348 /* Pods-Pump.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				HEADER_SEARCH_PATHS = (
-					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-				);
+				GCC_NO_COMMON_BLOCKS = NO;
 				INFOPLIST_FILE = Pump/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
