@@ -18,7 +18,7 @@
 }
 
 +(NSAttributedString *)defaultString: (NSString *)string size: (CGFloat)size color: (UIColor *)color{
-    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:size];
+    UIFont *font = [UIFont fontWithName:@"AppleSDGothicNeo-Bold" size:size];
     NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObjects:@[font, color]
                                                                 forKeys: @[NSFontAttributeName, NSForegroundColorAttributeName]];
     return [[NSAttributedString alloc] initWithString:string attributes:attrsDictionary];

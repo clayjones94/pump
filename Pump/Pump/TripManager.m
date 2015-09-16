@@ -11,10 +11,14 @@
 @implementation TripManager {
     NSMutableArray *_runningLocations;
     CLLocationManager *locationManager;
+    CLLocation *_lastLocation;
 }
 
 @synthesize distanceTraveled = _distanceTraveled;
 @synthesize status = _status;
+@synthesize mpg = _mpg;
+@synthesize gasPrice = _gasPrice;
+@synthesize passengers = _passengers;
 
 + (TripManager *)sharedManager {
     static TripManager *sharedManager = nil;
@@ -34,10 +38,14 @@
         locationManager.delegate = self;
         [locationManager startUpdatingLocation];
         
+        _mpg = @15.0;
+        _gasPrice = @4.00;
+        _passengers = [NSMutableArray new];
+        
         if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
             if ([CLLocationManager locationServicesEnabled]) {
-                if ([locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
-                    [locationManager requestWhenInUseAuthorization];
+                if ([locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+                    [locationManager requestAlwaysAuthorization];
                 } else {
                     [locationManager startUpdatingLocation];
                 }
@@ -48,12 +56,14 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
-    if (_status == RUNNING) {
+    if (_status == RUNNING || _status == PAUSED) {
         [_runningLocations addObject: [locations lastObject]];
-        if (_runningLocations.count > 1) {
-            _distanceTraveled += [[_runningLocations lastObject] distanceFromLocation:[_runningLocations objectAtIndex:_runningLocations.count - 2]];
+        if (_runningLocations.count > 1 && _status != PAUSED && _lastLocation) {
+            _distanceTraveled += [[_runningLocations lastObject] distanceFromLocation:_lastLocation];
             NSLog(@"%f", _distanceTraveled);
         }
+        
+        _lastLocation = [_runningLocations lastObject];
         
         NSUInteger count = _runningLocations.count;
         CLLocationCoordinate2D coordinates[count];

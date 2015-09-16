@@ -6,6 +6,7 @@ pod 'AFNetworking', '2.2.1'
 pod 'KLCPopup'
 pod 'VENTokenField'
 pod 'Venmo-iOS-SDK'
+pod 'Google-Maps-iOS-SDK'
 end
 
 target 'PumpTests' do

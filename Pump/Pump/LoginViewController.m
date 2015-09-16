@@ -14,6 +14,9 @@
 
 -(void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+    
     UIButton *venmoButton = [UIButton buttonWithType: UIButtonTypeCustom];
     [venmoButton setBackgroundColor:[UIColor lightGrayColor]];
     [venmoButton setFrame:CGRectMake(self.view.frame.size.width/2 - 75 , self.view.frame.size.height/2 - 15, 150, 30)];

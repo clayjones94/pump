@@ -22,10 +22,10 @@
 	<array>
 		<dict>
 			<key>CFBundleURLName</key>
-			<string>com.pumpapp.pump</string>
+			<string>venmo2906</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>pump</string>
+				<string>venmo2906</string>
 			</array>
 		</dict>
 	</array>

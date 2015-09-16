@@ -25,6 +25,9 @@
 @property MKPolyline *polyline;
 @property CLLocationDistance distanceTraveled;
 @property (nonatomic)TripStatusType *status;
+@property (nonatomic)NSNumber *mpg;
+@property (nonatomic)NSNumber *gasPrice;
+@property (nonatomic)NSMutableArray *passengers;
 
 + (TripManager *)sharedManager;
 @end
