@@ -8,11 +8,15 @@
 
 #import "SearchUserView.h"
 #import "Utils.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "Database.h"
 
 @implementation SearchUserView {
     UITableView *_tableview;
     NSMutableArray *_filteredFriends;
     BOOL isFiltered;
+    UIRefreshControl *_refreshControl;
+    UserManager *_userManager;
 }
 
 @synthesize tokenField = _tokenField;
@@ -25,15 +29,15 @@
     _tokenField = [[VENTokenField alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 40)];
     _tokenField.delegate = self;
     _tokenField.dataSource = self;
-    [_tokenField setPlaceholderText:@"Choose a friends car..."];
+    [_tokenField setPlaceholderText:@"Search Venmo Friends"];
     [_tokenField setToLabelText:@""];
     [_tokenField.layer setBorderWidth:.5];
     [_tokenField.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
-    _tableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 40, self.frame.size.width, self.frame.size.height - 40)];
+    _tableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height - 40)];
     _tableview.delegate = self;
     _tableview.dataSource = self;
-    [self addSubview:_tableview];
     [self addSubview:_tokenField];
+    [self addSubview:_tableview];
     
     isFiltered = NO;
     _selectedFriends = [NSMutableArray new];
@@ -41,7 +45,26 @@
     [_tokenField setColorScheme:[Utils defaultColor]];
     _tokenField.maxHeight = 50;
     
+    _userManager = [UserManager sharedManager];
+    
+    _refreshControl = [[UIRefreshControl alloc] init];
+    [_refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [self refresh:_refreshControl];
+    [_tableview addSubview:_refreshControl];
+    
+    _tableview.contentOffset = CGPointMake(0, -_refreshControl.frame.size.height);
+    [_refreshControl beginRefreshing];
+    
     return self;
+}
+
+-(void) refresh: (UIRefreshControl *) refreshControl {
+    [_userManager updateFriendsWithBlock:^(BOOL updated) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [refreshControl endRefreshing];
+            [_tableview reloadData];
+        });
+    }];
 }
 
 -(void)tokenField:(VENTokenField *)tokenField didEnterText:(NSString *)text {
@@ -86,9 +109,12 @@
         {
             
             NSRange nameRange = [[friend objectForKey:@"display_name"] rangeOfString:text options:NSCaseInsensitiveSearch];
-            //NSRange phoneRange = [[friend objectForKey:@"phone"] rangeOfString:text options:NSCaseInsensitiveSearch];
-            //NSRange emailRange = [[friend objectForKey:@"email"] rangeOfString:text options:NSCaseInsensitiveSearch];
-            //NSRange usernameRange = [[friend objectForKey:@"username"] rangeOfString:text options:NSCaseInsensitiveSearch];
+            NSRange phoneRange;
+            NSRange emailRange;
+            NSRange usernameRange;
+            //if([friend objectForKey:@"phone"]) phoneRange = [[friend objectForKey:@"phone"] rangeOfString:text options:NSCaseInsensitiveSearch];
+            //if([friend objectForKey:@"email"]) emailRange = [[friend objectForKey:@"email"] rangeOfString:text options:NSCaseInsensitiveSearch];
+            //if([friend objectForKey:@"username"]) usernameRange = [[friend objectForKey:@"username"] rangeOfString:text options:NSCaseInsensitiveSearch];
             
             if(nameRange.location != NSNotFound) //|| phoneRange.location != NSNotFound || emailRange.location != NSNotFound || usernameRange.location != NSNotFound)
             {
@@ -120,6 +146,16 @@
         friendDict = [_friends objectAtIndex:indexPath.row];
     }
     
+    CGSize itemSize = CGSizeMake(40, 40);
+    UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
+    CGRect imageRect = CGRectMake(30 - itemSize.width/2, 30 - itemSize.height/2, itemSize.width, itemSize.height);
+    [cell.imageView.image drawInRect:imageRect];
+    cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[friendDict objectForKey:@"profile_picture_url"]]
+                      placeholderImage:[UIImage imageNamed:@"profile_pic_default"]];
+    
     [cell.textLabel setText:[friendDict valueForKey:@"display_name"]];
     
     if ([_selectedFriends containsObject:friendDict]) {
@@ -129,6 +165,10 @@
     }
     
     return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 60;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -148,19 +188,42 @@
             [_selectedFriends addObject:friend];
         }
     }
+    [self.delegate searchView:self didSelectUser:friend];
     [tableView reloadData];
     [_tokenField reloadData];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSInteger rowCount;
-    if(isFiltered)
-        rowCount = _filteredFriends.count;
-    else
-        rowCount = _friends.count;
     
-    return rowCount;
+    // Return the number of sections.
+    if (_friends.count > 0 || _filteredFriends.count > 0) {
+        
+        _tableview.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        _tableview.backgroundView = nil;
+        NSInteger rowCount;
+        if(isFiltered)
+            rowCount = _filteredFriends.count;
+        else
+            rowCount = _friends.count;
+        return rowCount;
+        
+    } else {
+        
+        // Display a message when the table is empty
+        UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _tableview.bounds.size.width, _tableview.bounds.size.height)];
+        
+        messageLabel.attributedText = [Utils defaultString:@"No friends found." size:14 color:[UIColor lightGrayColor]];
+        messageLabel.numberOfLines = 0;
+        messageLabel.textAlignment = NSTextAlignmentCenter;
+        [messageLabel sizeToFit];
+        
+        _tableview.backgroundView = messageLabel;
+        _tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
+        
+    }
+    
+    return 0;
 }
 
 

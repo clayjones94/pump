@@ -13,6 +13,8 @@
 #import "Constants.h"
 #import <Venmo-iOS-SDK/Venmo.h>
 #import "Database.h"
+#import <GoogleMaps/GoogleMaps.h>
+#import "TripManager.h"
 
 @interface AppDelegate ()
 
@@ -39,15 +41,20 @@
         [[Venmo sharedInstance] setDefaultTransactionMethod:VENTransactionMethodAppSwitch];
     }
     
+    [GMSServices provideAPIKey:@"AIzaSyA-N5dxHG2g7YzeegbO0tJF4XbAGUgbbtg"];
+    
     TripViewController *tripvc = [[TripViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:tripvc];
     UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:21];
     NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObjects:@[font, [UIColor whiteColor]]
                                                                 forKeys: @[NSFontAttributeName, NSForegroundColorAttributeName]];
 
-    
-    
-    nav.navigationBar.topItem.title = @"Pump";
+    CGSize newSize = CGSizeMake(60.0f, 40.0f);
+    UIGraphicsBeginImageContext(newSize);
+    [[UIImage imageNamed:@"PumpTitle-White"] drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    nav.navigationBar.topItem.titleView = [[UIImageView alloc] initWithImage:newImage];
     [nav.navigationBar setTitleTextAttributes:attrsDictionary];
 
     nav.navigationBar.barTintColor = [Utils defaultColor];
@@ -57,6 +64,27 @@
 
     
     return YES;
+}
+
+-(void)applicationWillEnterForeground:(UIApplication *)application {
+    //[[TripManager sharedManager].locationManager startUpdatingLocation];
+}
+
+-(void)applicationDidEnterBackground:(UIApplication *)application {
+    __block UIBackgroundTaskIdentifier bgTask;
+    bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        NSLog(@"ending background task");
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
+    
+    [[TripManager sharedManager].locationManager startUpdatingLocation];
+    
+//    [NSTimer scheduledTimerWithTimeInterval:2
+//                                     target:[TripManager sharedManager].locationManager
+//                                   selector:@selector(startUpdatingLocation)
+//                                   userInfo:nil
+//                                    repeats:YES];
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {

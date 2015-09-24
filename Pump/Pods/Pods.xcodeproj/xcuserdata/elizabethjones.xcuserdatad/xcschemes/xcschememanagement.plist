@@ -19,12 +19,22 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>HMSegmentedControl.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>KLCPopup.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>Pods-Pump.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -52,27 +62,37 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>00892F20A71FDF5B3DF59CDC5705F1DE</key>
+		<key>0BB9FFDD8B52257692044E4FF70EC04D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>17FBBF1214E7599886927A9A9ACD4DAA</key>
+		<key>170785052548090645186B5278887D2B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>38C9C2A1C1E3C4DDFF02F01E0ACF6F0A</key>
+		<key>21177434564CE80E4C92BC9CA974DEC4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>457E090180FDADB269D6A79CAE59D771</key>
+		<key>230301291E07B110E0ABF73215510BAB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>600A817C2FD0529CC74277519900F205</key>
+		<key>2F4C08D460C48A9F7C6AB56A383D8FDE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5352D432641F0656C90741034E32F31E</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6CF4DB99BF2ACE4D25B9B4D09A3B6765</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -82,7 +102,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>77187541A0953BC7D79A128C99890609</key>
+		<key>6F5D886C2D2589EC8F5D183E939603EC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -92,7 +112,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C22286868A94BFA40C85E85E021AD725</key>
+		<key>A887F904862FEF939DF3FF2E1417402F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

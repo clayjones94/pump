@@ -27,6 +27,9 @@
     [self.navigationController.navigationBar setBackgroundColor:[Utils defaultColor]];
     [self.navigationController.navigationBar setBarTintColor:[Utils defaultColor]];
     
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+    [self.navigationItem setTitle:@"Add Passengers"];
+    
     UIButton *cancelButton = [[UIButton alloc] init];
     [cancelButton setBackgroundImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
     [cancelButton setFrame:CGRectMake(0, 0, 25, 25)];
@@ -37,7 +40,7 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
     [self.navigationItem.rightBarButtonItem setTintColor:[UIColor whiteColor]];
     
-    _searchView = [[SearchUserView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 64)];
+    _searchView = [[SearchUserView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64)];
     
     [self.view addSubview: _searchView];
 }
@@ -60,11 +63,13 @@
 
 -(void) done {
     [[TripManager sharedManager].passengers addObjectsFromArray:_searchView.selectedFriends];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Show Popup" object:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) cancel {
     [self dismissViewControllerAnimated:YES completion:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Show Popup" object:nil];
 }
 
 @end

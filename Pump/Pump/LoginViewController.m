@@ -19,7 +19,7 @@
     
     UIButton *venmoButton = [UIButton buttonWithType: UIButtonTypeCustom];
     [venmoButton setBackgroundColor:[UIColor lightGrayColor]];
-    [venmoButton setFrame:CGRectMake(self.view.frame.size.width/2 - 75 , self.view.frame.size.height/2 - 15, 150, 30)];
+    [venmoButton setFrame:CGRectMake(self.view.frame.size.width/2 - 75 , self.view.frame.size.height/2 - 15, 200, 50)];
     [venmoButton addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:venmoButton];
     

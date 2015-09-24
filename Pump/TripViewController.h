@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "TripManager.h"
 #import "KLCPopup.h"
+#import <GoogleMaps/GoogleMaps.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface TripViewController : UIViewController <TripManagerDelegate, MKMapViewDelegate>
+@interface TripViewController : UIViewController <TripManagerDelegate, CLLocationManagerDelegate, GMSMapViewDelegate, UIAlertViewDelegate>
 
 @end

@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UserManager.h"
+#import <HMSegmentedControl/HMSegmentedControl.h>
 
-@interface ProfileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface ProfileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UserManagerDelegate>
+
+-(void) refresh;
+
+@property (nonatomic) HMSegmentedControl *segmentedControl;
 
 @end

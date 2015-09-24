@@ -19,6 +19,15 @@
 		AE5FC0041BA6044E00A398FF /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5FC0031BA6044E00A398FF /* ProfileViewController.m */; };
 		AE5FC0071BA605CB00A398FF /* ProfileFriendTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5FC0061BA605CB00A398FF /* ProfileFriendTableViewCell.m */; };
 		AE65D6B91B92979900FF4519 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = AE65D6B81B92979900FF4519 /* Default-568h@2x.png */; };
+		AE67F1581BA9E7260068CF72 /* TripsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE67F1571BA9E7260068CF72 /* TripsViewController.m */; };
+		AE67F15B1BAA0AB30068CF72 /* TripInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE67F15A1BAA0AB30068CF72 /* TripInfoViewController.m */; };
+		AE737EF21BAC5895004A73E0 /* PendingOwnershipsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE737EF11BAC5895004A73E0 /* PendingOwnershipsViewController.m */; };
+		AE737EF61BAC5A3C004A73E0 /* PendingMembershipsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE737EF51BAC5A3C004A73E0 /* PendingMembershipsViewController.m */; };
+		AE737EF91BAC9344004A73E0 /* ChooseCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE737EF81BAC9344004A73E0 /* ChooseCarViewController.m */; };
+		AEA3DE4B1BB1049700F36830 /* TripHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA3DE4A1BB1049700F36830 /* TripHistoryViewController.m */; };
+		AEA3DE4E1BB28CC100F36830 /* TripRequestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA3DE4D1BB28CC100F36830 /* TripRequestTableViewCell.m */; };
+		AEA3DE511BB46DAA00F36830 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA3DE501BB46DAA00F36830 /* SettingsViewController.m */; };
+		AEA3DE541BB49D1A00F36830 /* Storage.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA3DE531BB49D1A00F36830 /* Storage.m */; };
 		AEA930531BA86B720090981A /* PassengerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA930521BA86B720090981A /* PassengerView.m */; };
 		AEA930561BA86D400090981A /* PassengerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA930551BA86D400090981A /* PassengerTableViewCell.m */; };
 		AEA930591BA876260090981A /* AddPassengersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA930581BA876260090981A /* AddPassengersViewController.m */; };
@@ -69,6 +78,24 @@
 		AE5FC0051BA605CB00A398FF /* ProfileFriendTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileFriendTableViewCell.h; sourceTree = "<group>"; };
 		AE5FC0061BA605CB00A398FF /* ProfileFriendTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileFriendTableViewCell.m; sourceTree = "<group>"; };
 		AE65D6B81B92979900FF4519 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		AE67F1561BA9E7260068CF72 /* TripsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripsViewController.h; sourceTree = "<group>"; };
+		AE67F1571BA9E7260068CF72 /* TripsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripsViewController.m; sourceTree = "<group>"; };
+		AE67F1591BAA0AB30068CF72 /* TripInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripInfoViewController.h; sourceTree = "<group>"; };
+		AE67F15A1BAA0AB30068CF72 /* TripInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripInfoViewController.m; sourceTree = "<group>"; };
+		AE737EF01BAC5895004A73E0 /* PendingOwnershipsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PendingOwnershipsViewController.h; sourceTree = "<group>"; };
+		AE737EF11BAC5895004A73E0 /* PendingOwnershipsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PendingOwnershipsViewController.m; sourceTree = "<group>"; };
+		AE737EF41BAC5A3C004A73E0 /* PendingMembershipsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PendingMembershipsViewController.h; sourceTree = "<group>"; };
+		AE737EF51BAC5A3C004A73E0 /* PendingMembershipsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PendingMembershipsViewController.m; sourceTree = "<group>"; };
+		AE737EF71BAC9344004A73E0 /* ChooseCarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseCarViewController.h; sourceTree = "<group>"; };
+		AE737EF81BAC9344004A73E0 /* ChooseCarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseCarViewController.m; sourceTree = "<group>"; };
+		AEA3DE491BB1049700F36830 /* TripHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripHistoryViewController.h; sourceTree = "<group>"; };
+		AEA3DE4A1BB1049700F36830 /* TripHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripHistoryViewController.m; sourceTree = "<group>"; };
+		AEA3DE4C1BB28CC100F36830 /* TripRequestTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripRequestTableViewCell.h; sourceTree = "<group>"; };
+		AEA3DE4D1BB28CC100F36830 /* TripRequestTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripRequestTableViewCell.m; sourceTree = "<group>"; };
+		AEA3DE4F1BB46DAA00F36830 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		AEA3DE501BB46DAA00F36830 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		AEA3DE521BB49D1A00F36830 /* Storage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Storage.h; sourceTree = "<group>"; };
+		AEA3DE531BB49D1A00F36830 /* Storage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Storage.m; sourceTree = "<group>"; };
 		AEA930511BA86B710090981A /* PassengerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassengerView.h; sourceTree = "<group>"; };
 		AEA930521BA86B720090981A /* PassengerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PassengerView.m; sourceTree = "<group>"; };
 		AEA930541BA86D400090981A /* PassengerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassengerTableViewCell.h; sourceTree = "<group>"; };
@@ -177,6 +204,24 @@
 				AEA930551BA86D400090981A /* PassengerTableViewCell.m */,
 				AEA930571BA876260090981A /* AddPassengersViewController.h */,
 				AEA930581BA876260090981A /* AddPassengersViewController.m */,
+				AE67F1561BA9E7260068CF72 /* TripsViewController.h */,
+				AE67F1571BA9E7260068CF72 /* TripsViewController.m */,
+				AE67F1591BAA0AB30068CF72 /* TripInfoViewController.h */,
+				AE67F15A1BAA0AB30068CF72 /* TripInfoViewController.m */,
+				AE737EF01BAC5895004A73E0 /* PendingOwnershipsViewController.h */,
+				AE737EF11BAC5895004A73E0 /* PendingOwnershipsViewController.m */,
+				AE737EF41BAC5A3C004A73E0 /* PendingMembershipsViewController.h */,
+				AE737EF51BAC5A3C004A73E0 /* PendingMembershipsViewController.m */,
+				AE737EF71BAC9344004A73E0 /* ChooseCarViewController.h */,
+				AE737EF81BAC9344004A73E0 /* ChooseCarViewController.m */,
+				AEA3DE491BB1049700F36830 /* TripHistoryViewController.h */,
+				AEA3DE4A1BB1049700F36830 /* TripHistoryViewController.m */,
+				AEA3DE4C1BB28CC100F36830 /* TripRequestTableViewCell.h */,
+				AEA3DE4D1BB28CC100F36830 /* TripRequestTableViewCell.m */,
+				AEA3DE4F1BB46DAA00F36830 /* SettingsViewController.h */,
+				AEA3DE501BB46DAA00F36830 /* SettingsViewController.m */,
+				AEA3DE521BB49D1A00F36830 /* Storage.h */,
+				AEA3DE531BB49D1A00F36830 /* Storage.m */,
 			);
 			path = Pump;
 			sourceTree = "<group>";
@@ -259,6 +304,7 @@
 				TargetAttributes = {
 					AE2F44871B8E3C9D00F57579 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = CG5WBEU96D;
 					};
 					AE2F44A01B8E3C9D00F57579 = {
 						CreatedOnToolsVersion = 6.4;
@@ -343,10 +389,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEA3DE4B1BB1049700F36830 /* TripHistoryViewController.m in Sources */,
 				AE2F44B61B8E3D7A00F57579 /* TripViewController.m in Sources */,
+				AE67F15B1BAA0AB30068CF72 /* TripInfoViewController.m in Sources */,
+				AEA3DE511BB46DAA00F36830 /* SettingsViewController.m in Sources */,
 				AE2F44911B8E3C9D00F57579 /* AppDelegate.m in Sources */,
 				AEEA52CA1B9D68AB0081BA97 /* UserManager.m in Sources */,
 				AE5FC0071BA605CB00A398FF /* ProfileFriendTableViewCell.m in Sources */,
+				AEA3DE541BB49D1A00F36830 /* Storage.m in Sources */,
 				AEEA52D01B9E3EA00081BA97 /* Friend.m in Sources */,
 				AE2F44B91B8E3F9C00F57579 /* TripManager.m in Sources */,
 				AE14B5A91B9A277D00398348 /* LoginViewController.m in Sources */,
@@ -354,9 +404,14 @@
 				AE2F44C11B8E4C1000F57579 /* Utils.m in Sources */,
 				AE5FC0041BA6044E00A398FF /* ProfileViewController.m in Sources */,
 				AE14B5A61B994C7400398348 /* Database.m in Sources */,
+				AEA3DE4E1BB28CC100F36830 /* TripRequestTableViewCell.m in Sources */,
 				AEA930591BA876260090981A /* AddPassengersViewController.m in Sources */,
+				AE67F1581BA9E7260068CF72 /* TripsViewController.m in Sources */,
 				AEEA52CD1B9D6DC30081BA97 /* Model.xcdatamodeld in Sources */,
+				AE737EF21BAC5895004A73E0 /* PendingOwnershipsViewController.m in Sources */,
+				AE737EF61BAC5A3C004A73E0 /* PendingMembershipsViewController.m in Sources */,
 				AE2F448E1B8E3C9D00F57579 /* main.m in Sources */,
+				AE737EF91BAC9344004A73E0 /* ChooseCarViewController.m in Sources */,
 				AEA930561BA86D400090981A /* PassengerTableViewCell.m in Sources */,
 				AEA930531BA86B720090981A /* PassengerView.m in Sources */,
 			);
@@ -474,6 +529,7 @@
 			baseConfigurationReference = AE14B61D1B9A89C400398348 /* Pods-Pump.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_NO_COMMON_BLOCKS = NO;
 				INFOPLIST_FILE = Pump/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -486,6 +542,7 @@
 			baseConfigurationReference = AE14B61E1B9A89C400398348 /* Pods-Pump.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_NO_COMMON_BLOCKS = NO;
 				INFOPLIST_FILE = Pump/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

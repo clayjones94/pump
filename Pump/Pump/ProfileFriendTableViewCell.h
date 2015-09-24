@@ -14,5 +14,10 @@
 @property (nonatomic) NSNumber *amountOwed;
 @property (nonatomic) NSNumber *numberOfRides;
 @property (nonatomic) UIImage *image;
+@property (nonatomic) NSString *friendVenmoID;
+@property (nonatomic) NSArray *membershipIDs;
+@property (nonatomic) BOOL isRequest;
+
+-(void) setCellPending;
 
 @end

@@ -7,29 +7,41 @@
 //
 
 #import "ProfileViewController.h"
+#import "PendingOwnershipsViewController.h"
+#import "PendingMembershipsViewController.h"
 #import "ProfileFriendTableViewCell.h"
 #import "Utils.h"
 #import "Database.h"
 #import <Venmo-iOS-SDK/Venmo.h>
+#import "TripsViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "TripHistoryViewController.h"
 
 @interface ProfileViewController ()
 
 @end
 
 @implementation ProfileViewController {
-    UITableView *_tableview;
-    NSArray *_memberships;
-    NSMutableDictionary *_friends;
-    NSMutableArray *_friendArray;
+    NSArray *_viewcontrollers;
+    UIViewController *_currentvc;
+    TripHistoryViewController *_tripHistoryVC;
+    BOOL needRefresh;
 }
+
+@synthesize segmentedControl = _segmentedControl;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    if ([self respondsToSelector:@selector(edgesForExtendedLayout)])
+        self.edgesForExtendedLayout = UIRectEdgeNone;
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
     [self.navigationController.navigationBar setBackgroundColor:[Utils defaultColor]];
     [self.navigationController.navigationBar setBarTintColor:[Utils defaultColor]];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
     
     UIButton *cancelButton = [[UIButton alloc] init];
     [cancelButton setBackgroundImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
@@ -38,82 +50,110 @@
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: cancelButton];
     
-    _memberships = [NSArray new];
-    _friends = [NSMutableDictionary new];
+    UIButton *historyButton = [[UIButton alloc] init];
+    [historyButton setBackgroundImage:[UIImage imageNamed:@"Literature Filled-25"] forState:UIControlStateNormal];
+    [historyButton setFrame:CGRectMake(0, 0, 25, 25)];
+    [historyButton addTarget:self action:@selector(showHistory) forControlEvents:UIControlEventTouchUpInside];
     
-    [Database getTripMembershipsWithID: [Venmo sharedInstance].session.user.externalId withBlock:^(NSArray *data) {
-        _memberships = data;
-        [self filterMemberships];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_tableview reloadData];
-        });
-    }];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: historyButton];
     
-    _tableview = [[UITableView alloc] initWithFrame:self.view.frame];
-    [_tableview setDelegate:self];
-    [_tableview setDataSource:self];
-    self.view = _tableview;
+    [self addSegmentedControlSubviews];
+    
+    
+    PendingOwnershipsViewController *vc1 = [PendingOwnershipsViewController new];
+    PendingMembershipsViewController *vc2 = [PendingMembershipsViewController new];
+    
+    _viewcontrollers = [[NSArray alloc] initWithObjects:vc1, vc2, nil];
+    
+    // Init with notifications vc
+    [vc1.view setFrame:CGRectMake(0, _segmentedControl.frame.size.height, self.view.frame.size.width,
+                                              self.view.frame.size.height - _segmentedControl.frame.size.height)];
+    [self addChildViewController:vc1];
+    [self.view addSubview:vc1.view];
+    [vc1 didMoveToParentViewController:self];
+    _currentvc = vc1;
+    
 }
 
--(void) filterMemberships {
-    for (NSDictionary *membership in _memberships) {
-        if ([_friends objectForKey: [membership objectForKey: @"member"]]) {
-            [[_friends objectForKey: [membership objectForKey: @"member"]] addObject:membership];
-        } else {
-            [_friends setObject:[NSMutableArray arrayWithObject:membership] forKey:[membership objectForKey: @"member"]];
-        }
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (needRefresh) {
+        [[_viewcontrollers firstObject] refresh];
+        [[_viewcontrollers lastObject] refresh];
     }
-    _friendArray = [NSMutableArray new];
-    for (NSString *key in _friends) {
-        [_friendArray addObject: [_friends objectForKey: key]];
+    [self.navigationItem setTitle:@"Pending"];
+}
+
+-(void)refresh {
+    needRefresh = YES;
+    if (_viewcontrollers) {
+        [[_viewcontrollers firstObject] refresh];
+        [[_viewcontrollers lastObject] refresh];
+        needRefresh = NO;
     }
 }
 
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ProfileFriendTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Friend Cell"];
-    if (!cell) {
-        cell = [[ProfileFriendTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Friend Cell"];
-    }
-    NSMutableArray *friendArr = [_friendArray objectAtIndex:indexPath.row];
-    NSDictionary *friend = [friendArr objectAtIndex:0];
-    [cell setFriendName:[friend objectForKey:@"member"]];
-    [cell setNumberOfRides:[NSNumber numberWithInteger: friendArr.count]];
+- (void)addSegmentedControlSubviews {
+    _segmentedControl = [[HMSegmentedControl alloc] initWithSectionTitles:@[@"Requests", @"Payments"]];
+    [_segmentedControl setFrame:CGRectMake(0, 0, self.view.frame.size.width, 40)];
+    [_segmentedControl addTarget:self action:@selector(segmentedControlChangedValue) forControlEvents:UIControlEventValueChanged];
+    NSDictionary *titleTextAttr = @{
+                                    NSFontAttributeName:[UIFont fontWithName:@"AppleSDGothicNeo-Bold" size:16],
+                                    NSForegroundColorAttributeName: [UIColor lightGrayColor]
+                                    };
+    NSDictionary *selectedTitleTextAttr = @{
+                                            NSFontAttributeName:[UIFont fontWithName:@"AppleSDGothicNeo-Bold" size:16],
+                                            NSForegroundColorAttributeName:[[Utils defaultColor] colorWithAlphaComponent:0.9f]
+                                            };
     
-    double amount = 0;
-    for (NSDictionary *membership in friendArr) {
-        amount += [[membership objectForKey:@"amount"] doubleValue];
+    _segmentedControl.titleTextAttributes = titleTextAttr;
+    _segmentedControl.selectedTitleTextAttributes = selectedTitleTextAttr;
+    _segmentedControl.selectionIndicatorColor = [Utils defaultColor];
+    _segmentedControl.selectionIndicatorLocation = HMSegmentedControlSelectionIndicatorLocationDown;
+    _segmentedControl.selectionStyle = HMSegmentedControlSelectionStyleFullWidthStripe;
+    _segmentedControl.selectionIndicatorHeight = 2.0f;
+    _segmentedControl.borderType = HMSegmentedControlBorderTypeBottom;
+    _segmentedControl.borderWidth = 0.5f;
+    _segmentedControl.borderColor = [UIColor lightGrayColor];
+    [self.view addSubview:_segmentedControl];
+}
+
+- (void)displayViewController:(UIViewController *)vc {
+    if (vc == _currentvc) {
+        return;
     }
     
-    [cell setAmountOwed: [NSNumber numberWithDouble: amount]];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    return cell;
+    [vc.view setFrame:CGRectMake(0, _segmentedControl.frame.size.height, self.view.frame.size.width,
+                                 self.view.frame.size.height - _segmentedControl.frame.size.height)];
+    [_currentvc willMoveToParentViewController:nil];
+    [self addChildViewController:vc];
+    
+    [self transitionFromViewController:_currentvc
+                      toViewController:vc
+                              duration:0.0f
+                               options:UIViewAnimationOptionLayoutSubviews
+                            animations:^{}
+                            completion:^(BOOL finished) {
+                                [_currentvc removeFromParentViewController];
+                                [vc didMoveToParentViewController:self];
+                                _currentvc = vc;
+                            }];
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _friends.count;
+- (void)segmentedControlChangedValue {
+    [self displayViewController:_viewcontrollers[_segmentedControl.selectedSegmentIndex]];
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60;
+-(void) showHistory {
+    if (!_tripHistoryVC) {
+        _tripHistoryVC = [TripHistoryViewController new];
+    }
+    [self.navigationController pushViewController:_tripHistoryVC animated:YES];
 }
 
 -(void) cancel {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

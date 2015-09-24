@@ -10,15 +10,18 @@
 
 @implementation TripManager {
     NSMutableArray *_runningLocations;
-    CLLocationManager *locationManager;
     CLLocation *_lastLocation;
 }
 
+
+@synthesize locationManager = _locationManager;
 @synthesize distanceTraveled = _distanceTraveled;
 @synthesize status = _status;
 @synthesize mpg = _mpg;
 @synthesize gasPrice = _gasPrice;
 @synthesize passengers = _passengers;
+@synthesize includeUserAsPassenger = _includeUserAsPassenger;
+@synthesize car = _car;
 
 + (TripManager *)sharedManager {
     static TripManager *sharedManager = nil;
@@ -32,22 +35,23 @@
 - (id)init {
     if (self == [super init]) {
         _runningLocations = [[NSMutableArray alloc] init];
-        locationManager = [[CLLocationManager alloc] init];
-        locationManager.distanceFilter = 10;
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-        locationManager.delegate = self;
-        [locationManager startUpdatingLocation];
+        _locationManager = [[CLLocationManager alloc] init];
+        _locationManager.distanceFilter = 5;
+        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        _locationManager.delegate = self;
+        [_locationManager startUpdatingLocation];
         
-        _mpg = @15.0;
-        _gasPrice = @4.00;
         _passengers = [NSMutableArray new];
+        _polyline = [GMSPolyline new];
+        _includeUserAsPassenger = YES;
+        _car = nil;
         
         if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
             if ([CLLocationManager locationServicesEnabled]) {
-                if ([locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
-                    [locationManager requestAlwaysAuthorization];
+                if ([_locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+                    [_locationManager requestAlwaysAuthorization];
                 } else {
-                    [locationManager startUpdatingLocation];
+                    [_locationManager startUpdatingLocation];
                 }
             }
         }
@@ -56,24 +60,28 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    CLLocation *newLocation = [locations lastObject];
+    _polyline.map = nil;
+    [self.delegate tripManager: self didUpdateLocation: newLocation.coordinate];
     if (_status == RUNNING || _status == PAUSED) {
-        [_runningLocations addObject: [locations lastObject]];
+        [_runningLocations addObject: newLocation];
         if (_runningLocations.count > 1 && _status != PAUSED && _lastLocation) {
             _distanceTraveled += [[_runningLocations lastObject] distanceFromLocation:_lastLocation];
-            NSLog(@"%f", _distanceTraveled);
         }
         
         _lastLocation = [_runningLocations lastObject];
         
         NSUInteger count = _runningLocations.count;
-        CLLocationCoordinate2D coordinates[count];
+        GMSMutablePath *path = [[GMSMutablePath alloc] init];
         for (int i = 0; i < count; i++) {
             CLLocation *location = [_runningLocations objectAtIndex:i];
             CLLocationCoordinate2D coor = location.coordinate;
-            coordinates[i] = coor;
+            [path addCoordinate:coor];
         }
         
-        _polyline = [MKPolyline polylineWithCoordinates:coordinates count:count];
+        _polyline = [GMSPolyline polylineWithPath:path];
+        _polyline.strokeColor = [UIColor blueColor];
+        _polyline.strokeWidth = 5.f;
         [self.delegate tripManager:self didUpdateLocationWith:_distanceTraveled and:_polyline];
     }
 }
@@ -85,19 +93,28 @@
             [manager startUpdatingLocation];
             break;
         case kCLAuthorizationStatusNotDetermined:
-            if ([locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
-                [locationManager requestWhenInUseAuthorization];
+            if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+                [_locationManager requestWhenInUseAuthorization];
             } else {
-                [locationManager startUpdatingLocation];
+                [_locationManager startUpdatingLocation];
             }
             break;
         default:
             break;
     }
+}
+
+-(void)setGasPrice:(NSNumber *)gasPrice {
+    _gasPrice = gasPrice;
+    [[NSUserDefaults standardUserDefaults] setObject:gasPrice forKey:@"gas_price"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+-(void)setMpg:(NSNumber *)mpg {
+    _mpg = mpg;
+    [[NSUserDefaults standardUserDefaults] setObject:mpg forKey:@"mpg"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"LOCATION_AUTHORIZATION" object:nil];
-    });
 }
 
 -(void)setStatus:(TripStatusType *)status {
@@ -105,9 +122,11 @@
     if (_status == PENDING) {
         _runningLocations = [[NSMutableArray alloc] init];
         _distanceTraveled = 0;
+        _includeUserAsPassenger = YES;
+        _passengers = [NSMutableArray new];
+        _car = nil;
     }
     else if (_status == RUNNING) {
-
     }
     [self.delegate tripManager:self didUpdateStatus:_status];
 }

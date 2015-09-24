@@ -7,8 +7,9 @@
 //
 
 #import "PassengerTableViewCell.h"
+#import "Utils.h"
 
-#define CELL_HEIGHT 40
+#define CELL_HEIGHT 50
 
 @implementation PassengerTableViewCell
 
@@ -22,13 +23,18 @@
 
 -(void)setPassenger:(NSDictionary *)passenger {
     _passenger = passenger;
-    self.textLabel.text = [_passenger objectForKey:@"display_name"];
+    self.textLabel.attributedText = [Utils defaultString:[_passenger objectForKey:@"display_name"] size:12 color:[UIColor darkGrayColor]] ;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    self.imageView.frame = CGRectMake(self.frame.size.width * .1 - 20, CELL_HEIGHT * .5 - 20,40,40);
 }
 
 @end
