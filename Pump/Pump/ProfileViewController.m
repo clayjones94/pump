@@ -73,14 +73,15 @@
     [vc1 didMoveToParentViewController:self];
     _currentvc = vc1;
     
-}
-
--(void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
     if (needRefresh) {
         [[_viewcontrollers firstObject] refresh];
         [[_viewcontrollers lastObject] refresh];
     }
+    
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [self.navigationItem setTitle:@"Pending"];
 }
 

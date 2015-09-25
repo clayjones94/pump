@@ -14,4 +14,6 @@
 @property (nonatomic) NSString *memberID;
 @property (nonatomic) BOOL isRequest;
 
+-(void) setCellRequestedOrIgnored;
+-(void) setCellPending;
 @end

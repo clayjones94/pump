@@ -60,6 +60,8 @@
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.navigationItem setTitle:@"Pending Payments"];
+    [self filterMemberships];
+    [_tableview reloadData];
 }
 
 -(void) refresh {
@@ -69,7 +71,6 @@
 }
 
 -(void) refresh: (UIRefreshControl *) refreshControl {
-    //[[UserManager sharedManager] updateMembershipsWithBlock:^(NSArray *memberships, NSError *error) {
     [[Storage sharedManager] updatePendingTripMembshipsWithBlock:^(NSArray *data) {
         _friends = [NSMutableDictionary new];
         [self filterMemberships];
@@ -85,10 +86,12 @@
 -(void) filterMemberships {
     _friends = [NSMutableDictionary new];
     for (NSDictionary *ownership in [[Storage sharedManager] pendingTripMemberships]) {
-        if ([_friends objectForKey: [ownership objectForKey: @"owner"]]) {
-            [[_friends objectForKey: [ownership objectForKey: @"owner"]] addObject:ownership];
-        } else {
-            [_friends setObject:[NSMutableArray arrayWithObject:ownership] forKey:[ownership objectForKey: @"owner"]];
+        if ([[ownership objectForKey:@"status"] integerValue] == 0) {
+            if ([_friends objectForKey: [ownership objectForKey: @"owner"]]) {
+                [[_friends objectForKey: [ownership objectForKey: @"owner"]] addObject:ownership];
+            } else {
+                [_friends setObject:[NSMutableArray arrayWithObject:ownership] forKey:[ownership objectForKey: @"owner"]];
+            }
         }
     }
     _friendArray = [NSMutableArray new];
@@ -98,28 +101,35 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ProfileFriendTableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:@"Friend Cell"];
+    ProfileFriendTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Friend Cell"];
     if (!cell) {
         cell = [[ProfileFriendTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Friend Cell"];
     }
     NSMutableArray *membershipArr = [_friendArray objectAtIndex:indexPath.row];
     NSDictionary *membership = [membershipArr objectAtIndex:0];
+    membershipArr = [[Storage sharedManager] membershipsWithOwner:[membership objectForKey: @"owner"]];
     NSDictionary *friend = [[[UserManager sharedManager] friendsDict] objectForKey:[membership objectForKey: @"owner"]];
     if (friend) {
         [cell setFriendName:[friend objectForKey: @"display_name"]];
-        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[friend objectForKey:@"profile_picture_url"]]
-                          placeholderImage:[UIImage imageNamed:@"profile_pic_default"]];
     } else {
         [cell setFriendName:@"*missing name*"];
     }
-    [cell setNumberOfRides:[NSNumber numberWithInteger: membershipArr.count]];
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[friend objectForKey:@"profile_picture_url"]]
+                      placeholderImage:[UIImage imageNamed:@"profile_pic_default"]];
     
     double amount = 0;
     NSMutableArray *membershipIDs = [NSMutableArray new];
+    [cell setCellRequestedOrIgnored];
+    NSUInteger i = 0;
     for (NSDictionary *membership in membershipArr) {
-        amount += [[membership objectForKey:@"amount"] doubleValue];
-        [membershipIDs addObject:[membership objectForKey:@"id"]];
+        if ([[membership objectForKey:@"status"]integerValue] == 0) {
+            amount += [[membership objectForKey:@"amount"] doubleValue];
+            [membershipIDs addObject:[membership objectForKey:@"id"]];
+            [cell setCellPending];
+            i++;
+        }
     }
+    [cell setNumberOfRides: [NSNumber numberWithInteger: i]];
     
     [cell setMembershipIDs:membershipIDs];
     [cell setIsRequest:NO];
@@ -133,10 +143,11 @@
     [[tableView cellForRowAtIndexPath:indexPath] setSelected:NO];
     
     NSMutableArray *membershipArr = [_friendArray objectAtIndex:indexPath.row];
+    NSDictionary *membership = [membershipArr objectAtIndex:0];
     
     TripsViewController *vc = [TripsViewController new];
-    [vc setTrips:membershipArr];
     [vc setIsRequests:NO];
+    [vc setFriendID:[membership objectForKey:@"owner"]];
     
     [self.navigationController pushViewController:vc animated:YES];
 }

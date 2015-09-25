@@ -60,10 +60,12 @@
 -(void) refresh: (UIRefreshControl *) refreshControl {
     [Database getCompleteTripMembershipsWithID:[Venmo sharedInstance].session.user.externalId withBlock:^(NSArray *data) {
         _tripMemberships = data;
-        [refreshControl endRefreshing];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_tableview reloadData];
-        });
+        [[UserManager sharedManager] updateFriendsWithBlock:^(BOOL updated) {
+            [refreshControl endRefreshing];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_tableview reloadData];
+            });
+        }];
     }];
 }
 
@@ -78,21 +80,22 @@
     
     NSMutableAttributedString *title;
     
+    NSDictionary *friend = [[[UserManager sharedManager] friendsDict] objectForKey:[membership objectForKey: @"member"]];
     if ([[membership objectForKey:@"owner"] isEqualToString: [Venmo sharedInstance].session.user.externalId]) {
-        NSDictionary *friend = [[[UserManager sharedManager] friendsDict] objectForKey:[membership objectForKey: @"member"]];
-        title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:@"You " size:12 color:[UIColor blackColor]]];
         if ([[membership objectForKey:@"status"] intValue] == 1) {
-            [title appendAttributedString:[Utils defaultString:@"requested " size:12 color:[UIColor blackColor]]];
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:@"Request: " size:16 color:[Utils defaultColor]]];
         } else {
-            [title appendAttributedString:[Utils defaultString:@"ignored " size:12 color:[Utils defaultColor]]];
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:@"Ignore: " size:16 color:[UIColor grayColor]]];
         }
-        [title appendAttributedString:[Utils defaultString:[NSString stringWithFormat:@"%@ $%.2f", [friend objectForKey:@"display_name"],[[membership objectForKey:@"amount"] doubleValue]] size:12 color:[Utils defaultColor]]];
     } else {
-        NSDictionary *friend = [[[UserManager sharedManager] friendsDict] objectForKey:[membership objectForKey: @"owner"]];
-        title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:@"You " size:12 color:[UIColor blackColor]]];
-        [title appendAttributedString:[Utils defaultString:@"payed " size:12 color:[UIColor blackColor]]];
-        [title appendAttributedString:[Utils defaultString:[NSString stringWithFormat:@"%@ $%.2f", [friend objectForKey:@"display_name"],[[membership objectForKey:@"amount"] doubleValue]] size:12 color:[Utils defaultColor]]];
+        if ([[membership objectForKey:@"status"] intValue] == 1) {
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:@"Pay: " size:16 color:[UIColor redColor]]];
+        } else {
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:@"Ignore: " size:16 color:[UIColor grayColor]]];
+        }
     }
+    [title appendAttributedString:[Utils defaultString:@"Trip with " size:12 color:[UIColor blackColor]]];
+    [title appendAttributedString:[Utils defaultString:[NSString stringWithFormat:@"%@ was $%.2f.", [friend objectForKey:@"display_name"],[[membership objectForKey:@"amount"] doubleValue]] size:12 color:[UIColor blackColor]]];
     
     [cell.textLabel setAttributedText: title];
     
@@ -100,7 +103,7 @@
     [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
     [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"];
     
-    NSString *dateStr = [membership objectForKey:@"created_at"];
+    NSString *dateStr = [membership objectForKey:@"updated_at"];
     
     NSDate *date = [dateFormatter dateFromString: dateStr];
     
@@ -132,6 +135,11 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    NSMutableArray *ids = [NSMutableArray new];
+//    for (NSDictionary *dict in _tripMemberships) {
+//        [Database updateTripMembershipWithID:[dict objectForKey:@"id"] status:@0 withBlock:^(NSDictionary *data) {
+//        }];
+//    }
     // Return the number of sections.
     if (_tripMemberships.count > 0) {
         

@@ -17,8 +17,8 @@
 
 - (void) updatePendingTripMembshipsWithBlock: (void (^)(NSArray *data))block;
 - (void) updatePendingTripOwnershipsWithBlock: (void (^)(NSArray *data))block;
-- (void) updateMembershipStatus: (NSNumber *) status ForID: (NSNumber *) membershipID;
-- (void) updateOwnershipStatus: (NSNumber *) status ForID: (NSNumber *) membershipID;
+- (void) updateMembershipStatus: (NSNumber *) status ForID: (NSString *) membershipID;
+- (void) updateOwnershipStatus: (NSNumber *) status ForID: (NSString *) membershipID;
 -(NSMutableArray *) ownershipsWithMember: (NSString *) friendID;
 -(NSMutableArray *) membershipsWithOwner: (NSString *) friendID;
 

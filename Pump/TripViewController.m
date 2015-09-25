@@ -84,8 +84,6 @@
         LoginViewController *loginvc = [LoginViewController new];
         [self presentViewController:loginvc animated:YES completion:nil];
     }
-    
-    //[self updatePassengerLabel];
 }
 
 -(void) profileSelected {
@@ -98,7 +96,8 @@
     [nav.navigationBar setBarTintColor:[Utils defaultColor]];
     [nav.navigationBar setTintColor:[Utils defaultColor]];
     nav.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
-    [self presentViewController:nav animated:YES completion:nil];
+    [self presentViewController:nav animated:YES completion:^{
+    }];
 }
 
 -(void) settingsSelected {
@@ -179,10 +178,10 @@
     [_startButton setAttributedTitle: title forState:UIControlStateNormal];
     [_startButton.layer setCornerRadius:3];
     [_startButton clipsToBounds];
-    _startButton.layer.shadowColor = [UIColor blackColor].CGColor;
-    _startButton.layer.shadowOpacity = 0.8;
-    _startButton.layer.shadowRadius = 3;
-    _startButton.layer.shadowOffset = CGSizeMake(3.0f, 3.0f);
+//    _startButton.layer.shadowColor = [UIColor blackColor].CGColor;
+//    _startButton.layer.shadowOpacity = 0.8;
+//    _startButton.layer.shadowRadius = 3;
+//    _startButton.layer.shadowOffset = CGSizeMake(3.0f, 3.0f);
     [_mapView addSubview:_startButton];
 }
 
@@ -326,10 +325,10 @@
     [_pauseButton addTarget:self action:@selector(pauseTrip) forControlEvents:UIControlEventTouchUpInside];
     NSAttributedString *titleStr = [Utils defaultString:@"Pause Trip" size:17 color:[UIColor whiteColor]];
     [_pauseButton.layer setCornerRadius:3];
-    _pauseButton.layer.shadowColor = [UIColor blackColor].CGColor;
-    _pauseButton.layer.shadowOpacity = 0.8;
-    _pauseButton.layer.shadowRadius = 3;
-    _pauseButton.layer.shadowOffset = CGSizeMake(3.0f, 3.0f);
+//    _pauseButton.layer.shadowColor = [UIColor blackColor].CGColor;
+//    _pauseButton.layer.shadowOpacity = 0.8;
+//    _pauseButton.layer.shadowRadius = 3;
+//    _pauseButton.layer.shadowOffset = CGSizeMake(3.0f, 3.0f);
     [_pauseButton setAttributedTitle: titleStr forState:UIControlStateNormal];
     
     _finishButton = [UIButton buttonWithType: UIButtonTypeCustom];
@@ -338,10 +337,10 @@
     [_finishButton addTarget:self action:@selector(finishTrip) forControlEvents:UIControlEventTouchUpInside];
     titleStr = [Utils defaultString:@"Finish" size:17 color:[UIColor whiteColor]];
     [_finishButton.layer setCornerRadius:3];
-    _finishButton.layer.shadowColor = [UIColor blackColor].CGColor;
-    _finishButton.layer.shadowOpacity = 0.8;
-    _finishButton.layer.shadowRadius = 3;
-    _finishButton.layer.shadowOffset = CGSizeMake(3.0f, 3.0f);
+//    _finishButton.layer.shadowColor = [UIColor blackColor].CGColor;
+//    _finishButton.layer.shadowOpacity = 0.8;
+//    _finishButton.layer.shadowRadius = 3;
+//    _finishButton.layer.shadowOffset = CGSizeMake(3.0f, 3.0f);
     [_finishButton setAttributedTitle: titleStr forState:UIControlStateNormal];
 
 }

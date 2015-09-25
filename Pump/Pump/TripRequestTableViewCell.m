@@ -9,6 +9,7 @@
 #import "TripRequestTableViewCell.h"
 #import "Utils.h"
 #import "Database.h"
+#import "Storage.h"
 
 #define FRAME_HEIGHT 70
 
@@ -64,6 +65,11 @@
 }
 
 -(void) request {
+    if (_isRequest) {
+        [[Storage sharedManager] updateOwnershipStatus:@1 ForID:_memberID];
+    } else {
+        [[Storage sharedManager] updateMembershipStatus:@1 ForID:_memberID];
+    }
     [Database updateTripMembershipsWithIDs:[NSArray arrayWithObject:_memberID] status:@1 withBlock:^(NSArray *data) {
         NSDictionary *updated = [data firstObject];
         if (updated.count != 0) {
@@ -76,12 +82,19 @@
             dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
         }
     }];
+    [self setCellRequestedOrIgnored];
 }
 
 -(void) ignore {
+    if (_isRequest) {
+        [[Storage sharedManager] updateOwnershipStatus:@2 ForID:_memberID];
+    } else {
+        [[Storage sharedManager] updateMembershipStatus:@2 ForID:_memberID];
+    }
     [Database updateTripMembershipWithID:_memberID status:@2 withBlock:^(NSDictionary *data) {
         [self setCellRequestedOrIgnored];
     }];
+    [self setCellRequestedOrIgnored];
 }
 
 -(void)setIsRequest:(BOOL)isRequest {

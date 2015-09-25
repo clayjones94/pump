@@ -59,17 +59,24 @@
 }
 
 - (void) updateMembershipStatus: (NSNumber *) status ForID: (NSNumber *) membershipID {
-    for (NSDictionary *tripMemberhips in _pendingTripMemberships) {
-        if ([[tripMemberhips objectForKey:@"id"]integerValue] == [membershipID integerValue]) {
-            [tripMemberhips setValue:status forKey:@"status"];
+    for (int i = 0; i < _pendingTripMemberships.count; i++) {
+        NSDictionary *tripMembership = [_pendingTripMemberships objectAtIndex:i];
+        if ([[tripMembership objectForKey:@"id"]integerValue] == [membershipID integerValue]) {
+            NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithDictionary:tripMembership];
+            [newDict setValue:status forKey:@"status"];
+            [_pendingTripMemberships replaceObjectAtIndex:i withObject:newDict];
         }
     }
 }
 
 - (void) updateOwnershipStatus: (NSNumber *) status ForID: (NSNumber *) membershipID {
-    for (NSDictionary *tripMemberhips in _pendingTripOwnerships) {
-        if ([[tripMemberhips objectForKey:@"id"]integerValue] == [membershipID integerValue]) {
-            [tripMemberhips setValue:status forKey:@"status"];
+    //for (NSDictionary *tripMemberhips in _pendingTripOwnerships) {
+    for (int i = 0; i < _pendingTripOwnerships.count; i++) {
+        NSDictionary *tripMembership = [_pendingTripOwnerships objectAtIndex:i];
+        if ([[tripMembership objectForKey:@"id"]integerValue] == [membershipID integerValue]) {
+            NSMutableDictionary *newDict = [NSMutableDictionary dictionaryWithDictionary:tripMembership];
+            [newDict setValue:status forKey:@"status"];
+            [_pendingTripOwnerships replaceObjectAtIndex:i withObject:newDict];
         }
     }
 }

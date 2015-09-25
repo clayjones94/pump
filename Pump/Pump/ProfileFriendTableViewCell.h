@@ -19,5 +19,6 @@
 @property (nonatomic) BOOL isRequest;
 
 -(void) setCellPending;
+-(void) setCellRequestedOrIgnored;
 
 @end

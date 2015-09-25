@@ -17,14 +17,20 @@
     
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
+    UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login Background"]];
+    [background setFrame:self.view.frame];
+    [self.view addSubview:background];
+    
     UIButton *venmoButton = [UIButton buttonWithType: UIButtonTypeCustom];
-    [venmoButton setBackgroundColor:[UIColor lightGrayColor]];
-    [venmoButton setFrame:CGRectMake(self.view.frame.size.width/2 - 75 , self.view.frame.size.height/2 - 15, 200, 50)];
+    [venmoButton setImage:[UIImage imageNamed:@"Venmo Logo"] forState:UIControlStateNormal];
+    [venmoButton setImageEdgeInsets:UIEdgeInsetsMake(10, 0, 10, 15)];
+    [venmoButton setBackgroundColor:[UIColor whiteColor]];
+    [venmoButton setFrame:CGRectMake(self.view.frame.size.width/2 - 90 , self.view.frame.size.height/2 - 24, 180, 40)];
     [venmoButton addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:venmoButton];
     
-    NSAttributedString *titleString = [Utils defaultString:@"Venmo" size:25 color:[UIColor whiteColor]];
-    [venmoButton.layer setCornerRadius:5];
+    NSAttributedString *titleString = [Utils defaultString:@"Login with Venmo" size:14 color:[UIColor grayColor]];
+    [venmoButton.layer setCornerRadius:10];
     [venmoButton setAttributedTitle: titleString forState:UIControlStateNormal];
 }
 

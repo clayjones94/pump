@@ -79,12 +79,6 @@
     }];
     
     [[TripManager sharedManager].locationManager startUpdatingLocation];
-    
-//    [NSTimer scheduledTimerWithTimeInterval:2
-//                                     target:[TripManager sharedManager].locationManager
-//                                   selector:@selector(startUpdatingLocation)
-//                                   userInfo:nil
-//                                    repeats:YES];
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {

@@ -57,6 +57,8 @@
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    [self filterOwnerships];
+    [_tableview reloadData];
 }
 
 -(void) refresh {
@@ -81,10 +83,12 @@
 -(void) filterOwnerships {
     _friends = [NSMutableDictionary new];
     for (NSDictionary *ownership in [[Storage sharedManager] pendingTripOwnerships]) {
-        if ([_friends objectForKey: [ownership objectForKey: @"member"]]) {
-            [[_friends objectForKey: [ownership objectForKey: @"member"]] addObject:ownership];
-        } else {
-            [_friends setObject:[NSMutableArray arrayWithObject:ownership] forKey:[ownership objectForKey: @"member"]];
+        if ([[ownership objectForKey:@"status"] integerValue] == 0) {
+            if ([_friends objectForKey: [ownership objectForKey: @"member"]]) {
+                [[_friends objectForKey: [ownership objectForKey: @"member"]] addObject:ownership];
+            } else {
+                [_friends setObject:[NSMutableArray arrayWithObject:ownership] forKey:[ownership objectForKey: @"member"]];
+            }
         }
     }
     _friendArray = [NSMutableArray new];
@@ -94,28 +98,36 @@
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ProfileFriendTableViewCell *cell;// = [tableView dequeueReusableCellWithIdentifier:@"Friend Cell"];
+    ProfileFriendTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Friend Cell"];
     if (!cell) {
         cell = [[ProfileFriendTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Friend Cell"];
     }
     NSMutableArray *membershipArr = [_friendArray objectAtIndex:indexPath.row];
     NSDictionary *membership = [membershipArr objectAtIndex:0];
+    membershipArr = [[Storage sharedManager] ownershipsWithMember:[membership objectForKey: @"member"]];
     NSDictionary *friend = [[[UserManager sharedManager] friendsDict] objectForKey:[membership objectForKey: @"member"]];
     if (friend) {
         [cell setFriendName:[friend objectForKey: @"display_name"]];
-        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[friend objectForKey:@"profile_picture_url"]]
-                          placeholderImage:[UIImage imageNamed:@"profile_pic_default"]];
     } else {
         [cell setFriendName:@"*missing name*"];
     }
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[friend objectForKey:@"profile_picture_url"]]
+                      placeholderImage:[UIImage imageNamed:@"profile_pic_default"]];
     [cell setNumberOfRides:[NSNumber numberWithInteger: membershipArr.count]];
     
     double amount = 0;
     NSMutableArray *membershipIDs = [NSMutableArray new];
+    [cell setCellRequestedOrIgnored];
+    NSUInteger i = 0;
     for (NSDictionary *membership in membershipArr) {
-        amount += [[membership objectForKey:@"amount"] doubleValue];
-        [membershipIDs addObject:[membership objectForKey:@"id"]];
+        if ([[membership objectForKey:@"status"]integerValue] == 0) {
+            amount += [[membership objectForKey:@"amount"] doubleValue];
+            [membershipIDs addObject:[membership objectForKey:@"id"]];
+            [cell setCellPending];
+            i++;
+        }
     }
+    [cell setNumberOfRides: [NSNumber numberWithInteger: i]];
     
     [cell setMembershipIDs:membershipIDs];
     [cell setIsRequest:YES];
@@ -129,10 +141,11 @@
     [[tableView cellForRowAtIndexPath:indexPath] setSelected:NO];
     
     NSMutableArray *membershipArr = [_friendArray objectAtIndex:indexPath.row];
+    NSDictionary *membership = [membershipArr objectAtIndex:0];
     
     TripsViewController *vc = [TripsViewController new];
-    [vc setTrips:membershipArr];
     [vc setIsRequests:YES];
+    [vc setFriendID:[membership objectForKey:@"member"]];
     
     [self.navigationController pushViewController:vc animated:YES];
 }

@@ -21,12 +21,12 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self.navigationItem setTitle:@"Settings"];
     UIButton *venmoButton = [UIButton buttonWithType: UIButtonTypeCustom];
-    [venmoButton setBackgroundColor:[UIColor lightGrayColor]];
-    [venmoButton setFrame:CGRectMake(self.view.frame.size.width/2 - 100 , self.view.frame.size.height * .3, 200, 50)];
+    [venmoButton setBackgroundColor:[UIColor redColor]];
+    [venmoButton setFrame:CGRectMake(self.view.frame.size.width/2 - 75 , 85, 150, 30)];
     [venmoButton addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:venmoButton];
     
-    NSAttributedString *titleString = [Utils defaultString:@"Logout" size:25 color:[UIColor whiteColor]];
+    NSAttributedString *titleString = [Utils defaultString:@"Logout" size:14 color:[UIColor whiteColor]];
     [venmoButton.layer setCornerRadius:5];
     [venmoButton setAttributedTitle: titleString forState:UIControlStateNormal];
     

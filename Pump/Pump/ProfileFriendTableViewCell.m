@@ -9,6 +9,7 @@
 #import "ProfileFriendTableViewCell.h"
 #import "Utils.h"
 #import "Database.h"
+#import "Storage.h"
 
 #define FRAME_HEIGHT 100
 #define DESCRIPTION_FONT_SIZE 12
@@ -75,24 +76,28 @@
 }
 
 -(void) request {
+    for (NSString *memID in _membershipIDs) {
+        if (_isRequest) {
+            [[Storage sharedManager] updateOwnershipStatus:@1 ForID:memID];
+        } else {
+            [[Storage sharedManager] updateMembershipStatus:@1 ForID:memID];
+        }
+    }
     
     [Database updateTripMembershipsWithIDs:_membershipIDs status:@1 withBlock:^(NSArray *data) {
         NSArray *updated = data;
         double cost = 0;
         for (NSDictionary *membership in updated) {
             cost += [[membership objectForKey:@"amount"] doubleValue];
+            [[Storage sharedManager] updateMembershipStatus:@1 ForID:[membership objectForKey:@"id"]];
         }
         if (updated.count != _membershipIDs.count) {
             UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle:@"Confirm Request" message:[NSString stringWithFormat:@"Only %lu out of %lu were incomplete. Would you like to request %@ $%.2f", (unsigned long)updated.count, (unsigned long)_membershipIDs.count, _friendName, cost] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                                  initWithTitle:@"Request Completed" message:[NSString stringWithFormat:@"%lu out of %lu were processed. %@ was requested $%.2f", (unsigned long)updated.count, (unsigned long)_membershipIDs.count, _friendName, cost] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
         } else if(updated.count == 0) {
             UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle:@"Already Completed" message:[NSString stringWithFormat:@"%@ has already completed this request.", _friendName] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle:@"Confirm Request" message:[NSString stringWithFormat: @"Would you like to request %@ $%.2f", _friendName, cost] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                                  initWithTitle:@"Already Completed" message:[NSString stringWithFormat:@"%@ has already completed these requests.", _friendName] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
         }
     }];
@@ -100,13 +105,16 @@
 }
 
 -(void) ignore {
-    for (NSString *membershipID in _membershipIDs) {
-        [Database getTripWithID:membershipID withBlock:^(NSDictionary *data) {
-            [Database updateTripMembershipWithID:membershipID status:@2 withBlock:^(NSDictionary *data) {
-                [self setCellRequestedOrIgnored];
-            }];
-        }];
+    for (NSString *memID in _membershipIDs) {
+        if (_isRequest) {
+            [[Storage sharedManager] updateOwnershipStatus:@2 ForID:memID];
+        } else {
+            [[Storage sharedManager] updateMembershipStatus:@2 ForID:memID];
+        }
     }
+    [Database updateTripMembershipsWithIDs:_membershipIDs status:@2 withBlock:^(NSArray *data) {
+        [self setCellRequestedOrIgnored];
+    }];
 }
 
 -(void)setIsRequest:(BOOL)isRequest {
@@ -132,6 +140,8 @@
     [_ignoreButton setBackgroundColor:[UIColor darkGrayColor]];
     [_requestButton setUserInteractionEnabled:YES];
     [_requestButton setBackgroundColor:[Utils defaultColor]];
+    [_payButton setUserInteractionEnabled:YES];
+    [_payButton setBackgroundColor:[Utils defaultColor]];
 }
 
 - (void)setFriendName:(NSString *)friendName {

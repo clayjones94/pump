@@ -11,6 +11,7 @@
 #import "TripInfoViewController.h"
 #import "Database.h"
 #import "TripRequestTableViewCell.h"
+#import "Storage.h"
 
 @interface TripsViewController ()
 
@@ -18,10 +19,12 @@
 
 @implementation TripsViewController {
     UITableView *_tableView;
+    NSArray *_trips;
+    UIRefreshControl *_refreshControl;
 }
 
-@synthesize trips = _trips;
 @synthesize isRequests = _isRequests;
+@synthesize friendID = _friendID;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -33,6 +36,32 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
+    
+    _refreshControl = [[UIRefreshControl alloc] init];
+    [_refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
+    [_tableView addSubview:_refreshControl];
+    
+    [self refresh];
+}
+
+-(void) refresh {
+    _tableView.contentOffset = CGPointMake(0, -_refreshControl.frame.size.height);
+    [_refreshControl beginRefreshing];
+    [self refresh:_refreshControl];
+}
+
+-(void) refresh: (UIRefreshControl *) refreshControl {
+    if (_isRequests) {
+        [[Storage sharedManager] updatePendingTripOwnershipsWithBlock:^(NSArray *data) {
+            [_tableView reloadData];
+            [_refreshControl endRefreshing];
+        }];
+    } else {
+        [[Storage sharedManager] updatePendingTripMembshipsWithBlock:^(NSArray *data) {
+            [_tableView reloadData];
+            [_refreshControl endRefreshing];
+        }];
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -80,6 +109,12 @@
     
     cell.memberID = [trip objectForKey:@"id"];
     
+    if ([[trip objectForKey:@"status"] integerValue] != 0) {
+        [cell setCellRequestedOrIgnored];
+    } else {
+        [cell setCellPending];
+    }
+    
     return  cell;
 }
 
@@ -111,6 +146,16 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)setFriendID:(NSString *)friendID {
+    _friendID = friendID;
+    if (_isRequests) {
+        _trips = [[Storage sharedManager] ownershipsWithMember:friendID];
+    } else {
+        _trips = [[Storage sharedManager] membershipsWithOwner:friendID];
+    }
+    [_tableView reloadData];
 }
 
 /*

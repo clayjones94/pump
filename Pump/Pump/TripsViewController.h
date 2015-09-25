@@ -10,7 +10,7 @@
 
 @interface TripsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic) NSArray *trips;
+@property (nonatomic) NSString *friendID;
 @property (nonatomic) BOOL isRequests;
 
 @end
