@@ -28,6 +28,7 @@
 		AEA3DE4E1BB28CC100F36830 /* TripRequestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA3DE4D1BB28CC100F36830 /* TripRequestTableViewCell.m */; };
 		AEA3DE511BB46DAA00F36830 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA3DE501BB46DAA00F36830 /* SettingsViewController.m */; };
 		AEA3DE541BB49D1A00F36830 /* Storage.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA3DE531BB49D1A00F36830 /* Storage.m */; };
+		AEA3DE571BB7703900F36830 /* SearchViewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA3DE561BB7703900F36830 /* SearchViewTableViewCell.m */; };
 		AEA930531BA86B720090981A /* PassengerView.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA930521BA86B720090981A /* PassengerView.m */; };
 		AEA930561BA86D400090981A /* PassengerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA930551BA86D400090981A /* PassengerTableViewCell.m */; };
 		AEA930591BA876260090981A /* AddPassengersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA930581BA876260090981A /* AddPassengersViewController.m */; };
@@ -96,6 +97,8 @@
 		AEA3DE501BB46DAA00F36830 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		AEA3DE521BB49D1A00F36830 /* Storage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Storage.h; sourceTree = "<group>"; };
 		AEA3DE531BB49D1A00F36830 /* Storage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Storage.m; sourceTree = "<group>"; };
+		AEA3DE551BB7703900F36830 /* SearchViewTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchViewTableViewCell.h; sourceTree = "<group>"; };
+		AEA3DE561BB7703900F36830 /* SearchViewTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchViewTableViewCell.m; sourceTree = "<group>"; };
 		AEA930511BA86B710090981A /* PassengerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassengerView.h; sourceTree = "<group>"; };
 		AEA930521BA86B720090981A /* PassengerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PassengerView.m; sourceTree = "<group>"; };
 		AEA930541BA86D400090981A /* PassengerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassengerTableViewCell.h; sourceTree = "<group>"; };
@@ -222,6 +225,8 @@
 				AEA3DE501BB46DAA00F36830 /* SettingsViewController.m */,
 				AEA3DE521BB49D1A00F36830 /* Storage.h */,
 				AEA3DE531BB49D1A00F36830 /* Storage.m */,
+				AEA3DE551BB7703900F36830 /* SearchViewTableViewCell.h */,
+				AEA3DE561BB7703900F36830 /* SearchViewTableViewCell.m */,
 			);
 			path = Pump;
 			sourceTree = "<group>";
@@ -393,6 +398,7 @@
 				AE2F44B61B8E3D7A00F57579 /* TripViewController.m in Sources */,
 				AE67F15B1BAA0AB30068CF72 /* TripInfoViewController.m in Sources */,
 				AEA3DE511BB46DAA00F36830 /* SettingsViewController.m in Sources */,
+				AEA3DE571BB7703900F36830 /* SearchViewTableViewCell.m in Sources */,
 				AE2F44911B8E3C9D00F57579 /* AppDelegate.m in Sources */,
 				AEEA52CA1B9D68AB0081BA97 /* UserManager.m in Sources */,
 				AE5FC0071BA605CB00A398FF /* ProfileFriendTableViewCell.m in Sources */,

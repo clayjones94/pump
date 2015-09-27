@@ -48,21 +48,27 @@
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if ([UserManager sharedManager].friends.count > 1) {
-        NSMutableArray *friends = [[NSMutableArray alloc] initWithArray: [UserManager sharedManager].friends];
+        NSMutableArray *friends = [[NSMutableArray alloc] initWithArray: [UserManager sharedManager].recents];
         [friends removeObjectsInArray:[TripManager sharedManager].passengers];
         [_searchView setFriends: friends];
-    } else {
-        [[UserManager sharedManager] updateFriendsWithBlock:^(BOOL updated){
-            NSMutableArray *friends = [[NSMutableArray alloc] initWithArray: [UserManager sharedManager].friends];
-            [friends removeObjectsInArray:[TripManager sharedManager].passengers];
-            [_searchView setFriends: friends];
-        }];
     }
+//    else {
+//        [[UserManager sharedManager] updateFriendsWithBlock:^(BOOL updated){
+//            NSMutableArray *friends = [[NSMutableArray alloc] initWithArray: [UserManager sharedManager].friends];
+//            [friends removeObjectsInArray:[TripManager sharedManager].passengers];
+//            [_searchView setFriends: friends];
+//        }];
+//    }
     
 }
 
 -(void) done {
-    [[TripManager sharedManager].passengers addObjectsFromArray:_searchView.selectedFriends];
+    for (NSDictionary *passenger in _searchView.selectedFriends) {
+        if (![[TripManager sharedManager].passengers containsObject:passenger]) {
+            [[TripManager sharedManager].passengers addObject:passenger];
+            [[UserManager sharedManager] addFriendToRecents:passenger];
+        }
+    }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Show Popup" object:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
 }

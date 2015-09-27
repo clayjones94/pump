@@ -10,6 +10,7 @@
 #import "Utils.h"
 #import "Database.h"
 #import "Storage.h"
+#import <Venmo-iOS-SDK/Venmo.h>
 
 #define FRAME_HEIGHT 100
 #define DESCRIPTION_FONT_SIZE 12
@@ -92,14 +93,39 @@
             [[Storage sharedManager] updateMembershipStatus:@1 ForID:[membership objectForKey:@"id"]];
         }
         if (updated.count != _membershipIDs.count) {
-            UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle:@"Request Completed" message:[NSString stringWithFormat:@"%lu out of %lu were processed. %@ was requested $%.2f", (unsigned long)updated.count, (unsigned long)_membershipIDs.count, _friendName, cost] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+            if (_isRequest) {
+                [[Venmo sharedInstance] sendRequestTo:_friendVenmoID amount:cost note:[NSString stringWithFormat:@"Pump With Friends: %lu trips.", (unsigned long)updated.count] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
+                    UIAlertView *alert = [[UIAlertView alloc]
+                                          initWithTitle:@"Request Completed" message:[NSString stringWithFormat:@"%lu out of %lu trips were processed. %@ was requested $%.2f", (unsigned long)updated.count, (unsigned long)_membershipIDs.count, _friendName, cost] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+                }];
+            } else {
+                [[Venmo sharedInstance] sendPaymentTo:_friendVenmoID amount:cost note:[NSString stringWithFormat:@"Pump With Friends: %lu trips.", (unsigned long)updated.count] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
+                    UIAlertView *alert = [[UIAlertView alloc]
+                                          initWithTitle:@"Payment Completed" message:[NSString stringWithFormat:@"%lu out of %lu trips were processed. %@ was requested $%.2f", (unsigned long)updated.count, (unsigned long)_membershipIDs.count, _friendName, cost] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+                }];
+            }
         } else if(updated.count == 0) {
             UIAlertView *alert = [[UIAlertView alloc]
                                   initWithTitle:@"Already Completed" message:[NSString stringWithFormat:@"%@ has already completed these requests.", _friendName] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+        } else {
+            if (_isRequest) {
+                [[Venmo sharedInstance] sendRequestTo:[[updated firstObject] objectForKey:@"member"] amount:cost * 100 note:[NSString stringWithFormat:@"Pump With Friends: %lu trips.", (unsigned long)updated.count] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
+                    UIAlertView *alert = [[UIAlertView alloc]
+                                          initWithTitle:@"Request Completed" message:[NSString stringWithFormat:@"%lu out of %lu trips were processed. %@ was requested $%.2f", (unsigned long)updated.count, (unsigned long)_membershipIDs.count, _friendName, cost] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+                }];
+            } else {
+                [[Venmo sharedInstance] sendPaymentTo:[[updated firstObject] objectForKey:@"owner"] amount:cost * 100 note:[NSString stringWithFormat:@"Pump With Friends: %lu trips.", (unsigned long)updated.count] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
+                    UIAlertView *alert = [[UIAlertView alloc]
+                                          initWithTitle:@"Payment Completed" message:[NSString stringWithFormat:@"%lu out of %lu trips were processed. %@ was requested $%.2f", (unsigned long)updated.count, (unsigned long)_membershipIDs.count, _friendName, cost] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                    dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+                }];
+            }
         }
+        
     }];
     [self setCellRequestedOrIgnored];
 }
@@ -115,6 +141,7 @@
     [Database updateTripMembershipsWithIDs:_membershipIDs status:@2 withBlock:^(NSArray *data) {
         [self setCellRequestedOrIgnored];
     }];
+    [self setCellRequestedOrIgnored];
 }
 
 -(void)setIsRequest:(BOOL)isRequest {
@@ -146,9 +173,27 @@
 
 - (void)setFriendName:(NSString *)friendName {
     _friendName = friendName;
-    [_nameLabel setAttributedText:[Utils defaultString:_friendName size:18 color:[UIColor blackColor]]];
-    [_nameLabel sizeToFit];
-    [_nameLabel setFrame:CGRectMake(self.frame.size.width * .25, (FRAME_HEIGHT * .23 - _nameLabel.frame.size.height/2), _nameLabel.frame.size.width, _nameLabel.frame.size.height)];
+    if (_amountOwed) {
+        NSMutableAttributedString *description;
+        if (_isRequest) {
+            description = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:_friendName size:DESCRIPTION_FONT_SIZE color:[Utils defaultColor]]];
+            
+            [description appendAttributedString:[Utils defaultString:@" owes you " size:DESCRIPTION_FONT_SIZE color:[UIColor blackColor]]];
+            [description appendAttributedString:[Utils defaultString:[NSString stringWithFormat:@"$%.2f.", [_amountOwed doubleValue]] size:DESCRIPTION_FONT_SIZE color:[Utils defaultColor]]];
+        } else {
+            description = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:@"You owe " size:DESCRIPTION_FONT_SIZE color:[UIColor blackColor]]];
+            [description appendAttributedString:[Utils defaultString:_friendName size:DESCRIPTION_FONT_SIZE color:[Utils defaultColor]]];
+            [description appendAttributedString:[Utils defaultString:[NSString stringWithFormat:@" $%.2f.", [_amountOwed doubleValue]] size:DESCRIPTION_FONT_SIZE color:[Utils defaultColor]]];
+        }
+        
+        [_nameLabel setAttributedText:description];
+        [_nameLabel sizeToFit];
+        [_nameLabel setFrame:CGRectMake(self.frame.size.width * .25, FRAME_HEIGHT * .23 - _nameLabel.frame.size.height/2, _nameLabel.frame.size.width, _nameLabel.frame.size.height)];
+    } else {
+        [_nameLabel setAttributedText:[Utils defaultString:_friendName size:18 color:[UIColor blackColor]]];
+        [_nameLabel sizeToFit];
+        [_nameLabel setFrame:CGRectMake(self.frame.size.width * .25, (FRAME_HEIGHT * .23 - _nameLabel.frame.size.height/2), _nameLabel.frame.size.width, _nameLabel.frame.size.height)];
+    }
 }
 
 - (void)setAmountOwed:(NSNumber *)amountOwed {

@@ -47,6 +47,7 @@
             return cell;
         } else {
             cell.textLabel.attributedText = [Utils defaultString:@"Add Passengers..." size:16 color:[UIColor lightGrayColor]];
+            cell.detailTextLabel.text = @" ";
         }
     } else {
         PassengerTableViewCell *cell = [_tableView dequeueReusableCellWithIdentifier:@"Passenger Cell"];

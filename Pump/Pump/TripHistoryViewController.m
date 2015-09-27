@@ -11,6 +11,7 @@
 #import "Utils.h"
 #import <Venmo-iOS-SDK/Venmo.h>
 #import "UserManager.h"
+#import "TripInfoViewController.h"
 
 @interface TripHistoryViewController ()
 
@@ -60,12 +61,10 @@
 -(void) refresh: (UIRefreshControl *) refreshControl {
     [Database getCompleteTripMembershipsWithID:[Venmo sharedInstance].session.user.externalId withBlock:^(NSArray *data) {
         _tripMemberships = data;
-        [[UserManager sharedManager] updateFriendsWithBlock:^(BOOL updated) {
             [refreshControl endRefreshing];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [_tableview reloadData];
             });
-        }];
     }];
 }
 
@@ -80,24 +79,35 @@
     
     NSMutableAttributedString *title;
     
-    NSDictionary *friend = [[[UserManager sharedManager] friendsDict] objectForKey:[membership objectForKey: @"member"]];
+    NSDictionary *friend = [[UserManager sharedManager] friendForVenmoID:[membership objectForKey: @"member"]];
+    if (!friend) {
+        [Database retrieveVenmoFriendWithID:[membership objectForKey: @"member"] withBlock:^(NSDictionary *data) {
+            
+            if ([UserManager sharedManager].recents.count < 60 && ![[UserManager sharedManager].recents containsObject:data]) {
+                [[UserManager sharedManager].recents addObject:data];
+            }
+            [tableView reloadData];
+        }];
+    }
     if ([[membership objectForKey:@"owner"] isEqualToString: [Venmo sharedInstance].session.user.externalId]) {
         if ([[membership objectForKey:@"status"] intValue] == 1) {
-            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:@"Request: " size:16 color:[Utils defaultColor]]];
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:@"Request" size:16 color:[Utils defaultColor]]];
         } else {
-            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:@"Ignore: " size:16 color:[UIColor grayColor]]];
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:@"Ignore" size:16 color:[UIColor grayColor]]];
         }
     } else {
+        friend = [[UserManager sharedManager] friendForVenmoID:[membership objectForKey: @"owner"]];
         if ([[membership objectForKey:@"status"] intValue] == 1) {
-            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:@"Pay: " size:16 color:[UIColor redColor]]];
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:@"Pay" size:16 color:[UIColor redColor]]];
         } else {
-            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:@"Ignore: " size:16 color:[UIColor grayColor]]];
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:@"Ignore" size:16 color:[UIColor grayColor]]];
         }
     }
-    [title appendAttributedString:[Utils defaultString:@"Trip with " size:12 color:[UIColor blackColor]]];
+    [title appendAttributedString:[Utils defaultString:@"\rTrip with " size:12 color:[UIColor blackColor]]];
     [title appendAttributedString:[Utils defaultString:[NSString stringWithFormat:@"%@ was $%.2f.", [friend objectForKey:@"display_name"],[[membership objectForKey:@"amount"] doubleValue]] size:12 color:[UIColor blackColor]]];
     
     [cell.textLabel setAttributedText: title];
+    cell.textLabel.numberOfLines = 0;
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
@@ -131,6 +141,14 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [[tableView cellForRowAtIndexPath:indexPath] setSelected:NO];
+    
+    TripInfoViewController *vc = [[TripInfoViewController alloc] init];
+    
+    vc.tripMembership = [_tripMemberships objectAtIndex:indexPath.row];
+    
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 
@@ -167,7 +185,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
+    return 50;
 }
 
 @end

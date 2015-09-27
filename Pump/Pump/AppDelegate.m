@@ -15,6 +15,7 @@
 #import "Database.h"
 #import <GoogleMaps/GoogleMaps.h>
 #import "TripManager.h"
+#import "UserManager.h"
 
 @interface AppDelegate ()
 
@@ -34,12 +35,12 @@
     
     [Venmo startWithAppId:VENMO_APP_ID secret:VENMO_APP_SECRET name: VENMO_APP_NAME];
     
-    if (![Venmo isVenmoAppInstalled]) {
+//    if (![Venmo isVenmoAppInstalled]) {
         [[Venmo sharedInstance] setDefaultTransactionMethod:VENTransactionMethodAPI];
-    }
-    else {
-        [[Venmo sharedInstance] setDefaultTransactionMethod:VENTransactionMethodAppSwitch];
-    }
+//    }
+//    else {
+//        [[Venmo sharedInstance] setDefaultTransactionMethod:VENTransactionMethodAppSwitch];
+//    }
     
     [GMSServices provideAPIKey:@"AIzaSyA-N5dxHG2g7YzeegbO0tJF4XbAGUgbbtg"];
     
@@ -86,6 +87,22 @@
         return YES;
     }
     return NO;
+}
+
+-(void)applicationWillResignActive:(UIApplication *)application {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        NSData *dataSave = [NSKeyedArchiver archivedDataWithRootObject:[UserManager sharedManager].recents];
+        [userDefaults setObject:dataSave forKey:@"recents"];
+        [userDefaults synchronize];
+    });
+}
+
+-(void)applicationWillTerminate:(UIApplication *)application {
+//    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//    NSData *dataSave = [NSKeyedArchiver archivedDataWithRootObject:[UserManager sharedManager].recents];
+//    [userDefaults setObject:dataSave forKey:@"recents"];
+//    [userDefaults synchronize];
 }
 
 #pragma Core Data

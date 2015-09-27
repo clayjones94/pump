@@ -142,6 +142,9 @@
     [_distanceLabel setFrame:CGRectMake(_infoBar.frame.size.width * 1/4 - _distanceLabel.frame.size.width/2, (_infoBar.frame.size.height * 3/2 - _distanceLabel.frame.size.height)/2, _distanceLabel.frame.size.width, _distanceLabel.frame.size.height)];
     
     [_costLabel setAttributedText:[Utils defaultString:[NSString stringWithFormat: @"$%.2f", [TripManager sharedManager].distanceTraveled/1609.344 * [[TripManager sharedManager].gasPrice doubleValue] / [[[TripManager sharedManager] mpg] doubleValue]] size:36 color:[UIColor blackColor]]];
+    if ([[[TripManager sharedManager] mpg] doubleValue] == 0) {
+        [_costLabel setAttributedText:[Utils defaultString:@"$0.00" size:36 color:[UIColor blackColor]]];
+    }
     [_costLabel sizeToFit];
     [_costLabel setFrame:CGRectMake(self.view.frame.size.width * 3/4 - _costLabel.frame.size.width/2, (_infoBar.frame.size.height * 3/2 - _costLabel.frame.size.height)/2, _costLabel.frame.size.width, _costLabel.frame.size.height)];
 }
@@ -194,6 +197,9 @@
     [_distanceLabel setFrame:CGRectMake(width * 1/4 - _distanceLabel.frame.size.width/2, (_infoBar.frame.size.height * 3/2 - _distanceLabel.frame.size.height)/2, _distanceLabel.frame.size.width, _distanceLabel.frame.size.height)];
     
     [_costLabel setAttributedText:[Utils defaultString:[NSString stringWithFormat: @"$%.2f", [TripManager sharedManager].distanceTraveled/1609.344 * [[[TripManager sharedManager] gasPrice] doubleValue] / [[[TripManager sharedManager] mpg] doubleValue]] size:36 color:[UIColor blackColor]]];
+    if ([[[TripManager sharedManager] mpg] doubleValue] == 0) {
+            [_costLabel setAttributedText:[Utils defaultString:@"$0.00" size:36 color:[UIColor blackColor]]];
+    }
     [_costLabel sizeToFit];
     [_costLabel setFrame:CGRectMake(self.view.frame.size.width * 3/4 - _costLabel.frame.size.width/2, (_infoBar.frame.size.height * 3/2 - _costLabel.frame.size.height)/2, _costLabel.frame.size.width, _costLabel.frame.size.height)];
     
@@ -379,7 +385,7 @@
     UIView *topBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, popupView.frame.size.width, 45)];
     [topBar setBackgroundColor:[Utils defaultColor]];
     UILabel *title = [[UILabel alloc] init];
-    [title setAttributedText: [Utils defaultString:@"Select Price" size:18 color:[UIColor whiteColor]]];
+    [title setAttributedText: [Utils defaultString:@"Gas Price" size:18 color:[UIColor whiteColor]]];
     [title sizeToFit];
     [title setFrame:CGRectMake(topBar.frame.size.width/2 - title.frame.size.width/2, topBar.frame.size.height/2 - title.frame.size.height/2, title.frame.size.width, title.frame.size.height)];
     [topBar addSubview:title];
@@ -487,6 +493,10 @@
         [title appendAttributedString:[Utils defaultString: [NSString stringWithFormat:@"\rmpg"] size:12 color:[UIColor lightGrayColor]]];
         [_mpgButton setAttributedTitle:title forState:UIControlStateNormal];
         [self cancel];
+        NSNumber *gasPrice = [[NSUserDefaults standardUserDefaults] objectForKey:@"gas_price"];
+        if ([gasPrice doubleValue] == 0) {
+            [self changeGasPrice];
+        }
     } else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Format" message:@"Please type in a valid MPG" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
@@ -587,10 +597,14 @@
         if ([TripManager sharedManager].car) {
             [TripManager sharedManager].passengers = [NSMutableArray new];
             [_profileVC.segmentedControl setSelectedSegmentIndex:1];
+            [[UserManager sharedManager] addFriendToRecents:[TripManager sharedManager].car];
         } else {
             [_profileVC.segmentedControl setSelectedSegmentIndex:0];
+            for (NSDictionary *friend in [TripManager sharedManager].passengers) {
+                [[UserManager sharedManager] addFriendToRecents:friend];
+            }
         }
-        [Database postTripWithDistance:[NSNumber numberWithDouble:[TripManager sharedManager].distanceTraveled/1609.344] gasPrice:[TripManager sharedManager].gasPrice mpg:[TripManager sharedManager].mpg polyline: [[[[TripManager sharedManager] polyline] path] encodedPath]   andPassengers: [TripManager sharedManager].passengers withBlock:^(NSDictionary *data, NSError *error) {
+        [Database postTripWithDistance:[NSNumber numberWithDouble:[TripManager sharedManager].distanceTraveled/1609.344] gasPrice:[TripManager sharedManager].gasPrice mpg:[TripManager sharedManager].mpg polyline: [[[[TripManager sharedManager] polyline] path] encodedPath] includeUser: [TripManager sharedManager].includeUserAsPassenger  andPassengers: [TripManager sharedManager].passengers withBlock:^(NSDictionary *data, NSError *error) {
             if (!error) {
                 [_indicator stopAnimating];
                 [_indicator setHidden:YES];

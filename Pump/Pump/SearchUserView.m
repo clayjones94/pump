@@ -10,13 +10,15 @@
 #import "Utils.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "Database.h"
+#import "SearchViewTableViewCell.h"
 
 @implementation SearchUserView {
     UITableView *_tableview;
     NSMutableArray *_filteredFriends;
     BOOL isFiltered;
-    UIRefreshControl *_refreshControl;
+    BOOL isVenmoFriends;
     UserManager *_userManager;
+    UIActivityIndicatorView *_indicator;
 }
 
 @synthesize tokenField = _tokenField;
@@ -29,7 +31,7 @@
     _tokenField = [[VENTokenField alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, 40)];
     _tokenField.delegate = self;
     _tokenField.dataSource = self;
-    [_tokenField setPlaceholderText:@"Search Venmo Friends"];
+    [_tokenField setPlaceholderText:@"Search Friends"];
     [_tokenField setToLabelText:@""];
     [_tokenField.layer setBorderWidth:.5];
     [_tokenField.layer setBorderColor:[[UIColor lightGrayColor] CGColor]];
@@ -39,6 +41,7 @@
     [self addSubview:_tokenField];
     [self addSubview:_tableview];
     
+    isVenmoFriends = NO;
     isFiltered = NO;
     _selectedFriends = [NSMutableArray new];
     
@@ -47,24 +50,29 @@
     
     _userManager = [UserManager sharedManager];
     
-    _refreshControl = [[UIRefreshControl alloc] init];
-    [_refreshControl addTarget:self action:@selector(refresh:) forControlEvents:UIControlEventValueChanged];
-    [self refresh:_refreshControl];
-    [_tableview addSubview:_refreshControl];
+    _friends = [[UserManager sharedManager] recents];
     
-    _tableview.contentOffset = CGPointMake(0, -_refreshControl.frame.size.height);
-    [_refreshControl beginRefreshing];
+    _indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
     return self;
 }
 
--(void) refresh: (UIRefreshControl *) refreshControl {
-    [_userManager updateFriendsWithBlock:^(BOOL updated) {
+-(void)searchVenmo {
+    [_indicator setHidden:NO];
+    [_indicator startAnimating];
+    [[UserManager sharedManager] getVenmoFriendsWithBlock:^(NSArray *friends) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [refreshControl endRefreshing];
-            [_tableview reloadData];
+            isVenmoFriends = YES;
+            [_indicator setHidden:YES];
+            [_indicator stopAnimating];
+            [self setFriends:friends];
+            [_tokenField.delegate tokenField:_tokenField didChangeText:_tokenField.inputText];
         });
     }];
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self resignFirstResponder];
 }
 
 -(void)tokenField:(VENTokenField *)tokenField didEnterText:(NSString *)text {
@@ -126,18 +134,40 @@
     [_tableview reloadData];
 }
 
+
+
 -(void)setFriends:(NSArray *)friends {
     _friends = friends;
-    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"display_name"  ascending:YES];
-    _friends = [_friends sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
+    if (isVenmoFriends) {
+        NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"display_name"  ascending:YES];
+        _friends = [_friends sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
+    }
     [_tableview reloadData];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Friend Cell"];
+    SearchViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Friend Cell"];
+    [cell setUserInteractionEnabled:YES];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Friend Cell"];
+        cell = [[SearchViewTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Friend Cell"];
     }
+    
+    if (isFiltered && indexPath.row == _filteredFriends.count) {
+        [cell.textLabel setAttributedText:[Utils defaultString:@"Search Venmo Friends..." size:14 color:[UIColor lightGrayColor]]];
+        [_indicator setFrame:CGRectMake(self.frame.size.width/2, 22.5, 15, 15)];
+        [_indicator setHidden:YES];
+        [cell addSubview:_indicator];
+        [cell.imageView setImage:nil];
+        return cell;
+    } else if (!isFiltered && indexPath.row == _friends.count) {
+        [cell.textLabel setAttributedText:[Utils defaultString:@"Search Venmo Friends..." size:14 color:[UIColor lightGrayColor]]];
+        [_indicator setFrame:CGRectMake(self.frame.size.width/2, 22.5, 15, 15)];
+        [_indicator setHidden:YES];
+        [cell addSubview:_indicator];
+        [cell.imageView setImage:nil];
+        return cell;
+    }
+    
     NSDictionary *friendDict;
     
     if (isFiltered) {
@@ -156,7 +186,7 @@
     [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[friendDict objectForKey:@"profile_picture_url"]]
                       placeholderImage:[UIImage imageNamed:@"profile_pic_default"]];
     
-    [cell.textLabel setText:[friendDict valueForKey:@"display_name"]];
+    [cell setUser:friendDict];
     
     if ([_selectedFriends containsObject:friendDict]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -174,6 +204,12 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *friend;
     if (isFiltered) {
+        if (indexPath.row == _filteredFriends.count) {
+            [[tableView cellForRowAtIndexPath:indexPath] setSelected:NO];
+            [[tableView cellForRowAtIndexPath:indexPath] setUserInteractionEnabled:NO];
+            [self searchVenmo];
+            return;
+        }
         friend = [_filteredFriends objectAtIndex:indexPath.row];
         if ([_selectedFriends containsObject:friend]) {
             [_selectedFriends removeObject:friend];
@@ -181,6 +217,12 @@
             [_selectedFriends addObject:friend];
         }
     } else {
+        if (indexPath.row == _friends.count) {
+            [[tableView cellForRowAtIndexPath:indexPath] setSelected:NO];
+            [[tableView cellForRowAtIndexPath:indexPath] setUserInteractionEnabled:NO];
+            [self searchVenmo];
+            return;
+        }
         friend = [_friends objectAtIndex:indexPath.row];
         if ([_selectedFriends containsObject:friend]) {
             [_selectedFriends removeObject:friend];
@@ -206,10 +248,16 @@
             rowCount = _filteredFriends.count;
         else
             rowCount = _friends.count;
+        if (!isVenmoFriends) {
+            return rowCount + 1;
+        }
         return rowCount;
         
     } else {
-        
+        if (!isVenmoFriends) {
+            [self searchVenmo];
+            return 1;
+        }
         // Display a message when the table is empty
         UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _tableview.bounds.size.width, _tableview.bounds.size.height)];
         

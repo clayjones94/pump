@@ -51,6 +51,21 @@ NSString *const URL = @"https://pump-start.herokuapp.com";
     [task resume];
 }
 
++(void) retrieveVenmoFriendWithID:(NSString *)friendID withBlock:(void (^)(NSDictionary *data))block {
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat: @"https://api.venmo.com/v1/users/%@?access_token=%@", friendID,[[[Venmo sharedInstance]session] accessToken]]]];
+    NSURLSession *session = [NSURLSession sharedSession];
+    
+    // Specify that it will be a POST request
+    request.HTTPMethod = @"GET";
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+        NSDictionary *friend = [dataDict objectForKey:@"data"];
+        block(friend);
+    }];
+    
+    [task resume];
+}
+
 +(void) getTripOwnershipsWithID: (NSString *) owner andStatus: (NSUInteger) status withBlock: (void (^)(NSArray *data))block{
     // Create the URL Request and set it's method and content type.
     NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:@"%@/trip_memberships/owner/%@/status/%lu", URL, owner, (unsigned long)status]];
@@ -202,7 +217,7 @@ NSString *const URL = @"https://pump-start.herokuapp.com";
      }];
 }
 
-+(void) postTripWithDistance: (NSNumber *)distance gasPrice: (NSNumber *) price mpg: (NSNumber *)mpg polyline: (NSString *)polyline andPassengers: (NSMutableArray *) passengers withBlock: (void (^)(NSDictionary *data, NSError *error))block {
++(void) postTripWithDistance: (NSNumber *)distance gasPrice: (NSNumber *) price mpg: (NSNumber *)mpg polyline: (NSString *)polyline includeUser:(BOOL)user andPassengers: (NSMutableArray *) passengers withBlock: (void (^)(NSDictionary *data, NSError *error))block {
     // Create the URL Request and set it's method and content type.
     NSURL *url = [NSURL URLWithString: [NSString stringWithFormat:@"%@/trips/createWithPassengers",URL]];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
@@ -216,7 +231,12 @@ NSString *const URL = @"https://pump-start.herokuapp.com";
     
     NSMutableArray *passengerArray = [NSMutableArray new];
     if (![[TripManager sharedManager] car]) {
-        double cost = [distance doubleValue] / [mpg doubleValue] * [price doubleValue] / passengers.count;
+        double cost;
+        if (user) {
+            cost = [distance doubleValue] / [mpg doubleValue] * [price doubleValue] / (passengers.count + 1);
+        } else {
+            cost = [distance doubleValue] / [mpg doubleValue] * [price doubleValue] / passengers.count;
+        }
         for (NSDictionary *passenger in passengers) {
             NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[Venmo sharedInstance].session.user.externalId, [passenger objectForKey: @"id"], [NSNumber numberWithDouble:cost], @0, nil] forKeys:[NSArray arrayWithObjects:@"owner", @"member", @"amount", @"status", nil]];
             [passengerArray addObject:dict];

@@ -10,13 +10,15 @@
 #import "Database.h"
 #import <Venmo-iOS-SDK/Venmo.h>
 
+#define MAX_RECENTS 60
+
 @implementation UserManager {
     
 }
 
 @synthesize friends = _friends;
 @synthesize venmoID = _venmoID;
-@synthesize friendsDict = _friendsDict;
+@synthesize recents = _recents;
 @synthesize memberships = _memberships;
 @synthesize ownerships = _ownerships;
 
@@ -31,15 +33,21 @@
 
 - (id)init {
     if (self == [super init]) {
-        _friendsDict = [NSMutableDictionary new];
-        [self updateFriendsWithBlock:^(BOOL updated) {
-            
-        }];
+        _recents = [NSMutableArray new];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"recents"]) {
+                 NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"recents"];
+                NSArray *recentArr = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+                if (recentArr) {
+                    [UserManager sharedManager].recents = [NSMutableArray arrayWithArray: recentArr];
+                }
+            }
+        });
     }
     return self;
 }
 
--(void) updateFriendsWithBlock: (void (^)(BOOL updated))block{
+-(void) getVenmoFriendsWithBlock: (void (^)(NSArray *friends))block{
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat: @"https://api.venmo.com/v1/me?access_token=%@", [[[Venmo sharedInstance]session] accessToken]]]];
     NSURLSession *session = [NSURLSession sharedSession];
     
@@ -49,16 +57,10 @@
         NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
         NSDictionary *dataDict = [[responseDict objectForKey:@"data"] objectForKey:@"user"];
         NSNumber *numberOfFriends = [dataDict valueForKey:@"friends_count"];
-        if (_friends.count != [numberOfFriends doubleValue]) {
-            [Database retrieveVenmoFriendsWithLimit:numberOfFriends withBlock:^(NSArray *data){
-                _friends = data;
-                [self.delegate userManager:self didUpdateFriends:_friends];
-                block(YES);
-                [self updateFriendsDict];
-            }];
-        } else {
-            block(NO);
-        }
+        [Database retrieveVenmoFriendsWithLimit:numberOfFriends withBlock:^(NSArray *data){
+            block(data);
+            //[self updateFriendsDict];
+        }];
     }];
     
     [task resume];
@@ -78,10 +80,26 @@
     }];
 }
 
-- (void)updateFriendsDict {
-    for (NSDictionary *friend in _friends) {
-        [_friendsDict setObject:friend forKey:[friend objectForKey:@"id"]];
+-(void) addFriendToRecents:(NSDictionary *)friendDict {
+    if (![_recents containsObject:friendDict]) {
+        [_recents insertObject:friendDict atIndex:0];
+        
+        if (_recents.count > MAX_RECENTS) {
+            [_recents removeLastObject];
+        }
+    } else {
+        [_recents removeObject:friendDict];
+        [_recents insertObject:friendDict atIndex:0];
     }
+}
+
+- (NSDictionary *)friendForVenmoID: (NSString *)venID {
+    for (NSDictionary *friend in _recents) {
+        if ([[friend objectForKey:@"id"] isEqualToString:venID]) {
+            return friend;
+        }
+    }
+    return nil;
 }
 
 @end

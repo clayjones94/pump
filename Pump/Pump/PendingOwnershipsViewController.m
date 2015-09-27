@@ -71,28 +71,29 @@
      [[Storage sharedManager] updatePendingTripOwnershipsWithBlock:^(NSArray *data) {
         _friends = [NSMutableDictionary new];
         [self filterOwnerships];
-        [[UserManager sharedManager] updateFriendsWithBlock:^(BOOL updated) {
-            [refreshControl endRefreshing];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [_tableview reloadData];
-            });
-        }];
+        [refreshControl endRefreshing];
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [_tableview reloadData];
+         });
     }];
 }
 
 -(void) filterOwnerships {
     _friends = [NSMutableDictionary new];
-    for (NSDictionary *ownership in [[Storage sharedManager] pendingTripOwnerships]) {
+    NSMutableArray *keys = [NSMutableArray new];
+    for (NSUInteger i = 0; i < [[Storage sharedManager] pendingTripOwnerships].count; i++) {
+        NSDictionary *ownership = [[[Storage sharedManager] pendingTripOwnerships] objectAtIndex:i];
         if ([[ownership objectForKey:@"status"] integerValue] == 0) {
             if ([_friends objectForKey: [ownership objectForKey: @"member"]]) {
                 [[_friends objectForKey: [ownership objectForKey: @"member"]] addObject:ownership];
             } else {
                 [_friends setObject:[NSMutableArray arrayWithObject:ownership] forKey:[ownership objectForKey: @"member"]];
+                [keys addObject:[ownership objectForKey: @"member"]];
             }
         }
     }
     _friendArray = [NSMutableArray new];
-    for (NSString *key in _friends) {
+    for (NSString *key in keys) {
         [_friendArray addObject: [_friends objectForKey: key]];
     }
 }
@@ -105,10 +106,24 @@
     NSMutableArray *membershipArr = [_friendArray objectAtIndex:indexPath.row];
     NSDictionary *membership = [membershipArr objectAtIndex:0];
     membershipArr = [[Storage sharedManager] ownershipsWithMember:[membership objectForKey: @"member"]];
-    NSDictionary *friend = [[[UserManager sharedManager] friendsDict] objectForKey:[membership objectForKey: @"member"]];
+    NSDictionary *friend = [[UserManager sharedManager] friendForVenmoID:[membership objectForKey: @"member"]];
     if (friend) {
         [cell setFriendName:[friend objectForKey: @"display_name"]];
     } else {
+        [Database retrieveVenmoFriendWithID:[membership objectForKey: @"member"] withBlock:^(NSDictionary *data) {
+            if (data) {
+                [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[data objectForKey:@"profile_picture_url"]]
+                                  placeholderImage:[UIImage imageNamed:@"profile_pic_default"]];
+                if ([UserManager sharedManager].recents.count < 60) {
+                    if (![[UserManager sharedManager].recents containsObject:data]) {
+                        [[UserManager sharedManager].recents addObject:data];
+                    }
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [cell setFriendName:[data objectForKey:@"display_name"]];
+                });
+            }
+        }];
         [cell setFriendName:@"*missing name*"];
     }
     [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[friend objectForKey:@"profile_picture_url"]]

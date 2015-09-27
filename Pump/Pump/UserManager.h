@@ -21,12 +21,14 @@
 @property id <UserManagerDelegate> delegate;
 @property (nonatomic) NSArray *friends;
 @property (nonatomic) NSString *venmoID;
-@property (nonatomic) NSMutableDictionary *friendsDict;
+@property (nonatomic) NSMutableArray *recents;
 @property (nonatomic) NSArray *memberships;
 @property (nonatomic) NSArray *ownerships;
 
 + (UserManager *)sharedManager;
--(void) updateFriendsWithBlock: (void (^)(BOOL updated))block;
+-(void) getVenmoFriendsWithBlock: (void (^)(NSArray *friends))block;
+-(void) addFriendToRecents:(NSDictionary *)friendDict;
+- (NSDictionary *)friendForVenmoID: (NSString *)venID;
 -(void) updateOwnershipsWithBlock: (void (^)(NSArray *ownerships, NSError *error))block;
 -(void) updateMembershipsWithBlock: (void (^)(NSArray *memberships, NSError *error))block;
 @end

@@ -51,7 +51,7 @@
     [myCarButton.layer setCornerRadius:5];
     [myCarButton setAttributedTitle: titleString forState:UIControlStateNormal];
     
-    _searchView = [[SearchUserView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height * .1, self.view.frame.size.width, self.view.frame.size.height * .9)];
+    _searchView = [[SearchUserView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height * .1, self.view.frame.size.width, self.view.frame.size.height * .9 - 64)];
     _searchView.delegate = self;
     [self.view addSubview:_searchView];
 }
@@ -59,15 +59,9 @@
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     if ([UserManager sharedManager].friends.count > 1) {
-        NSMutableArray *friends = [[NSMutableArray alloc] initWithArray: [UserManager sharedManager].friends];
+        NSMutableArray *friends = [[NSMutableArray alloc] initWithArray: [UserManager sharedManager].recents];
         [friends removeObjectsInArray:[TripManager sharedManager].passengers];
         [_searchView setFriends: friends];
-    } else {
-        [[UserManager sharedManager] updateFriendsWithBlock:^(BOOL updated){
-            NSMutableArray *friends = [[NSMutableArray alloc] initWithArray: [UserManager sharedManager].friends];
-            [friends removeObjectsInArray:[TripManager sharedManager].passengers];
-            [_searchView setFriends: friends];
-        }];
     }
 }
 
@@ -83,6 +77,7 @@
 
 -(void)searchView:(SearchUserView *)manager didSelectUser:(NSDictionary *)user {
     [TripManager sharedManager].car = user;
+    [[UserManager sharedManager] addFriendToRecents:user];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Select Car" object:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
