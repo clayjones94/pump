@@ -12,6 +12,9 @@
 static NSString *const VENMO_APP_ID = @"2906";
 static NSString *const VENMO_APP_SECRET = @"gWhWmzBcrm4gJMzHNxC9JsEcC2dgUeRB";
 static NSString *const VENMO_APP_NAME = @"Pump";
+static NSString *const APNS_TOKEN_KEY = @"APNS Token";
+static NSString *const PUMP_USER_ID_KEY = @"USER ID";
+
 
 typedef enum {
     PENDING,

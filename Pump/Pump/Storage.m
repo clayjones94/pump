@@ -24,17 +24,17 @@
     return sharedManager;
 }
 
-- (void) updatePendingTripMembshipsWithBlock: (void (^)(NSArray *data))block {
-    [Database getTripMembershipsWithID: [Venmo sharedInstance].session.user.externalId andStatus:0 withBlock:^(NSArray *data) {
+- (void) updatePendingTripMembshipsWithBlock: (void (^)(NSArray *data, NSError *error))block {
+    [Database getTripMembershipsWithID: [Venmo sharedInstance].session.user.externalId andStatus:0 withBlock:^(NSArray *data, NSError *error) {
         _pendingTripMemberships = [NSMutableArray arrayWithArray: data];
-        block(data);
+        block(data, error);
     }];
 }
 
-- (void) updatePendingTripOwnershipsWithBlock: (void (^)(NSArray *data))block {
-    [Database getTripOwnershipsWithID: [Venmo sharedInstance].session.user.externalId andStatus:0 withBlock:^(NSArray *data) {
+- (void) updatePendingTripOwnershipsWithBlock: (void (^)(NSArray *data, NSError *error))block {
+    [Database getTripOwnershipsWithID: [Venmo sharedInstance].session.user.externalId andStatus:0 withBlock:^(NSArray *data, NSError *error) {
         _pendingTripOwnerships = [NSMutableArray arrayWithArray: data];
-        block(data);
+        block(data, error);
     }];
 }
 
@@ -79,6 +79,11 @@
             [_pendingTripOwnerships replaceObjectAtIndex:i withObject:newDict];
         }
     }
+}
+
+-(void) logoutOfManager {
+    [_pendingTripMemberships removeAllObjects];
+    [_pendingTripOwnerships removeAllObjects];
 }
 
 

@@ -68,13 +68,16 @@
 }
 
 -(void) refresh: (UIRefreshControl *) refreshControl {
-     [[Storage sharedManager] updatePendingTripOwnershipsWithBlock:^(NSArray *data) {
-        _friends = [NSMutableDictionary new];
-        [self filterOwnerships];
-        [refreshControl endRefreshing];
-         dispatch_async(dispatch_get_main_queue(), ^{
-             [_tableview reloadData];
-         });
+     [[Storage sharedManager] updatePendingTripOwnershipsWithBlock:^(NSArray *data, NSError *error) {
+         [refreshControl endRefreshing];
+         if (data) {
+             _friends = [NSMutableDictionary new];
+             [self filterOwnerships];
+             [refreshControl endRefreshing];
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [_tableview reloadData];
+             });
+         }
     }];
 }
 
@@ -110,7 +113,7 @@
     if (friend) {
         [cell setFriendName:[friend objectForKey: @"display_name"]];
     } else {
-        [Database retrieveVenmoFriendWithID:[membership objectForKey: @"member"] withBlock:^(NSDictionary *data) {
+        [Database retrieveVenmoFriendWithID:[membership objectForKey: @"member"] withBlock:^(NSDictionary *data, NSError *error) {
             if (data) {
                 [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[data objectForKey:@"profile_picture_url"]]
                                   placeholderImage:[UIImage imageNamed:@"profile_pic_default"]];

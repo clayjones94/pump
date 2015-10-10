@@ -37,16 +37,16 @@
         if (indexPath.row == 0) {
             if ([TripManager sharedManager].includeUserAsPassenger) {
                 float cost = [TripManager sharedManager].distanceTraveled/1609.344 * [[[TripManager sharedManager] gasPrice] doubleValue] / [[[TripManager sharedManager] mpg] doubleValue] / ([TripManager sharedManager].passengers.count + 1);
-                cell.textLabel.attributedText = [Utils defaultString:@"Include me" size:16 color:[Utils defaultColor]];
+                cell.textLabel.attributedText = [Utils defaultString:@"Include me" size:12 color:[Utils defaultColor]];
                 NSAttributedString *costString = [Utils defaultString:[NSString stringWithFormat:@"$%.2f",cost] size:16 color:[Utils defaultColor]];
                 [cell.detailTextLabel setAttributedText: costString];
             } else {
-                cell.textLabel.attributedText = [Utils defaultString:@"Include me" size:16 color:[UIColor lightGrayColor]];
+                cell.textLabel.attributedText = [Utils defaultString:@"Include me" size:12 color:[UIColor lightGrayColor]];
                 cell.detailTextLabel.text = @" ";
             }
             return cell;
         } else {
-            cell.textLabel.attributedText = [Utils defaultString:@"Add Passengers..." size:16 color:[UIColor lightGrayColor]];
+            cell.textLabel.attributedText = [Utils defaultString:@"Add Passengers..." size:12 color:[UIColor lightGrayColor]];
             cell.detailTextLabel.text = @" ";
         }
     } else {
@@ -95,7 +95,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 50;
+    return 40;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

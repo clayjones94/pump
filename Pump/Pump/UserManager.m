@@ -21,6 +21,7 @@
 @synthesize recents = _recents;
 @synthesize memberships = _memberships;
 @synthesize ownerships = _ownerships;
+@synthesize notUsingVenmo = _notUsingVenmo;
 
 + (UserManager *)sharedManager {
     static UserManager *sharedManager = nil;
@@ -47,18 +48,17 @@
     return self;
 }
 
--(void) getVenmoFriendsWithBlock: (void (^)(NSArray *friends))block{
+-(void) getVenmoFriendsWithBlock: (void (^)(NSArray *friends, NSError *error))block{
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat: @"https://api.venmo.com/v1/me?access_token=%@", [[[Venmo sharedInstance]session] accessToken]]]];
     NSURLSession *session = [NSURLSession sharedSession];
     
-    // Specify that it will be a POST request
     request.HTTPMethod = @"GET";
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSDictionary *responseDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
         NSDictionary *dataDict = [[responseDict objectForKey:@"data"] objectForKey:@"user"];
         NSNumber *numberOfFriends = [dataDict valueForKey:@"friends_count"];
-        [Database retrieveVenmoFriendsWithLimit:numberOfFriends withBlock:^(NSArray *data){
-            block(data);
+        [Database retrieveVenmoFriendsWithLimit:numberOfFriends withBlock:^(NSArray *data, NSError *error){
+            block(data, error);
             //[self updateFriendsDict];
         }];
     }];
@@ -67,14 +67,14 @@
 }
 
 -(void) updateOwnershipsWithBlock: (void (^)(NSArray *ownerships, NSError *error))block {
-    [Database getTripOwnershipsWithID: [Venmo sharedInstance].session.user.externalId andStatus:0 withBlock:^(NSArray *data) {
+    [Database getTripOwnershipsWithID: [Venmo sharedInstance].session.user.externalId andStatus:0 withBlock:^(NSArray *data, NSError *error) {
         _ownerships = data;
         block(data, nil);
     }];
 }
 
 -(void) updateMembershipsWithBlock: (void (^)(NSArray *memberships, NSError *error))block{
-    [Database getTripMembershipsWithID: [Venmo sharedInstance].session.user.externalId andStatus:0 withBlock:^(NSArray *data) {
+    [Database getTripMembershipsWithID: [Venmo sharedInstance].session.user.externalId andStatus:0 withBlock:^(NSArray *data, NSError *error) {
         _memberships = data;
         block(data, nil);
     }];
@@ -100,6 +100,39 @@
         }
     }
     return nil;
+}
+
+-(void)logoutOfManager {
+    _venmoID = nil;
+    [_recents removeAllObjects];
+    _memberships = nil;
+    _ownerships = nil;
+}
+
+-(void) loginWithBlock:(void (^)(BOOL loggedIn))block {
+    [[Venmo sharedInstance] requestPermissions:@[VENPermissionMakePayments,
+                                                 VENPermissionAccessProfile,
+                                                 VENPermissionAccessBalance,
+                                                 VENPermissionAccessEmail,
+                                                 VENPermissionAccessPhone,
+                                                 VENPermissionAccessFriends] withCompletionHandler:^(BOOL success, NSError *error) {
+                                                     if (success) {
+                                                         [Database authUserWithVenmoWithBlock:^(BOOL success) {
+                                                             if (success) {
+                                                                 block(success);
+                                                                 [UserManager sharedManager].notUsingVenmo = NO;
+                                                             } else {
+                                                                 [[Venmo sharedInstance] logout];
+                                                             }
+                                                         }];
+                                                     } else {
+                                                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unsuccessful" message:@"An error occured while logging in." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                                                         dispatch_async(dispatch_get_main_queue(), ^{
+                                                             [alert show];
+                                                         });
+                                                         NSLog(@"%@", error);
+                                                     }
+                                                 }];
 }
 
 @end

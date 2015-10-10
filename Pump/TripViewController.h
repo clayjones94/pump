@@ -12,6 +12,8 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import <CoreLocation/CoreLocation.h>
 
-@interface TripViewController : UIViewController <TripManagerDelegate, CLLocationManagerDelegate, GMSMapViewDelegate, UIAlertViewDelegate>
+@interface TripViewController : UIViewController <TripManagerDelegate, CLLocationManagerDelegate, GMSMapViewDelegate, UIAlertViewDelegate, UITextViewDelegate, UIGestureRecognizerDelegate>
+
+- (void)openPendingsFromNotification:(BOOL)isRequest;
 
 @end

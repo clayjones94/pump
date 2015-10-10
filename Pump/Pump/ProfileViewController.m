@@ -65,7 +65,6 @@
     
     _viewcontrollers = [[NSArray alloc] initWithObjects:vc1, vc2, nil];
     
-    // Init with notifications vc
     [vc1.view setFrame:CGRectMake(0, _segmentedControl.frame.size.height, self.view.frame.size.width,
                                               self.view.frame.size.height - _segmentedControl.frame.size.height)];
     [self addChildViewController:vc1];
@@ -83,6 +82,10 @@
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self.navigationItem setTitle:@"Pending"];
+    if ([UIApplication sharedApplication].applicationIconBadgeNumber != 0) {
+        [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+        [Database updateBadgeCount];
+    }
 }
 
 -(void)refresh {

@@ -52,14 +52,20 @@
 
 -(void) refresh: (UIRefreshControl *) refreshControl {
     if (_isRequests) {
-        [[Storage sharedManager] updatePendingTripOwnershipsWithBlock:^(NSArray *data) {
-            [_tableView reloadData];
-            [_refreshControl endRefreshing];
+        [[Storage sharedManager] updatePendingTripOwnershipsWithBlock:^(NSArray *data, NSError *error) {
+            _trips = [[Storage sharedManager] ownershipsWithMember:_friendID];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_tableView reloadData];
+                [_refreshControl endRefreshing];
+            });
         }];
     } else {
-        [[Storage sharedManager] updatePendingTripMembshipsWithBlock:^(NSArray *data) {
-            [_tableView reloadData];
-            [_refreshControl endRefreshing];
+        [[Storage sharedManager] updatePendingTripMembshipsWithBlock:^(NSArray *data, NSError *error) {
+            _trips = [[Storage sharedManager] membershipsWithOwner:_friendID];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_tableView reloadData];
+                [_refreshControl endRefreshing];
+            });
         }];
     }
 }
@@ -76,6 +82,7 @@
     }
     NSDictionary *trip = [_trips objectAtIndex:indexPath.row];
     [cell.amountLabel setAttributedText:[Utils defaultString:[NSString stringWithFormat:@"$%.2f", [[trip objectForKey:@"amount"] floatValue]] size:18 color:[UIColor darkGrayColor]]];
+    [cell setDescription:[trip objectForKey:@"description"]];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
@@ -131,7 +138,16 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 70;
+    NSDictionary *trip = [_trips objectAtIndex:indexPath.row];
+    NSString *str = [trip objectForKey:@"description"]; // filling text in label
+    CGSize maximumSize = CGSizeMake(150, 100); // change width and height to your requirement
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:12];
+    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObjects:@[font, [UIColor whiteColor]]
+                                                                forKeys: @[NSFontAttributeName, NSForegroundColorAttributeName]];
+    
+    CGRect labelRect = [str boundingRectWithSize:maximumSize options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) attributes:attrsDictionary context:nil];
+                     
+    return (10+labelRect.size.height+50);
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

@@ -11,6 +11,7 @@
 @interface TripRequestTableViewCell : UITableViewCell
 
 @property (nonatomic) UILabel *amountLabel;
+@property (nonatomic) NSString *description;
 @property (nonatomic) NSString *memberID;
 @property (nonatomic) BOOL isRequest;
 

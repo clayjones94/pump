@@ -34,5 +34,7 @@
 @property (nonatomic) BOOL includeUserAsPassenger;
 @property (nonatomic) NSDictionary *car;
 
+-(void)logoutOfManager;
+
 + (TripManager *)sharedManager;
 @end

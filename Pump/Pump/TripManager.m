@@ -131,5 +131,8 @@
     [self.delegate tripManager:self didUpdateStatus:_status];
 }
 
+-(void)logoutOfManager {
+    [self setStatus:PENDING];
+}
 
 @end

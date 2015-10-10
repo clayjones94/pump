@@ -50,7 +50,7 @@
     [_requestButton addTarget:self action:@selector(request) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:_requestButton];
     
-    NSAttributedString *titleString = [Utils defaultString:@"Request" size:12 color:[UIColor whiteColor]];
+    NSAttributedString *titleString = [Utils defaultString:@"Venmo" size:12 color:[UIColor whiteColor]];
     [_requestButton.layer setCornerRadius:5];
     [_requestButton setAttributedTitle: titleString forState:UIControlStateNormal];
     
@@ -59,7 +59,7 @@
     [_payButton setFrame:CGRectMake(self.frame.size.width * .5, FRAME_HEIGHT - 50, 70, 30)];
     [_payButton addTarget:self action:@selector(request) forControlEvents:UIControlEventTouchUpInside];
     
-    titleString = [Utils defaultString:@"Pay" size:12 color:[UIColor whiteColor]];
+    titleString = [Utils defaultString:@"Venmo" size:12 color:[UIColor whiteColor]];
     [_payButton.layer setCornerRadius:5];
     [_payButton setAttributedTitle: titleString forState:UIControlStateNormal];
     
@@ -85,7 +85,7 @@
         }
     }
     
-    [Database updateTripMembershipsWithIDs:_membershipIDs status:@1 withBlock:^(NSArray *data) {
+    [Database updateTripMembershipsWithIDs:_membershipIDs status:@1 withBlock:^(NSArray *data, NSError *error) {
         NSArray *updated = data;
         double cost = 0;
         for (NSDictionary *membership in updated) {
@@ -138,7 +138,7 @@
             [[Storage sharedManager] updateMembershipStatus:@2 ForID:memID];
         }
     }
-    [Database updateTripMembershipsWithIDs:_membershipIDs status:@2 withBlock:^(NSArray *data) {
+    [Database updateTripMembershipsWithIDs:_membershipIDs status:@2 withBlock:^(NSArray *data, NSError *error) {
         [self setCellRequestedOrIgnored];
     }];
     [self setCellRequestedOrIgnored];

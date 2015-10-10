@@ -59,7 +59,7 @@
 }
 
 -(void) refresh: (UIRefreshControl *) refreshControl {
-    [Database getCompleteTripMembershipsWithID:[Venmo sharedInstance].session.user.externalId withBlock:^(NSArray *data) {
+    [Database getCompleteTripMembershipsWithID:[Venmo sharedInstance].session.user.externalId withBlock:^(NSArray *data, NSError *error) {
         _tripMemberships = data;
             [refreshControl endRefreshing];
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -81,7 +81,7 @@
     
     NSDictionary *friend = [[UserManager sharedManager] friendForVenmoID:[membership objectForKey: @"member"]];
     if (!friend) {
-        [Database retrieveVenmoFriendWithID:[membership objectForKey: @"member"] withBlock:^(NSDictionary *data) {
+        [Database retrieveVenmoFriendWithID:[membership objectForKey: @"member"] withBlock:^(NSDictionary *data, NSError *error) {
             
             if ([UserManager sharedManager].recents.count < 60 && ![[UserManager sharedManager].recents containsObject:data]) {
                 [[UserManager sharedManager].recents addObject:data];

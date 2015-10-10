@@ -24,11 +24,14 @@
 @property (nonatomic) NSMutableArray *recents;
 @property (nonatomic) NSArray *memberships;
 @property (nonatomic) NSArray *ownerships;
+@property (nonatomic) BOOL notUsingVenmo;
 
 + (UserManager *)sharedManager;
--(void) getVenmoFriendsWithBlock: (void (^)(NSArray *friends))block;
+-(void) getVenmoFriendsWithBlock: (void (^)(NSArray *friends, NSError *error))block;
 -(void) addFriendToRecents:(NSDictionary *)friendDict;
 - (NSDictionary *)friendForVenmoID: (NSString *)venID;
 -(void) updateOwnershipsWithBlock: (void (^)(NSArray *ownerships, NSError *error))block;
 -(void) updateMembershipsWithBlock: (void (^)(NSArray *memberships, NSError *error))block;
+-(void) loginWithBlock:(void (^)(BOOL loggedIn))block;
+-(void)logoutOfManager;
 @end

@@ -23,7 +23,7 @@
 
 -(void)setUser:(NSDictionary *)user{
     _user = user;
-    self.textLabel.attributedText = [Utils defaultString:[_user objectForKey:@"display_name"] size:16 color:[UIColor darkGrayColor]] ;
+    self.textLabel.attributedText = [Utils defaultString:[_user objectForKey:@"display_name"] size:14 color:[UIColor darkGrayColor]] ;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -34,6 +34,7 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.imageView.frame = CGRectMake(self.frame.size.width * .1 - 20, CELL_HEIGHT * .5 - 20,40,40);
+    self.imageView.frame = CGRectMake(self.frame.size.width * .1 - 20, CELL_HEIGHT * .5 - 20,35,35);
+    //[self.textLabel setFrame:CGRectMake(50, self.frame.origin.y, self.frame.size.width, self.frame.size.height)];
 }
 @end

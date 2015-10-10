@@ -15,11 +15,12 @@
 
 + (Storage *)sharedManager;
 
-- (void) updatePendingTripMembshipsWithBlock: (void (^)(NSArray *data))block;
-- (void) updatePendingTripOwnershipsWithBlock: (void (^)(NSArray *data))block;
+- (void) updatePendingTripMembshipsWithBlock: (void (^)(NSArray *data, NSError *error))block;
+- (void) updatePendingTripOwnershipsWithBlock: (void (^)(NSArray *data, NSError *error))block;
 - (void) updateMembershipStatus: (NSNumber *) status ForID: (NSString *) membershipID;
 - (void) updateOwnershipStatus: (NSNumber *) status ForID: (NSString *) membershipID;
 -(NSMutableArray *) ownershipsWithMember: (NSString *) friendID;
 -(NSMutableArray *) membershipsWithOwner: (NSString *) friendID;
+-(void)logoutOfManager;
 
 @end

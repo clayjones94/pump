@@ -71,13 +71,15 @@
 }
 
 -(void) refresh: (UIRefreshControl *) refreshControl {
-    [[Storage sharedManager] updatePendingTripMembshipsWithBlock:^(NSArray *data) {
-        _friends = [NSMutableDictionary new];
-        [self filterMemberships];
+    [[Storage sharedManager] updatePendingTripMembshipsWithBlock:^(NSArray *data, NSError *error) {
         [refreshControl endRefreshing];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_tableview reloadData];
-        });
+        if (data) {
+            _friends = [NSMutableDictionary new];
+            [self filterMemberships];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_tableview reloadData];
+            });
+        }
     }];
 }
 
@@ -113,7 +115,7 @@
     if (friend) {
         [cell setFriendName:[friend objectForKey: @"display_name"]];
     } else {
-        [Database retrieveVenmoFriendWithID:[membership objectForKey: @"owner"] withBlock:^(NSDictionary *data) {
+        [Database retrieveVenmoFriendWithID:[membership objectForKey: @"owner"] withBlock:^(NSDictionary *data, NSError *error) {
             if (data) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [cell setFriendName:[data objectForKey:@"display_name"]];

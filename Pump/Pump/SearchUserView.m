@@ -60,19 +60,21 @@
 -(void)searchVenmo {
     [_indicator setHidden:NO];
     [_indicator startAnimating];
-    [[UserManager sharedManager] getVenmoFriendsWithBlock:^(NSArray *friends) {
+    [[UserManager sharedManager] getVenmoFriendsWithBlock:^(NSArray *friends, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            isVenmoFriends = YES;
             [_indicator setHidden:YES];
             [_indicator stopAnimating];
-            [self setFriends:friends];
-            [_tokenField.delegate tokenField:_tokenField didChangeText:_tokenField.inputText];
+            if (friends) {
+                isVenmoFriends = YES;
+                [self setFriends:friends];
+                [_tokenField.delegate tokenField:_tokenField didChangeText:_tokenField.inputText];
+            }
         });
     }];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self resignFirstResponder];
+    [_tokenField resignFirstResponder];
 }
 
 -(void)tokenField:(VENTokenField *)tokenField didEnterText:(NSString *)text {
@@ -198,13 +200,20 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60;
+    return 40;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *friend;
     if (isFiltered) {
         if (indexPath.row == _filteredFriends.count) {
+            if ([[UserManager sharedManager] notUsingVenmo]) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You must sign up with Venmo to use this feature." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"Sign in", nil];
+                alert.tag = 1;
+                alert.delegate = self;
+                [alert show];
+                return;
+            }
             [[tableView cellForRowAtIndexPath:indexPath] setSelected:NO];
             [[tableView cellForRowAtIndexPath:indexPath] setUserInteractionEnabled:NO];
             [self searchVenmo];
@@ -219,6 +228,13 @@
     } else {
         if (indexPath.row == _friends.count) {
             [[tableView cellForRowAtIndexPath:indexPath] setSelected:NO];
+            if ([[UserManager sharedManager] notUsingVenmo]) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You must sign up with Venmo to use this feature." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"Sign in", nil];
+                alert.tag = 1;
+                alert.delegate = self;
+                [alert show];
+                return;
+            }
             [[tableView cellForRowAtIndexPath:indexPath] setUserInteractionEnabled:NO];
             [self searchVenmo];
             return;
@@ -256,24 +272,29 @@
     } else {
         if (!isVenmoFriends) {
             [self searchVenmo];
-            return 1;
         }
-        // Display a message when the table is empty
-        UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _tableview.bounds.size.width, _tableview.bounds.size.height)];
-        
-        messageLabel.attributedText = [Utils defaultString:@"No friends found." size:14 color:[UIColor lightGrayColor]];
-        messageLabel.numberOfLines = 0;
-        messageLabel.textAlignment = NSTextAlignmentCenter;
-        [messageLabel sizeToFit];
-        
-        _tableview.backgroundView = messageLabel;
-        _tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
+        return 1;
+//        // Display a message when the table is empty
+//        UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, _tableview.bounds.size.width, _tableview.bounds.size.height)];
+//        
+//        messageLabel.attributedText = [Utils defaultString:@"No friends found." size:14 color:[UIColor lightGrayColor]];
+//        messageLabel.numberOfLines = 0;
+//        messageLabel.textAlignment = NSTextAlignmentCenter;
+//        [messageLabel sizeToFit];
+//        
+//        _tableview.backgroundView = messageLabel;
+//        _tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
         
     }
     
     return 0;
 }
 
-
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1 && alertView.tag == 1) {
+        [[UserManager sharedManager] loginWithBlock:^(BOOL loggedIn) {
+        }];
+    }
+}
 
 @end
