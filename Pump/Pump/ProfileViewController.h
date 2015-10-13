@@ -10,7 +10,7 @@
 #import "UserManager.h"
 #import <HMSegmentedControl/HMSegmentedControl.h>
 
-@interface ProfileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UserManagerDelegate>
+@interface ProfileViewController : UIViewController <UserManagerDelegate>
 
 -(void) refresh;
 

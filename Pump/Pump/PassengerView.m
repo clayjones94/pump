@@ -11,17 +11,25 @@
 #import "TripManager.h"
 #import "Utils.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <Venmo-iOS-SDK/Venmo.h>
 
 @implementation PassengerView {
-    UITableView *_tableView;
+    CGRect _boundingFrame;
 }
+
+@synthesize currentHeight = _currentHeight;
+@synthesize tableView = _tableView;
 
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     
-    _tableView = [[UITableView alloc] initWithFrame:self.frame];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectZero];
+    _boundingFrame = frame;
     _tableView.delegate = self;
+    [_tableView setBackgroundColor:[UIColor clearColor]];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     _tableView.dataSource = self;
+    
     [self addSubview:_tableView];
     
     return self;
@@ -34,19 +42,30 @@
         if(!cell) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"User Cell"];
         }
+        [cell setBackgroundColor:[UIColor clearColor]];
+        UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(2.5, 2.5, _boundingFrame.size.width - 5, 35)];
+        [backgroundView setBackgroundColor:[Utils defaultLightColor]];
+        [cell addSubview:backgroundView];
+        [cell sendSubviewToBack:backgroundView];
         if (indexPath.row == 0) {
+            NSString *name = @"Include me";
+            if ([[Venmo sharedInstance] isSessionValid]) {
+                name = [Venmo sharedInstance].session.user.displayName;
+                //[cell.imageView sd_setImageWithURL:[NSURL URLWithString:[Venmo sharedInstance].session.user.profileImageUrl]
+                                  //placeholderImage:[UIImage imageNamed:@"profile_pic_default"]];
+            }
             if ([TripManager sharedManager].includeUserAsPassenger) {
                 float cost = [TripManager sharedManager].distanceTraveled/1609.344 * [[[TripManager sharedManager] gasPrice] doubleValue] / [[[TripManager sharedManager] mpg] doubleValue] / ([TripManager sharedManager].passengers.count + 1);
-                cell.textLabel.attributedText = [Utils defaultString:@"Include me" size:12 color:[Utils defaultColor]];
-                NSAttributedString *costString = [Utils defaultString:[NSString stringWithFormat:@"$%.2f",cost] size:16 color:[Utils defaultColor]];
+                cell.textLabel.attributedText = [Utils defaultString:name size:12 color:[UIColor whiteColor]];
+                NSAttributedString *costString = [Utils defaultString:[NSString stringWithFormat:@"$%.2f",cost] size:12 color:[UIColor whiteColor]];
                 [cell.detailTextLabel setAttributedText: costString];
             } else {
-                cell.textLabel.attributedText = [Utils defaultString:@"Include me" size:12 color:[UIColor lightGrayColor]];
-                cell.detailTextLabel.text = @" ";
+                cell.textLabel.attributedText = [Utils defaultString:name size:12 color:[UIColor lightGrayColor]];
+                cell.detailTextLabel.attributedText = [Utils defaultString:@"$0.00" size:12 color:[UIColor lightGrayColor]];
             }
             return cell;
         } else {
-            cell.textLabel.attributedText = [Utils defaultString:@"Add Passengers..." size:12 color:[UIColor lightGrayColor]];
+            cell.textLabel.attributedText = [Utils defaultString:@"Add Passengers..." size:12 color:[UIColor whiteColor]];
             cell.detailTextLabel.text = @" ";
         }
     } else {
@@ -54,7 +73,11 @@
         if (!cell) {
             cell = [[PassengerTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Passenger Cell"];
         }
-        
+        [cell setBackgroundColor:[UIColor clearColor]];
+        UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(2.5, 2.5, _boundingFrame.size.width - 5, 35)];
+        [backgroundView setBackgroundColor:[Utils defaultLightColor]];
+        [cell addSubview:backgroundView];
+        [cell sendSubviewToBack:backgroundView];
         NSDictionary *passenger = [[TripManager sharedManager].passengers objectAtIndex:indexPath.row-1];
         [cell setPassenger: passenger];
         
@@ -64,7 +87,7 @@
         } else {
             cost = [TripManager sharedManager].distanceTraveled/1609.344 * [[[TripManager sharedManager] gasPrice] doubleValue] / [[[TripManager sharedManager] mpg] doubleValue] / ([TripManager sharedManager].passengers.count);
         }
-        [cell.detailTextLabel setAttributedText:[Utils defaultString:[NSString stringWithFormat:@"$%.2f",cost] size:16 color:[Utils defaultColor]]];
+        [cell.detailTextLabel setAttributedText:[Utils defaultString:[NSString stringWithFormat:@"$%.2f",cost] size:12 color:[UIColor whiteColor]]];
         
         [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[passenger objectForKey:@"profile_picture_url"]]
                           placeholderImage:[UIImage imageNamed:@"profile_pic_default"]];
@@ -99,7 +122,17 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [TripManager sharedManager].passengers.count + 2;
+    NSUInteger rowCount = [TripManager sharedManager].passengers.count + 2;
+    CGFloat height;
+    if (rowCount * 40 > _boundingFrame.size.height) {
+        height = _boundingFrame.size.height;
+        [_tableView setScrollEnabled:YES];
+    } else {
+        height = rowCount * 40;
+        [_tableView setScrollEnabled:NO];
+    }
+    [_tableView setFrame:CGRectMake(0, 0, _boundingFrame.size.width, height)];
+    return rowCount;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

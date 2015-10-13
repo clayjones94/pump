@@ -78,6 +78,11 @@
             [self filterMemberships];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [_tableview reloadData];
+//                if ([UIApplication sharedApplication].applicationIconBadgeNumber != 0) {
+//                    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+//                    [Database updateBadgeCount];
+//                    [[NSNotificationCenter defaultCenter] postNotificationName:@"Recieve Notification" object:nil];
+//                }
             });
         }
     }];

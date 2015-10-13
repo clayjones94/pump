@@ -12,13 +12,16 @@
 #import <MapKit/MapKit.h>
 #import <GoogleMaps/GoogleMaps.h>
 
+#define degreesToRadians(x) (M_PI * x / 180.0)
+#define radiandsToDegrees(x) (x * 180.0 / M_PI)
+
 @class TripManager;
 
 @protocol TripManagerDelegate <NSObject>
 @optional
-- (void) tripManager: (TripManager *)manager didUpdateStatus: (TripStatusType *)status;
+- (void) tripManager: (TripManager *)manager didUpdateStatus: (TripStatusType)status;
 - (void) tripManager: (TripManager *)manager didUpdateLocationWith: (CLLocationDistance) distance and:(GMSPolyline *)polyline;
-- (void) tripManager: (TripManager *)manager didUpdateLocation: (CLLocationCoordinate2D) coor;
+- (void) tripManager: (TripManager *)manager didUpdateLocation: (CLLocationCoordinate2D) coor direction:(CLLocationDirection)direction;
 @end
 
 
@@ -27,7 +30,8 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property GMSPolyline *polyline;
 @property CLLocationDistance distanceTraveled;
-@property (nonatomic)TripStatusType *status;
+@property (nonatomic) CLLocationDirection direction;
+@property (nonatomic)TripStatusType status;
 @property (nonatomic)NSNumber *mpg;
 @property (nonatomic)NSNumber *gasPrice;
 @property (nonatomic)NSMutableArray *passengers;

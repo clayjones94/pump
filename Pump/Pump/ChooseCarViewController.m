@@ -41,17 +41,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: cancelButton];
 
     
-    UIButton *myCarButton = [UIButton buttonWithType: UIButtonTypeCustom];
-    [myCarButton setBackgroundColor:[Utils defaultColor]];
-    [myCarButton setFrame:CGRectMake(self.view.frame.size.width * .1, self.view.frame.size.height * .02, self.view.frame.size.width * .8, self.view.frame.size.height * .06)];
-    [myCarButton addTarget:self action:@selector(selectMyCar) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:myCarButton];
-    
-    NSAttributedString *titleString = [Utils defaultString:@"My Car" size:20 color:[UIColor whiteColor]];
-    [myCarButton.layer setCornerRadius:5];
-    [myCarButton setAttributedTitle: titleString forState:UIControlStateNormal];
-    
-    _searchView = [[SearchUserView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height * .1, self.view.frame.size.width, self.view.frame.size.height * .9 - 64)];
+    _searchView = [[SearchUserView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 64)];
     _searchView.delegate = self;
     [self.view addSubview:_searchView];
 }
@@ -67,6 +57,7 @@
 
 -(void) cancel {
     [self dismissViewControllerAnimated:YES completion:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Show Popup" object:nil];
 }
 
 -(void) selectMyCar {

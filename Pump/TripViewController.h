@@ -11,8 +11,9 @@
 #import "KLCPopup.h"
 #import <GoogleMaps/GoogleMaps.h>
 #import <CoreLocation/CoreLocation.h>
+#import "DecimalKeypad.h"
 
-@interface TripViewController : UIViewController <TripManagerDelegate, CLLocationManagerDelegate, GMSMapViewDelegate, UIAlertViewDelegate, UITextViewDelegate, UIGestureRecognizerDelegate>
+@interface TripViewController : UIViewController <TripManagerDelegate, CLLocationManagerDelegate, GMSMapViewDelegate, UIAlertViewDelegate, DecimalKeypadDelegate>
 
 - (void)openPendingsFromNotification:(BOOL)isRequest;
 

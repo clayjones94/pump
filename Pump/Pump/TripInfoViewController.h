@@ -12,6 +12,5 @@
 @interface TripInfoViewController : UIViewController
 
 @property (nonatomic) NSDictionary *tripMembership;
--(instancetype)initWithPath: (GMSPath *)path;
 
 @end

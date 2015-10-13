@@ -10,4 +10,7 @@
 
 @interface PassengerView : UIView <UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic) CGFloat currentHeight;
+@property (nonatomic) UITableView *tableView;
+
 @end

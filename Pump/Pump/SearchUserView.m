@@ -53,6 +53,7 @@
     _friends = [[UserManager sharedManager] recents];
     
     _indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [_indicator setHidden:YES];
     
     return self;
 }
@@ -119,9 +120,9 @@
         {
             
             NSRange nameRange = [[friend objectForKey:@"display_name"] rangeOfString:text options:NSCaseInsensitiveSearch];
-            NSRange phoneRange;
-            NSRange emailRange;
-            NSRange usernameRange;
+//            NSRange phoneRange;
+//            NSRange emailRange;
+//            NSRange usernameRange;
             //if([friend objectForKey:@"phone"]) phoneRange = [[friend objectForKey:@"phone"] rangeOfString:text options:NSCaseInsensitiveSearch];
             //if([friend objectForKey:@"email"]) emailRange = [[friend objectForKey:@"email"] rangeOfString:text options:NSCaseInsensitiveSearch];
             //if([friend objectForKey:@"username"]) usernameRange = [[friend objectForKey:@"username"] rangeOfString:text options:NSCaseInsensitiveSearch];
@@ -156,16 +157,20 @@
     
     if (isFiltered && indexPath.row == _filteredFriends.count) {
         [cell.textLabel setAttributedText:[Utils defaultString:@"Search Venmo Friends..." size:14 color:[UIColor lightGrayColor]]];
-        [_indicator setFrame:CGRectMake(self.frame.size.width/2, 22.5, 15, 15)];
-        [_indicator setHidden:YES];
+        [_indicator setFrame:CGRectMake(self.frame.size.width/2, 12.5, 15, 15)];
         [cell addSubview:_indicator];
+        if ([_indicator isAnimating]) {
+            [_indicator setHidden:NO];
+        }
         [cell.imageView setImage:nil];
         return cell;
     } else if (!isFiltered && indexPath.row == _friends.count) {
         [cell.textLabel setAttributedText:[Utils defaultString:@"Search Venmo Friends..." size:14 color:[UIColor lightGrayColor]]];
-        [_indicator setFrame:CGRectMake(self.frame.size.width/2, 22.5, 15, 15)];
-        [_indicator setHidden:YES];
+        [_indicator setFrame:CGRectMake(self.frame.size.width/2, 12.5, 15, 15)];
         [cell addSubview:_indicator];
+        if ([_indicator isAnimating]) {
+            [_indicator setHidden:NO];
+        }
         [cell.imageView setImage:nil];
         return cell;
     }

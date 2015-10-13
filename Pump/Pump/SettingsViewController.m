@@ -24,10 +24,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    UILabel *nameLabel = [[UILabel alloc] init];
+    [nameLabel setAttributedText:[Utils defaultString:[NSString stringWithFormat:@"Logged in as %@", [Venmo sharedInstance].session.user.displayName] size:14 color:[UIColor lightGrayColor]]];
+    [nameLabel sizeToFit];
+    [nameLabel setFrame:CGRectMake(self.view.frame.size.width/2 - nameLabel.frame.size.width/2, 80, nameLabel.frame.size.width, nameLabel.frame.size.height)];
+    [self.view addSubview:nameLabel];
+    
     [self.navigationItem setTitle:@"Settings"];
     UIButton *venmoButton = [UIButton buttonWithType: UIButtonTypeCustom];
     [venmoButton setBackgroundColor:[UIColor redColor]];
-    [venmoButton setFrame:CGRectMake(self.view.frame.size.width/2 - 75 , 85, 150, 30)];
+    [venmoButton setFrame:CGRectMake(self.view.frame.size.width/2 - 75 , 105, 150, 30)];
     [venmoButton addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:venmoButton];
     

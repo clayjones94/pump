@@ -16,11 +16,11 @@ static NSString *const APNS_TOKEN_KEY = @"APNS Token";
 static NSString *const PUMP_USER_ID_KEY = @"USER ID";
 
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, TripStatusType) {
     PENDING,
     RUNNING,
     PAUSED,
     FINISHED,
-} TripStatusType;
+};
 
 #endif

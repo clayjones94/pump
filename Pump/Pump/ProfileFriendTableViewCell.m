@@ -111,14 +111,20 @@
                                   initWithTitle:@"Already Completed" message:[NSString stringWithFormat:@"%@ has already completed these requests.", _friendName] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
             dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
         } else {
+            NSString *description;
+            if (updated.count == 1) {
+                description = [[updated firstObject] objectForKey:@"description"];
+            } else {
+                description = [NSString stringWithFormat:@"Pump With Friends: %lu trips.", (unsigned long)updated.count];
+            }
             if (_isRequest) {
-                [[Venmo sharedInstance] sendRequestTo:[[updated firstObject] objectForKey:@"member"] amount:cost * 100 note:[NSString stringWithFormat:@"Pump With Friends: %lu trips.", (unsigned long)updated.count] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
+                [[Venmo sharedInstance] sendRequestTo:[[updated firstObject] objectForKey:@"member"] amount:cost * 100 note: description completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
                     UIAlertView *alert = [[UIAlertView alloc]
                                           initWithTitle:@"Request Completed" message:[NSString stringWithFormat:@"%lu out of %lu trips were processed. %@ was requested $%.2f", (unsigned long)updated.count, (unsigned long)_membershipIDs.count, _friendName, cost] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                     dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
                 }];
             } else {
-                [[Venmo sharedInstance] sendPaymentTo:[[updated firstObject] objectForKey:@"owner"] amount:cost * 100 note:[NSString stringWithFormat:@"Pump With Friends: %lu trips.", (unsigned long)updated.count] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
+                [[Venmo sharedInstance] sendPaymentTo:[[updated firstObject] objectForKey:@"owner"] amount:cost * 100 note:description completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
                     UIAlertView *alert = [[UIAlertView alloc]
                                           initWithTitle:@"Payment Completed" message:[NSString stringWithFormat:@"%lu out of %lu trips were processed. %@ was requested $%.2f", (unsigned long)updated.count, (unsigned long)_membershipIDs.count, _friendName, cost] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                     dispatch_async(dispatch_get_main_queue(),^{ [alert show];});

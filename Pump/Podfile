@@ -9,6 +9,7 @@ pod 'Venmo-iOS-SDK'
 pod 'GoogleMaps'
 pod 'SDWebImage', '~>3.7'
 pod 'HMSegmentedControl'
+pod 'BBBadgeBarButtonItem'
 end
 
 target 'PumpTests' do

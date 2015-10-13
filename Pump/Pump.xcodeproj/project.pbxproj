@@ -24,6 +24,8 @@
 		AE737EF21BAC5895004A73E0 /* PendingOwnershipsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE737EF11BAC5895004A73E0 /* PendingOwnershipsViewController.m */; };
 		AE737EF61BAC5A3C004A73E0 /* PendingMembershipsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE737EF51BAC5A3C004A73E0 /* PendingMembershipsViewController.m */; };
 		AE737EF91BAC9344004A73E0 /* ChooseCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE737EF81BAC9344004A73E0 /* ChooseCarViewController.m */; };
+		AEA31D661BCCAF4D00D08AF0 /* FinishView.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA31D651BCCAF4D00D08AF0 /* FinishView.m */; };
+		AEA31D691BCCF3CC00D08AF0 /* DecimalKeypad.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA31D681BCCF3CC00D08AF0 /* DecimalKeypad.m */; };
 		AEA3DE4B1BB1049700F36830 /* TripHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA3DE4A1BB1049700F36830 /* TripHistoryViewController.m */; };
 		AEA3DE4E1BB28CC100F36830 /* TripRequestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA3DE4D1BB28CC100F36830 /* TripRequestTableViewCell.m */; };
 		AEA3DE511BB46DAA00F36830 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA3DE501BB46DAA00F36830 /* SettingsViewController.m */; };
@@ -89,6 +91,10 @@
 		AE737EF51BAC5A3C004A73E0 /* PendingMembershipsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PendingMembershipsViewController.m; sourceTree = "<group>"; };
 		AE737EF71BAC9344004A73E0 /* ChooseCarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseCarViewController.h; sourceTree = "<group>"; };
 		AE737EF81BAC9344004A73E0 /* ChooseCarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseCarViewController.m; sourceTree = "<group>"; };
+		AEA31D641BCCAF4D00D08AF0 /* FinishView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinishView.h; sourceTree = "<group>"; };
+		AEA31D651BCCAF4D00D08AF0 /* FinishView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinishView.m; sourceTree = "<group>"; };
+		AEA31D671BCCF3CC00D08AF0 /* DecimalKeypad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecimalKeypad.h; sourceTree = "<group>"; };
+		AEA31D681BCCF3CC00D08AF0 /* DecimalKeypad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecimalKeypad.m; sourceTree = "<group>"; };
 		AEA3DE491BB1049700F36830 /* TripHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripHistoryViewController.h; sourceTree = "<group>"; };
 		AEA3DE4A1BB1049700F36830 /* TripHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripHistoryViewController.m; sourceTree = "<group>"; };
 		AEA3DE4C1BB28CC100F36830 /* TripRequestTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripRequestTableViewCell.h; sourceTree = "<group>"; };
@@ -227,6 +233,10 @@
 				AEA3DE531BB49D1A00F36830 /* Storage.m */,
 				AEA3DE551BB7703900F36830 /* SearchViewTableViewCell.h */,
 				AEA3DE561BB7703900F36830 /* SearchViewTableViewCell.m */,
+				AEA31D641BCCAF4D00D08AF0 /* FinishView.h */,
+				AEA31D651BCCAF4D00D08AF0 /* FinishView.m */,
+				AEA31D671BCCF3CC00D08AF0 /* DecimalKeypad.h */,
+				AEA31D681BCCF3CC00D08AF0 /* DecimalKeypad.m */,
 			);
 			path = Pump;
 			sourceTree = "<group>";
@@ -401,6 +411,7 @@
 				AEA3DE571BB7703900F36830 /* SearchViewTableViewCell.m in Sources */,
 				AE2F44911B8E3C9D00F57579 /* AppDelegate.m in Sources */,
 				AEEA52CA1B9D68AB0081BA97 /* UserManager.m in Sources */,
+				AEA31D691BCCF3CC00D08AF0 /* DecimalKeypad.m in Sources */,
 				AE5FC0071BA605CB00A398FF /* ProfileFriendTableViewCell.m in Sources */,
 				AEA3DE541BB49D1A00F36830 /* Storage.m in Sources */,
 				AEEA52D01B9E3EA00081BA97 /* Friend.m in Sources */,
@@ -417,6 +428,7 @@
 				AE737EF21BAC5895004A73E0 /* PendingOwnershipsViewController.m in Sources */,
 				AE737EF61BAC5A3C004A73E0 /* PendingMembershipsViewController.m in Sources */,
 				AE2F448E1B8E3C9D00F57579 /* main.m in Sources */,
+				AEA31D661BCCAF4D00D08AF0 /* FinishView.m in Sources */,
 				AE737EF91BAC9344004A73E0 /* ChooseCarViewController.m in Sources */,
 				AEA930561BA86D400090981A /* PassengerTableViewCell.m in Sources */,
 				AEA930531BA86B720090981A /* PassengerView.m in Sources */,

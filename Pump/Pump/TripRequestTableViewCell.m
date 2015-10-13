@@ -102,18 +102,16 @@
     [Database updateTripMembershipsWithIDs:[NSArray arrayWithObject:_memberID] status:@1 withBlock:^(NSArray *data, NSError *error) {
         NSDictionary *updated = [data firstObject];
         if (updated.count != 0) {
-            UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle:@"Confirm Request" message:[NSString stringWithFormat: @"Would you like to request $%.2f", [[updated objectForKey:@"amount"]floatValue]] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
-            
+
             if (_isRequest) {
-                [[Venmo sharedInstance] sendRequestTo:[updated objectForKey: @"member"] amount:[[updated objectForKey:@"amount"]floatValue] * 100 note:[NSString stringWithFormat:@"Pump With Friends: Trip request."] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
+                [[Venmo sharedInstance] sendRequestTo:[updated objectForKey: @"member"] amount:[[updated objectForKey:@"amount"]floatValue] * 100 note:[NSString stringWithFormat:@"%@", [updated objectForKey:@"description"]] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
+                    
                     UIAlertView *alert = [[UIAlertView alloc]
                                           initWithTitle:@"Request Confirmed" message:[NSString stringWithFormat: @"You requested $%.2f.", [[updated objectForKey:@"amount"]floatValue]] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                     dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
                 }];
             } else {
-                [[Venmo sharedInstance] sendPaymentTo:[updated objectForKey: @"owner"] amount:[[updated objectForKey:@"amount"]floatValue] * 100 note:[NSString stringWithFormat:@"Pump With Friends: Trip request."] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
+                [[Venmo sharedInstance] sendPaymentTo:[updated objectForKey: @"owner"] amount:[[updated objectForKey:@"amount"]floatValue] * 100 note:[NSString stringWithFormat:@"%@", [updated objectForKey:@"description"]] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
                     UIAlertView *alert = [[UIAlertView alloc]
                                           initWithTitle:@"Payment Confirmed" message:[NSString stringWithFormat: @"You paid $%.2f", [[updated objectForKey:@"amount"]floatValue]] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
                     dispatch_async(dispatch_get_main_queue(),^{ [alert show];});

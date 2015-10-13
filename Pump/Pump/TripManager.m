@@ -22,6 +22,7 @@
 @synthesize passengers = _passengers;
 @synthesize includeUserAsPassenger = _includeUserAsPassenger;
 @synthesize car = _car;
+@synthesize direction = _direction;
 
 + (TripManager *)sharedManager {
     static TripManager *sharedManager = nil;
@@ -40,6 +41,7 @@
         _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         _locationManager.delegate = self;
         [_locationManager startUpdatingLocation];
+        [_locationManager startUpdatingHeading];
         
         _passengers = [NSMutableArray new];
         _polyline = [GMSPolyline new];
@@ -61,14 +63,21 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     CLLocation *newLocation = [locations lastObject];
-    _polyline.map = nil;
-    [self.delegate tripManager: self didUpdateLocation: newLocation.coordinate];
+    if (_status != FINISHED) {
+        _polyline.map = nil;
+    }
+//    CLLocationDirection direction = [self getHeadingForDirectionFromCoordinate:_lastLocation.coordinate toCoordinate:newLocation.coordinate];
+//    if (ABS(_direction - direction) > 3) {
+//        _direction = direction;
+//        NSLog(@"Direction: %f", direction);
+//    }
+    [self.delegate tripManager: self didUpdateLocation: newLocation.coordinate direction:0];
     if (_status == RUNNING || _status == PAUSED) {
         [_runningLocations addObject: newLocation];
         if (_runningLocations.count > 1 && _status != PAUSED && _lastLocation) {
             _distanceTraveled += [[_runningLocations lastObject] distanceFromLocation:_lastLocation];
         }
-        
+    
         _lastLocation = [_runningLocations lastObject];
         
         NSUInteger count = _runningLocations.count;
@@ -83,6 +92,21 @@
         _polyline.strokeColor = [UIColor blueColor];
         _polyline.strokeWidth = 5.f;
         [self.delegate tripManager:self didUpdateLocationWith:_distanceTraveled and:_polyline];
+    }
+}
+
+- (float) getHeadingForDirectionFromCoordinate:(CLLocationCoordinate2D)fromLoc toCoordinate:(CLLocationCoordinate2D)toLoc
+{
+    float fLat = degreesToRadians(fromLoc.latitude);
+    float fLng = degreesToRadians(fromLoc.longitude);
+    float tLat = degreesToRadians(toLoc.latitude);
+    float tLng = degreesToRadians(toLoc.longitude);
+    
+    float degree = radiandsToDegrees(atan2(sin(tLng-fLng)*cos(tLat), cos(fLat)*sin(tLat)-sin(fLat)*cos(tLat)*cos(tLng-fLng)));
+    if (degree >= 0) {
+        return degree;
+    } else {
+        return 360+degree;
     }
 }
 
@@ -117,7 +141,7 @@
     
 }
 
--(void)setStatus:(TripStatusType *)status {
+-(void)setStatus:(TripStatusType)status {
     _status = status;
     if (_status == PENDING) {
         _runningLocations = [[NSMutableArray alloc] init];

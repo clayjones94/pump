@@ -42,18 +42,20 @@
         [[UIApplication sharedApplication] registerForRemoteNotifications];
     }
     
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
     
     [Venmo startWithAppId:VENMO_APP_ID secret:VENMO_APP_SECRET name: VENMO_APP_NAME];
     
 //    if (![Venmo isVenmoAppInstalled]) {
-    [[Venmo sharedInstance] setDefaultTransactionMethod:VENTransactionMethodAPI];
+        [[Venmo sharedInstance] setDefaultTransactionMethod:VENTransactionMethodAPI];
 //    }
 //    else {
 //        [[Venmo sharedInstance] setDefaultTransactionMethod:VENTransactionMethodAppSwitch];
 //    }
-    
+
     [GMSServices provideAPIKey:@"AIzaSyA-N5dxHG2g7YzeegbO0tJF4XbAGUgbbtg"];
     
     _tripvc = [[TripViewController alloc] init];
@@ -85,6 +87,9 @@
         [_nav popToRootViewControllerAnimated:YES];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"Open from Notification" object:nil];
     }
+//    NSDictionary *info = [userInfo objectForKey:@"aps"];
+//    [UIApplication sharedApplication].applicationIconBadgeNumber = [[info objectForKey:@"badge"] integerValue];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"Recieve Notification" object:nil];
 }
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
@@ -114,7 +119,7 @@
 
 
 -(void)applicationWillEnterForeground:(UIApplication *)application {
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Recieve Notification" object:nil];
 }
 
 -(void)applicationDidEnterBackground:(UIApplication *)application {

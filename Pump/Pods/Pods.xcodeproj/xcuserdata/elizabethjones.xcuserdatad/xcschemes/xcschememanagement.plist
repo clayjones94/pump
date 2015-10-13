@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>BBBadgeBarButtonItem.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>CMDQueryStringSerialization.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -62,27 +67,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0BB9FFDD8B52257692044E4FF70EC04D</key>
+		<key>243BBB138B7469C523A9BDAD5E76F687</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>170785052548090645186B5278887D2B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>21177434564CE80E4C92BC9CA974DEC4</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>230301291E07B110E0ABF73215510BAB</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>2F4C08D460C48A9F7C6AB56A383D8FDE</key>
+		<key>52F891D27921D955D0780664FFF139A3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -92,17 +82,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6CF4DB99BF2ACE4D25B9B4D09A3B6765</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>6D27996F8CB8E98F50CD3A39ACB0C836</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6F5D886C2D2589EC8F5D183E939603EC</key>
+		<key>81266ED611EBA007BF510F28F47999E8</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8B3A90D201C2201B519E665F3F49C073</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>953B1FDA301A7CC54A019E1821B4BADE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -112,7 +107,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A887F904862FEF939DF3FF2E1417402F</key>
+		<key>AA2C7717186687B300E8158442A38059</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D10A2F8106C8F686E9B806D39D96D668</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D74FE68DE535332E29535928A35F1C53</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DCB6CF3F0F55BCAAD8BAC85923707623</key>
 		<dict>
 			<key>primary</key>
 			<true/>

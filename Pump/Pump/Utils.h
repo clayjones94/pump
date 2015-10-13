@@ -12,6 +12,11 @@
 @interface Utils : NSObject
 
 + (UIColor *)defaultColor;
++ (UIColor *)defaultLightColor;
++(UIColor *) mpgColor;
++(UIColor *) mpgLightColor;
++(UIColor *) gasColor;
++(UIColor *) gasLightColor;
 +(NSAttributedString *)defaultString: (NSString *)string size: (CGFloat)size color: (UIColor *)color;
 
 @end

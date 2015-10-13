@@ -21,7 +21,7 @@ NSString *const URL = @"https://pump-start.herokuapp.com";
 //NSString *const URL = @"http://0.0.0.0:5000";
 
 +(void) authUserWithVenmoWithBlock:(void (^)(BOOL success))block  {
-    NSString *url = [NSString stringWithFormat: @"/users/auth/%@", [Venmo sharedInstance].session.user.externalId];
+    NSString *url = [NSString stringWithFormat: @"users/auth/%@", [Venmo sharedInstance].session.user.externalId];
     
     NSDictionary *data;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -55,7 +55,7 @@ NSString *const URL = @"https://pump-start.herokuapp.com";
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSNumber *userID = [defaults objectForKey:PUMP_USER_ID_KEY];
     if (userID) {
-        NSString *url =[NSString stringWithFormat: @"/users/%@", userID];
+        NSString *url =[NSString stringWithFormat: @"users/%@", userID];
         
         NSDictionary *data = @{
                                @"notification_count": @0
@@ -85,7 +85,7 @@ NSString *const URL = @"https://pump-start.herokuapp.com";
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     id userID = [defaults objectForKey:PUMP_USER_ID_KEY];
     if (userID) {
-        NSString *url =[NSString stringWithFormat: @"/users/%@", userID];
+        NSString *url =[NSString stringWithFormat: @"users/%@", userID];
         
         id APNSToken = [defaults objectForKey:APNS_TOKEN_KEY];
         if (APNSToken == nil) {
@@ -101,7 +101,7 @@ NSString *const URL = @"https://pump-start.herokuapp.com";
 }
 
 +(void) getTripOwnershipsWithID: (NSString *) owner andStatus: (NSUInteger) status withBlock: (void (^)(NSArray *data, NSError *error))block{
-    NSString *url = [NSString stringWithFormat:@"/trip_memberships/owner/%@/status/%lu", owner, (unsigned long)status];
+    NSString *url = [NSString stringWithFormat:@"trip_memberships/owner/%@/status/%lu", owner, (unsigned long)status];
     [self makeGETRequestToURL:url withData:nil andBlock:^(id data, NSError *error) {
         block(data, error);
     }];
@@ -109,28 +109,28 @@ NSString *const URL = @"https://pump-start.herokuapp.com";
 
 
 +(void) getTripMembershipsWithID: (NSString *) member andStatus: (NSUInteger) status withBlock: (void (^)(NSArray *data, NSError *error))block{
-    NSString *url = [NSString stringWithFormat:@"/trip_memberships/member/%@/status/%lu", member, (unsigned long)status];
+    NSString *url = [NSString stringWithFormat:@"trip_memberships/member/%@/status/%lu", member, (unsigned long)status];
     [self makeGETRequestToURL:url withData:nil andBlock:^(id data, NSError *error) {
         block(data, error);
     }];
 }
 
 +(void) getCompleteTripMembershipsWithID: (NSString *) member withBlock: (void (^)(NSArray *data, NSError *error))block{
-    NSString *url = [NSString stringWithFormat:@"/trip_memberships/completeForUser/%@", member];
+    NSString *url = [NSString stringWithFormat:@"trip_memberships/completeForUser/%@", member];
     [self makeGETRequestToURL:url withData:nil andBlock:^(id data, NSError *error) {
         block(data, error);
     }];
 }
 
 +(void) getTripWithID: (NSString *) tripID withBlock:  (void (^)(NSDictionary *data, NSError *error))block {
-    NSString *url = [NSString stringWithFormat:@"/trips/%@", tripID];
+    NSString *url = [NSString stringWithFormat:@"trips/%@", tripID];
     [self makeGETRequestToURL:url withData:nil andBlock:^(id data, NSError *error) {
         block(data,error);
     }];
 }
 
 +(void) postTripWithDistance: (NSNumber *)distance gasPrice: (NSNumber *) price mpg: (NSNumber *)mpg polyline: (NSString *)polyline includeUser:(BOOL)user description: (NSString *) description andPassengers: (NSMutableArray *) passengers withBlock: (void (^)(NSDictionary *data, NSError *error))block {
-    NSString *url = [NSString stringWithFormat:@"/trips/createWithPassengers"];
+    NSString *url = [NSString stringWithFormat:@"trips/createWithPassengers"];
     
     if (!polyline) {
         polyline = @"";
@@ -165,7 +165,7 @@ NSString *const URL = @"https://pump-start.herokuapp.com";
 
 +(void) postTripMembershipWithOwner: (NSString *)owner member: (NSString *) member amount: (NSNumber *)amount status: (NSNumber *)status andTrip: (NSString *)trip {
     // Create the URL Request and set it's method and content type.
-    NSString *url = @"/trip_memberships";
+    NSString *url = @"trip_memberships";
     
     // Create an dictionary of the info for our new project, including the selected images.
     NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:owner, member, amount, trip, status, nil] forKeys:[NSArray arrayWithObjects:@"owner", @"member", @"amount", @"trip", @"status", nil]];
@@ -176,7 +176,7 @@ NSString *const URL = @"https://pump-start.herokuapp.com";
 
 +(void) updateTripMembershipWithID: (NSString *)membershipID status: (NSNumber *)status  withBlock: (void (^)(NSDictionary *data, NSError *error))block{
     // Create the URL Request and set it's method and content type.
-    NSString *url = [NSString stringWithFormat:@"/trip_memberships/%@", membershipID];
+    NSString *url = [NSString stringWithFormat:@"trip_memberships/%@", membershipID];
     
     NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:status, nil] forKeys:[NSArray arrayWithObjects:@"status", nil]];
     
@@ -187,7 +187,7 @@ NSString *const URL = @"https://pump-start.herokuapp.com";
 
 +(void) updateTripMembershipsWithIDs: (NSArray *)membershipIDs status: (NSNumber *)status  withBlock: (void (^)(NSArray *data, NSError *error))block{
     // Create the URL Request and set it's method and content type.
-    NSString *url = [NSString stringWithFormat:@"/trip_memberships/updateTheTrips/%@", status];
+    NSString *url = [NSString stringWithFormat:@"trip_memberships/updateTheTrips/%@", status];
     
     // Create an dictionary of the info for our new project, including the selected images.
     NSMutableDictionary *data = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:membershipIDs,status, nil] forKeys:[NSArray arrayWithObjects:@"trip_membership_ids",@"status", nil]];
@@ -199,7 +199,7 @@ NSString *const URL = @"https://pump-start.herokuapp.com";
 
 +(void) getTripMembershipWithID: (NSString *)membershipID  withBlock: (void (^)(NSDictionary *data, NSError *error))block{
     // Create the URL Request and set it's method and content type.
-    NSString *url = [NSString stringWithFormat: @"/trip_memberships/%@", membershipID];
+    NSString *url = [NSString stringWithFormat: @"trip_memberships/%@", membershipID];
     
     [self makeGETRequestToURL:url withData:nil andBlock:^(NSDictionary *data, NSError *error) {
         block(data, error);
