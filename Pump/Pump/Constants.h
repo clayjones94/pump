@@ -23,4 +23,11 @@ typedef NS_ENUM(NSUInteger, TripStatusType) {
     FINISHED,
 };
 
+typedef NS_ENUM(NSUInteger, GasType) {
+    GAS_TYPE_REGULAR,
+    GAS_TYPE_MIDGRADE,
+    GAS_TYPE_PREMIUM,
+    GAS_TYPE_DIESEL,
+};
+
 #endif

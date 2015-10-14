@@ -321,6 +321,26 @@ NSString *const URL = @"https://pump-start.herokuapp.com";
      }];
 }
 
+#pragma Gas Feed Requests 
+
++(void) retrieveLocalGasPriceForType: (GasType) type withBlock:(void (^)(NSArray *data, NSError *error))block {
+    CLLocationCoordinate2D coordinate = [TripManager sharedManager].locationManager.location.coordinate;
+    NSDictionary *types = @{[NSNumber numberWithInteger:GAS_TYPE_REGULAR]:@"reg", [NSNumber numberWithInteger:GAS_TYPE_MIDGRADE]:@"mid", [NSNumber numberWithInteger:GAS_TYPE_PREMIUM]:@"pre", [NSNumber numberWithInteger:GAS_TYPE_DIESEL]:@"diesel"};
+    NSString *gasType = [types objectForKey:[NSNumber numberWithInteger:type]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat: @"http://api.mygasfeed.com/stations/radius/%f/%f/%f/%@/distance/6q6d99mop7.json", coordinate.latitude, coordinate.longitude, 5.0f,gasType]]];
+    NSURLSession *session = [NSURLSession sharedSession];
+    
+    // Specify that it will be a POST request
+    request.HTTPMethod = @"GET";
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+        NSArray *stationArray = [dataDict objectForKey:@"stations"];
+        block(stationArray,error);
+    }];
+    
+    [task resume];
+}
+
 #pragma VENMO Requests
 
 +(void) retrieveVenmoFriendsWithLimit: (NSNumber *) limit withBlock:(void (^)(NSArray *data, NSError *error))block {

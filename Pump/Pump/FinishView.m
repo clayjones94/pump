@@ -150,7 +150,7 @@
         [_saveButton setFrame:CGRectMake(self.frame.size.width*2/3 - 50/3 , height, 50, 50)];
         [_discardButton setFrame:CGRectMake(self.frame.size.width/3 - 50*2/3 , height, 50, 50)];
     } else {
-        [_detailLabel setAttributedText:[Utils defaultString:@"Driver:" size:14 color:[UIColor whiteColor]]];
+        [_detailLabel setAttributedText:[Utils defaultString:@"Car Owner:" size:14 color:[UIColor whiteColor]]];
         [self addSubview:_carButton];
         [_saveButton setFrame:CGRectMake(self.frame.size.width*2/3 - 50/3 , 245, 50, 50)];
         [_discardButton setFrame:CGRectMake(self.frame.size.width/3 - 50*2/3, 245, 50, 50)];
@@ -211,7 +211,7 @@
                                     placeholderImage:[UIImage imageNamed:@"profile_pic_default"]];
         }
         [_carButton setAttributedTitle: title forState:UIControlStateNormal];
-        [_saveButton setFrame:CGRectMake(self.frame.size.width*2/3 - 50 , 245, 50, 50)];
+        [_saveButton setFrame:CGRectMake(self.frame.size.width*2/3 - 50/3, 245, 50, 50)];
         [_discardButton setFrame:CGRectMake(self.frame.size.width/3 - 50*2/3, 245, 50, 50)];
         [self bringSubviewToFront:_saveButton];
         [self bringSubviewToFront:_discardButton];
@@ -299,6 +299,9 @@
         [self addSubview:_indicator];
         [sender setUserInteractionEnabled:NO];
         [Database postTripWithDistance:[NSNumber numberWithDouble:[TripManager sharedManager].distanceTraveled/1609.344] gasPrice:[TripManager sharedManager].gasPrice mpg:[TripManager sharedManager].mpg polyline: [[[[TripManager sharedManager] polyline] path] encodedPath] includeUser: [TripManager sharedManager].includeUserAsPassenger description: _descriptionField.text  andPassengers: [TripManager sharedManager].passengers withBlock:^(NSDictionary *data, NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_saveButton setUserInteractionEnabled:YES];
+            });
             if (!error) {
                 [_indicator stopAnimating];
                 [_indicator setHidden:YES];
@@ -307,10 +310,10 @@
                     [TripManager sharedManager].passengers = [NSMutableArray new];
                     [[TripManager sharedManager] setStatus:PENDING];
                     _descriptionField.text = @"Add a description...";
-                    _descriptionField.textColor = [UIColor lightGrayColor];
+                    _descriptionField.textColor = [UIColor whiteColor];
                 });
             } else {
-                [sender setUserInteractionEnabled:YES];
+            
             }
         }];
     }
@@ -328,7 +331,7 @@
         [[TripManager sharedManager] setStatus:FINISHED];
         [[TripManager sharedManager] setStatus:PENDING];
         _descriptionField.text = @"Add a description...";
-        _descriptionField.textColor = [UIColor lightGrayColor];
+        _descriptionField.textColor = [UIColor whiteColor];
     }
 }
 

@@ -71,8 +71,17 @@
     UIGraphicsEndImageContext();
     _nav.navigationBar.topItem.titleView = [[UIImageView alloc] initWithImage:newImage];
     [_nav.navigationBar setTitleTextAttributes:attrsDictionary];
-
+    
+    [_nav.navigationBar.layer setBorderWidth:0];
     _nav.navigationBar.barTintColor = [Utils defaultColor];
+    _nav.navigationBar.backgroundColor = [Utils defaultColor];
+    _nav.navigationBar.tintColor = [Utils defaultColor];
+    
+//    [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init]
+//                                      forBarPosition:UIBarPositionAny
+//                                          barMetrics:UIBarMetricsDefault];
+//    
+//    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
     
     self.window.rootViewController = _nav;
     [self.window makeKeyAndVisible];
@@ -104,12 +113,15 @@
     for (i = 0; i < deviceToken.length; ++i) {
         [sbuf appendFormat:@"%02lX", (unsigned long)buf[i]];
     }
-    
-    [defaults setObject:sbuf forKey:APNS_TOKEN_KEY];
-    [defaults synchronize];
-    
-    // We only want to refresh the token if we are logged in
-    [Database updateAPNSToken];
+    if (![[defaults objectForKey:APNS_TOKEN_KEY] isEqualToString:sbuf]) {
+        [defaults setObject:sbuf forKey:APNS_TOKEN_KEY];
+        [defaults synchronize];
+        
+        // We only want to refresh the token if we are logged in
+        if ([Venmo sharedInstance].isSessionValid) {
+            [Database updateAPNSToken];
+        }
+    }
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error

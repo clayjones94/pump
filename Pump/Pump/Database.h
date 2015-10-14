@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Constants.h"
 
 @interface Database : NSObject
 
@@ -25,4 +26,5 @@
 +(void) getTripMembershipWithID: (NSString *)membershipID  withBlock: (void (^)(NSDictionary *data, NSError *error))block;
 +(void) getCompleteTripMembershipsWithID: (NSString *) member withBlock: (void (^)(NSArray *data, NSError *error))block;
 +(void) retrieveVenmoFriendWithID:(NSString *)friendID withBlock:(void (^)(NSDictionary *data, NSError *error))block;
++(void) retrieveLocalGasPriceForType:(GasType)type withBlock:(void (^)(NSArray *data, NSError *error))block;
 @end

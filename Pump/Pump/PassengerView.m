@@ -60,8 +60,8 @@
                 NSAttributedString *costString = [Utils defaultString:[NSString stringWithFormat:@"$%.2f",cost] size:12 color:[UIColor whiteColor]];
                 [cell.detailTextLabel setAttributedText: costString];
             } else {
-                cell.textLabel.attributedText = [Utils defaultString:name size:12 color:[UIColor lightGrayColor]];
-                cell.detailTextLabel.attributedText = [Utils defaultString:@"$0.00" size:12 color:[UIColor lightGrayColor]];
+                cell.textLabel.attributedText = [Utils defaultString:name size:12 color:[UIColor darkGrayColor]];
+                cell.detailTextLabel.attributedText = [Utils defaultString:@"$0.00" size:12 color:[UIColor darkGrayColor]];
             }
             return cell;
         } else {
@@ -97,14 +97,14 @@
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath == 0 || indexPath.row == [TripManager sharedManager].passengers.count + 1) {
+    if (indexPath.row == 0 || indexPath.row == [TripManager sharedManager].passengers.count + 1) {
         return NO;
     }
     return YES;
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath != 0 || indexPath.row == [TripManager sharedManager].passengers.count + 1) {
+    if (indexPath.row != 0 && indexPath.row != [TripManager sharedManager].passengers.count + 1) {
         return UITableViewCellEditingStyleDelete;
     }
     return UITableViewCellEditingStyleNone;
