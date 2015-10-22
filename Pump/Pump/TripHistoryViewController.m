@@ -32,6 +32,13 @@
     
     //self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
     
+    UIButton *cancelButton = [[UIButton alloc] init];
+    [cancelButton setBackgroundImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
+    [cancelButton setFrame:CGRectMake(0, 0, 25, 25)];
+    [cancelButton addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: cancelButton];
+    
     _tableview = [[UITableView alloc] initWithFrame:self.view.frame];
     [_tableview setDelegate:self];
     [_tableview setDataSource:self];
@@ -83,7 +90,7 @@
     if (!friend) {
         [Database retrieveVenmoFriendWithID:[membership objectForKey: @"member"] withBlock:^(NSDictionary *data, NSError *error) {
             
-            if ([UserManager sharedManager].recents.count < 60 && ![[UserManager sharedManager].recents containsObject:data]) {
+            if ([UserManager sharedManager].recents.count < 60 && ![[UserManager sharedManager].recents containsObject:data] && ![[data objectForKey:@"id"] isEqualToString:[Venmo sharedInstance].session.user.externalId]) {
                 [[UserManager sharedManager].recents addObject:data];
             }
             [tableView reloadData];
@@ -162,7 +169,7 @@
     if (_tripMemberships.count > 0) {
         
         _tableview.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        _tableview.backgroundView = nil;
+//        _tableview.backgroundView = nil;
         return _tripMemberships.count;
         
     } else {
@@ -176,8 +183,8 @@
         messageLabel.textAlignment = NSTextAlignmentCenter;
         [messageLabel sizeToFit];
         
-        _tableview.backgroundView = messageLabel;
-        _tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
+//        _tableview.backgroundView = messageLabel;
+//        _tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
         
     }
     
@@ -186,6 +193,10 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 50;
+}
+
+-(void) cancel {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

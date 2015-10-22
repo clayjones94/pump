@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface TripHistoryViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
-
+-(void) refresh;
 @end

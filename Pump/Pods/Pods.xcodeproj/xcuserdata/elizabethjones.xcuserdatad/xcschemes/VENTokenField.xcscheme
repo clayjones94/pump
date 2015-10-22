@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D70E6F339D3BEF7D913A4778"
+               BlueprintIdentifier = "A182BA5B166ACE98E26FD4C2"
                BuildableName = "libVENTokenField.a"
                BlueprintName = "VENTokenField"
                ReferencedContainer = "container:Pods.xcodeproj">

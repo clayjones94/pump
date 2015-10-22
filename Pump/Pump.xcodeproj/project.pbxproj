@@ -320,6 +320,11 @@
 					AE2F44871B8E3C9D00F57579 = {
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = CG5WBEU96D;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					AE2F44A01B8E3C9D00F57579 = {
 						CreatedOnToolsVersion = 6.4;

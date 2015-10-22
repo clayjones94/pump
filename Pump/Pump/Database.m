@@ -146,13 +146,13 @@ NSString *const URL = @"https://pump-start.herokuapp.com";
             cost = [distance doubleValue] / [mpg doubleValue] * [price doubleValue] / passengers.count;
         }
         for (NSDictionary *passenger in passengers) {
-            NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[Venmo sharedInstance].session.user.externalId, [passenger objectForKey: @"id"], [NSNumber numberWithDouble:cost], @0, description,nil] forKeys:[NSArray arrayWithObjects:@"owner", @"member", @"amount", @"status", @"description", nil]];
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[Venmo sharedInstance].session.user.externalId, [passenger objectForKey: @"id"], [NSNumber numberWithDouble:cost], @2, description,nil] forKeys:[NSArray arrayWithObjects:@"owner", @"member", @"amount", @"status", @"description", nil]];
             [passengerArray addObject:dict];
         }
         owner = @1;
     } else {
         double cost = [distance doubleValue] / [mpg doubleValue] * [price doubleValue];
-        NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[[TripManager sharedManager].car objectForKey:@"id"], [Venmo sharedInstance].session.user.externalId, [NSNumber numberWithDouble:cost], @0, description, nil] forKeys:[NSArray arrayWithObjects:@"owner", @"member", @"amount", @"status", @"description", nil]];
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:[[TripManager sharedManager].car objectForKey:@"id"], [Venmo sharedInstance].session.user.externalId, [NSNumber numberWithDouble:cost], @2, description, nil] forKeys:[NSArray arrayWithObjects:@"owner", @"member", @"amount", @"status", @"description", nil]];
         [passengerArray addObject:dict];
     }
     
@@ -333,9 +333,25 @@ NSString *const URL = @"https://pump-start.herokuapp.com";
     // Specify that it will be a POST request
     request.HTTPMethod = @"GET";
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
-        NSArray *stationArray = [dataDict objectForKey:@"stations"];
-        block(stationArray,error);
+        if ([data length] > 0 && error == nil) {
+            NSDictionary *dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:&error];
+            NSArray *stationArray = [dataDict objectForKey:@"stations"];
+            if (stationArray.count > 0) {
+                block(stationArray,error);
+            } else {
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle:@"No Gas Stations" message:@"We could not find any gas stations around you." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+                block(nil,error);
+            }
+        } else {
+            NSLog(@"There is one Error.");
+            NSLog(@"%@",error);
+            UIAlertView *alert = [[UIAlertView alloc]
+                                  initWithTitle:@"Error" message:@"Error connecting to server." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+            block(nil,error);
+        }
     }];
     
     [task resume];

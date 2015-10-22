@@ -23,7 +23,7 @@
 #import <BBBadgeBarButtonItem/BBBadgeBarButtonItem.h>
 #import "FinishView.h"
 #import "DecimalKeypad.h"
-
+#import "TripHistoryViewController.h"
 
 @implementation TripViewController {
     //MKMapView *_mapView;
@@ -43,6 +43,7 @@
     UIButton *_carButton;
     UIActivityIndicatorView *_indicator;
     ProfileViewController *_profileVC;
+    TripHistoryViewController *_historyVC;
     UIButton *_profileButton;
     UIButton *_cancelButton;
     BOOL tracking;
@@ -85,7 +86,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeCar) name:@"Choose Car" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishTrip) name:@"Select Car" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openPendingsFromNotification:) name:@"Open from Notification" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveTrips) name:@"Save Trip" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(saveTrips) name:@"Save Trips" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:_popup selector:@selector(dismiss:) name:@"Discard Trip" object:nil];
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshNotificationCount) name:@"Recieve Notification" object:nil];
     
@@ -124,11 +125,14 @@
 //}
 
 -(void) profileSelected {
-    if (!_profileVC) {
-        _profileVC = [ProfileViewController new];
-        [_profileVC refresh];
+//    if (!_profileVC) {
+//        _profileVC = [ProfileViewController new];
+//        [_profileVC refresh];
+//    }
+    if (!_historyVC) {
+        _historyVC = [TripHistoryViewController new];
     }
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:_profileVC];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:_historyVC];
     [nav.navigationBar setBackgroundColor:[Utils defaultColor]];
     [nav.navigationBar setBarTintColor:[Utils defaultColor]];
     [nav.navigationBar setTintColor:[Utils defaultColor]];
@@ -328,11 +332,11 @@
     _startButton = [UIButton buttonWithType: UIButtonTypeCustom];
     [_startButton setBackgroundColor:[Utils defaultColor]];
     [_startButton setAlpha:.9];
-    [_startButton setFrame:CGRectMake(width * 1/2 - 75, height * .95 - 15 - 64, 150, 30)];
+    [_startButton setFrame:CGRectMake(width * .1, height * .95 - 15 - 64, width * .8, 30)];
     [_startButton addTarget:self action:@selector(startTrip) forControlEvents:UIControlEventTouchUpInside];
-    NSAttributedString *title = [Utils defaultString:@"Start Trip" size:17 color:[UIColor whiteColor]];
+    NSAttributedString *title = [Utils defaultString:@"START" size:17 color:[UIColor whiteColor]];
     [_startButton setAttributedTitle: title forState:UIControlStateNormal];
-    [_startButton.layer setCornerRadius:15];
+    [_startButton.layer setCornerRadius:4];
     [_startButton clipsToBounds];
     [_mapView addSubview:_startButton];
 }
@@ -366,6 +370,9 @@
         [_mpgButton setAttributedTitle:title forState:UIControlStateNormal];
     }
 
+    if ([[TripManager sharedManager].gasPrice doubleValue] <= 0) {
+        [self changeGasPrice];
+    }
     title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"$%.2f", [[[TripManager sharedManager] gasPrice] floatValue]] size:20 color:[Utils defaultColor]]];
     [title appendAttributedString:[Utils defaultString: [NSString stringWithFormat:@"\rper gallon"] size:12 color:[Utils defaultColor]]];
     [_gasPriceButton setAttributedTitle:title forState:UIControlStateNormal];
@@ -476,16 +483,16 @@
     [_pauseButton setAlpha:.9];
     [_pauseButton setFrame:CGRectMake(width * 1/2 - 75, height * .95 - 15 - 64, 150, 30)];
     [_pauseButton addTarget:self action:@selector(pauseTrip) forControlEvents:UIControlEventTouchUpInside];
-    NSAttributedString *titleStr = [Utils defaultString:@"Pause Trip" size:17 color:[UIColor whiteColor]];
+    NSAttributedString *titleStr = [Utils defaultString:@"PAUSE" size:17 color:[UIColor whiteColor]];
     [_pauseButton.layer setCornerRadius:15];
     [_pauseButton setAttributedTitle: titleStr forState:UIControlStateNormal];
     
     _finishButton = [UIButton buttonWithType: UIButtonTypeCustom];
-    [_finishButton setBackgroundColor:[Utils mpgColor]];
+    [_finishButton setBackgroundColor:[Utils gasColor]];
     [_finishButton setAlpha:.9];
     [_finishButton setFrame:CGRectMake(width/2 - 75, height * .88 - 15 - 64, 150, 30)];
     [_finishButton addTarget:self action:@selector(finishTrip) forControlEvents:UIControlEventTouchUpInside];
-    titleStr = [Utils defaultString:@"Finish" size:17 color:[UIColor whiteColor]];
+    titleStr = [Utils defaultString:@"FINISH" size:17 color:[UIColor whiteColor]];
     [_finishButton.layer setCornerRadius:15];
     [_finishButton setAttributedTitle: titleStr forState:UIControlStateNormal];
 
@@ -530,7 +537,7 @@
     [popupView.layer setShadowColor:[UIColor darkGrayColor].CGColor];
     [popupView.layer setShadowOffset:CGSizeMake(0, 2)];
     [popupView.layer setShadowOpacity:.9];
-    NSArray *types = @[@"REG", @"MID", @"PRE", @"DIESEL", @"Custom...", @"Cancel"];
+    NSArray *types = @[@"REG", @"MID", @"PRE", @"DIESEL", @"Custom...", @"Done"];
     CGFloat margin = width * .02;
     for (NSUInteger i = 0; i < 6; i++) {
         UIButton *typeButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -577,14 +584,14 @@
                         }
                     }
                     gasAverage /= count++;
-                    if (gasAverage) {
+                    if (gasAverage > 0) {
                         NSNumber *gasPrice = [NSNumber numberWithDouble: gasAverage];
                         [[TripManager sharedManager] setGasPrice:gasPrice];
                         NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"$%.2f", [[[TripManager sharedManager] gasPrice] floatValue]] size:20 color:[Utils defaultColor]]];
                         [title appendAttributedString:[Utils defaultString: [NSString stringWithFormat:@"\rper gallon"] size:12 color:[Utils defaultColor]]];
                         [_gasPriceButton setAttributedTitle:title forState:UIControlStateNormal];
+                        _gasPrice = @"";
                     }
-                    _gasPrice = @"";
                     [_indicator stopAnimating];
                 });
             }];
@@ -603,14 +610,14 @@
                         }
                     }
                     gasAverage /= count++;
-                    if (gasAverage) {
+                    if (gasAverage > 0) {
                         NSNumber *gasPrice = [NSNumber numberWithDouble: gasAverage];
                         [[TripManager sharedManager] setGasPrice:gasPrice];
                         NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"$%.2f", [[[TripManager sharedManager] gasPrice] floatValue]] size:20 color:[Utils defaultColor]]];
                         [title appendAttributedString:[Utils defaultString: [NSString stringWithFormat:@"\rper gallon"] size:12 color:[Utils defaultColor]]];
                         [_gasPriceButton setAttributedTitle:title forState:UIControlStateNormal];
+                        _gasPrice = @"";
                     }
-                    _gasPrice = @"";
                     [_indicator stopAnimating];
                 });
             }];
@@ -629,14 +636,14 @@
                         }
                     }
                     gasAverage /= count++;
-                    if (gasAverage) {
+                    if (gasAverage > 0) {
                         NSNumber *gasPrice = [NSNumber numberWithDouble: gasAverage];
                         [[TripManager sharedManager] setGasPrice:gasPrice];
                         NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"$%.2f", [[[TripManager sharedManager] gasPrice] floatValue]] size:20 color:[Utils defaultColor]]];
                         [title appendAttributedString:[Utils defaultString: [NSString stringWithFormat:@"\rper gallon"] size:12 color:[Utils defaultColor]]];
                         [_gasPriceButton setAttributedTitle:title forState:UIControlStateNormal];
+                        _gasPrice = @"";
                     }
-                    _gasPrice = @"";
                     [_indicator stopAnimating];
                 });
             }];
@@ -655,14 +662,14 @@
                         }
                     }
                     gasAverage /= count++;
-                    if (gasAverage) {
+                    if (gasAverage > 0) {
                         NSNumber *gasPrice = [NSNumber numberWithDouble: gasAverage];
                         [[TripManager sharedManager] setGasPrice:gasPrice];
                         NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"$%.2f", [[[TripManager sharedManager] gasPrice] floatValue]] size:20 color:[Utils defaultColor]]];
                         [title appendAttributedString:[Utils defaultString: [NSString stringWithFormat:@"\rper gallon"] size:12 color:[Utils defaultColor]]];
                         [_gasPriceButton setAttributedTitle:title forState:UIControlStateNormal];
+                        _gasPrice = @"";
                     }
-                    _gasPrice = @"";
                     [_indicator stopAnimating];
                 });
             }];
@@ -676,7 +683,13 @@
         }
         case 5:
         {
-            [sender.superview removeFromSuperview];
+            if ([[TripManager sharedManager].gasPrice doubleValue] <= 0) {
+                UIAlertView *alert = [[UIAlertView alloc]
+                                      initWithTitle:@"Select Price" message:@"Before continuing you must select a gas price." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+            } else {
+                [sender.superview removeFromSuperview];
+            }
             break;
         }
         default:
@@ -712,6 +725,7 @@
     //[mpgField setAttributedText:[Utils defaultString:@"" size:30 color:[UIColor blackColor]]];
     [_gasPriceField setFont:[UIFont fontWithName:@"AppleSDGothicNeo-Regular" size:45]];
     [_gasPriceField setTextColor:[UIColor whiteColor]];
+    _gasPriceField.text = @"$0.00";
     [popupView addSubview:_gasPriceField];
     [_gasPriceField setUserInteractionEnabled:NO];
     //[_mpgField setKeyboardType:UIKeyboardTypeDecimalPad];
@@ -917,7 +931,10 @@
 
 -(void) saveTrips {
     [KLCPopup dismissAllPopups];
-    _finishView = nil;
+    if (_historyVC) {
+        [_historyVC refresh];
+    }
+    [self profileSelected];
 }
 
 - (void) discardTrip {

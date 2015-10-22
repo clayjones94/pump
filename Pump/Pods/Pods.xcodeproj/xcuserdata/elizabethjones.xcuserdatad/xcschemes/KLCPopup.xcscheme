@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7F4857C1D0AEFE36EE943D20"
+               BlueprintIdentifier = "E51751667ADA26E8F2500F6F"
                BuildableName = "libKLCPopup.a"
                BlueprintName = "KLCPopup"
                ReferencedContainer = "container:Pods.xcodeproj">

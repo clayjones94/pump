@@ -37,11 +37,9 @@
     if (self == [super init]) {
         _runningLocations = [[NSMutableArray alloc] init];
         _locationManager = [[CLLocationManager alloc] init];
-        _locationManager.distanceFilter = 5;
-        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        _locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
         _locationManager.delegate = self;
         [_locationManager startUpdatingLocation];
-        [_locationManager startUpdatingHeading];
         
         _passengers = [NSMutableArray new];
         _polyline = [GMSPolyline new];
