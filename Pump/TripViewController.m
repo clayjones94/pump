@@ -24,6 +24,7 @@
 #import "FinishView.h"
 #import "DecimalKeypad.h"
 #import "TripHistoryViewController.h"
+#import <Parse/Parse.h>
 
 @implementation TripViewController {
     //MKMapView *_mapView;
@@ -99,12 +100,15 @@
     [super viewDidAppear:animated];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     id userID = [defaults objectForKey:PUMP_USER_ID_KEY];
-    if ((![[Venmo sharedInstance] isSessionValid] || !userID) && ![[UserManager sharedManager] notUsingVenmo] ) {
+    //if ((![[Venmo sharedInstance] isSessionValid] || !userID) && ![[UserManager sharedManager] loggedIn] ) {
+    [PFUser logOut];
         LoginViewController *loginvc = [LoginViewController new];
-        [self presentViewController:loginvc animated:YES completion:nil];
         _descriptionField = nil;
         _profileVC = nil;
-    }
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:loginvc];
+        [self presentViewController:nav animated:YES completion:nil];
+        [nav setNavigationBarHidden:YES];
+    //}
 //    [self refreshNotificationCount];
 }
 

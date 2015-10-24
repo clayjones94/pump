@@ -284,13 +284,13 @@
 }
 
 -(void) saveTrips: (UIButton *) sender {
-    if ([[UserManager sharedManager] notUsingVenmo]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You must sign up with Venmo to use this feature." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"Sign in", nil];
-        alert.tag = 1;
-        alert.delegate = self;
-        [alert show];
-        return;
-    }
+//    if ([[UserManager sharedManager] notUsingVenmo]) {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You must sign up with Venmo to use this feature." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"Sign in", nil];
+//        alert.tag = 1;
+//        alert.delegate = self;
+//        [alert show];
+//        return;
+//    }
     if ((![TripManager sharedManager].car && [TripManager sharedManager].passengers.count == 0) || ([_descriptionField.text isEqualToString:@"Add a description..."] && _descriptionField.text.length > 0)) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Wait" message:@"You must add passengers or a friend's car and write a description before completing this ride." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
         [alert show];
@@ -303,69 +303,69 @@
         for (NSDictionary *passenger in [TripManager sharedManager].passengers) {
             [passengerIDs addObject:[passenger objectForKey:@"id"]];
         }
-        __block NSUInteger numPassengers = [TripManager sharedManager].passengers.count;
-        [Database postTripWithDistance:[NSNumber numberWithDouble:[TripManager sharedManager].distanceTraveled/1609.344] gasPrice:[TripManager sharedManager].gasPrice mpg:[TripManager sharedManager].mpg polyline: [[[[TripManager sharedManager] polyline] path] encodedPath] includeUser: [TripManager sharedManager].includeUserAsPassenger description: _descriptionField.text  andPassengers: [TripManager sharedManager].passengers withBlock:^(NSDictionary *data, NSError *error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [_saveButton setUserInteractionEnabled:YES];
-            });
-            if (!error) {
-                if (hasPassengers) {
-                    __block int numCompleted = 0;
-                    __block int numErrors = 0;
-                    for (NSString *passengerID in passengerIDs) {
-                        [[Venmo sharedInstance] sendRequestTo:passengerID amount:[self costOfPayment] * 100 note:[NSString stringWithFormat:@"%@", _descriptionField.text] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
-                            numCompleted ++;
-                            if (error) {
-                                numErrors++;
-                            }
-                            if (numCompleted == numPassengers){
-                                if (numErrors) {
-                                    UIAlertView *alert = [[UIAlertView alloc]
-                                                          initWithTitle:@"Requests not processed" message:[NSString stringWithFormat: @"%d of your requests were not processed in Venmo.", numErrors] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                                    dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
-                                } else {
-                                    UIAlertView *alert = [[UIAlertView alloc]
-                                                          initWithTitle:@"Requests completed" message:[NSString stringWithFormat: @"All of your requests were completed"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                                    dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
-                                }
-                                [_indicator stopAnimating];
-                                [_indicator setHidden:YES];
-                                [_indicator removeFromSuperview];
-                                dispatch_async(dispatch_get_main_queue(), ^{
-                                    [TripManager sharedManager].passengers = [NSMutableArray new];
-                                    [[TripManager sharedManager] setStatus:PENDING];
-                                    _descriptionField.text = @"Add a description...";
-                                    _descriptionField.textColor = [UIColor whiteColor];
-                                });
-                            }
-                        }];
-                    }
-                } else {
-                    [[Venmo sharedInstance] sendPaymentTo:[[TripManager sharedManager].car objectForKey: @"id"] amount:[self costOfPayment] * 100 note:[NSString stringWithFormat:@"%@", _descriptionField.text] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
-                        if (error) {
-                            UIAlertView *alert = [[UIAlertView alloc]
-                                                  initWithTitle:@"Payment not processed" message:[NSString stringWithFormat: @"Your payment could not be completed in Venmo"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                            dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
-                        } else {
-                            UIAlertView *alert = [[UIAlertView alloc]
-                                                  initWithTitle:@"Payment Confirmed" message:[NSString stringWithFormat: @"Your payment was completed."] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                            dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
-                        }
-                        [_indicator stopAnimating];
-                        [_indicator setHidden:YES];
-                        [_indicator removeFromSuperview];
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            [TripManager sharedManager].passengers = [NSMutableArray new];
-                            [[TripManager sharedManager] setStatus:PENDING];
-                            _descriptionField.text = @"Add a description...";
-                            _descriptionField.textColor = [UIColor whiteColor];
-                        });
-                    }];
-                }
-            } else {
-            
-            }
-        }];
+//        __block NSUInteger numPassengers = [TripManager sharedManager].passengers.count;
+//        [Database postTripWithDistance:[NSNumber numberWithDouble:[TripManager sharedManager].distanceTraveled/1609.344] gasPrice:[TripManager sharedManager].gasPrice mpg:[TripManager sharedManager].mpg polyline: [[[[TripManager sharedManager] polyline] path] encodedPath] includeUser: [TripManager sharedManager].includeUserAsPassenger description: _descriptionField.text  andPassengers: [TripManager sharedManager].passengers withBlock:^(NSDictionary *data, NSError *error) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [_saveButton setUserInteractionEnabled:YES];
+//            });
+//            if (!error) {
+//                if (hasPassengers) {
+//                    __block int numCompleted = 0;
+//                    __block int numErrors = 0;
+//                    for (NSString *passengerID in passengerIDs) {
+//                        [[Venmo sharedInstance] sendRequestTo:passengerID amount:[self costOfPayment] * 100 note:[NSString stringWithFormat:@"%@", _descriptionField.text] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
+//                            numCompleted ++;
+//                            if (error) {
+//                                numErrors++;
+//                            }
+//                            if (numCompleted == numPassengers){
+//                                if (numErrors) {
+//                                    UIAlertView *alert = [[UIAlertView alloc]
+//                                                          initWithTitle:@"Requests not processed" message:[NSString stringWithFormat: @"%d of your requests were not processed in Venmo.", numErrors] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+//                                    dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+//                                } else {
+//                                    UIAlertView *alert = [[UIAlertView alloc]
+//                                                          initWithTitle:@"Requests completed" message:[NSString stringWithFormat: @"All of your requests were completed"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+//                                    dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+//                                }
+//                                [_indicator stopAnimating];
+//                                [_indicator setHidden:YES];
+//                                [_indicator removeFromSuperview];
+//                                dispatch_async(dispatch_get_main_queue(), ^{
+//                                    [TripManager sharedManager].passengers = [NSMutableArray new];
+//                                    [[TripManager sharedManager] setStatus:PENDING];
+//                                    _descriptionField.text = @"Add a description...";
+//                                    _descriptionField.textColor = [UIColor whiteColor];
+//                                });
+//                            }
+//                        }];
+//                    }
+//                } else {
+//                    [[Venmo sharedInstance] sendPaymentTo:[[TripManager sharedManager].car objectForKey: @"id"] amount:[self costOfPayment] * 100 note:[NSString stringWithFormat:@"%@", _descriptionField.text] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
+//                        if (error) {
+//                            UIAlertView *alert = [[UIAlertView alloc]
+//                                                  initWithTitle:@"Payment not processed" message:[NSString stringWithFormat: @"Your payment could not be completed in Venmo"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+//                            dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+//                        } else {
+//                            UIAlertView *alert = [[UIAlertView alloc]
+//                                                  initWithTitle:@"Payment Confirmed" message:[NSString stringWithFormat: @"Your payment was completed."] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+//                            dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+//                        }
+//                        [_indicator stopAnimating];
+//                        [_indicator setHidden:YES];
+//                        [_indicator removeFromSuperview];
+//                        dispatch_async(dispatch_get_main_queue(), ^{
+//                            [TripManager sharedManager].passengers = [NSMutableArray new];
+//                            [[TripManager sharedManager] setStatus:PENDING];
+//                            _descriptionField.text = @"Add a description...";
+//                            _descriptionField.textColor = [UIColor whiteColor];
+//                        });
+//                    }];
+//                }
+//            } else {
+//            
+//            }
+//        }];
     }
 }
 

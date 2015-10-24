@@ -52,11 +52,11 @@
 
 -(void) logout {
     [[Venmo sharedInstance] logout];
-    [UserManager sharedManager].notUsingVenmo = NO;
+//    [UserManager sharedManager].notUsingVenmo = NO;
     [[UserManager sharedManager] logoutOfManager];
     [[TripManager sharedManager] logoutOfManager];
     [[Storage sharedManager] logoutOfManager];
-    [Database logoutUser];
+//    [Database logoutUser];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

@@ -66,13 +66,13 @@
 }
 
 -(void) refresh: (UIRefreshControl *) refreshControl {
-    [Database getCompleteTripMembershipsWithID:[Venmo sharedInstance].session.user.externalId withBlock:^(NSArray *data, NSError *error) {
-        _tripMemberships = data;
-            [refreshControl endRefreshing];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [_tableview reloadData];
-            });
-    }];
+//    [Database getCompleteTripMembershipsWithID:[Venmo sharedInstance].session.user.externalId withBlock:^(NSArray *data, NSError *error) {
+//        _tripMemberships = data;
+//            [refreshControl endRefreshing];
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [_tableview reloadData];
+//            });
+//    }];
 }
 
 

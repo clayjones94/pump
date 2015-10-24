@@ -212,13 +212,13 @@
     NSDictionary *friend;
     if (isFiltered) {
         if (indexPath.row == _filteredFriends.count) {
-            if ([[UserManager sharedManager] notUsingVenmo]) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You must sign up with Venmo to use this feature." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"Sign in", nil];
-                alert.tag = 1;
-                alert.delegate = self;
-                [alert show];
-                return;
-            }
+//            if ([[UserManager sharedManager] notUsingVenmo]) {
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You must sign up with Venmo to use this feature." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"Sign in", nil];
+//                alert.tag = 1;
+//                alert.delegate = self;
+//                [alert show];
+//                return;
+//            }
             [[tableView cellForRowAtIndexPath:indexPath] setSelected:NO];
             [[tableView cellForRowAtIndexPath:indexPath] setUserInteractionEnabled:NO];
             [self searchVenmo];
@@ -233,13 +233,13 @@
     } else {
         if (indexPath.row == _friends.count) {
             [[tableView cellForRowAtIndexPath:indexPath] setSelected:NO];
-            if ([[UserManager sharedManager] notUsingVenmo]) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You must sign up with Venmo to use this feature." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"Sign in", nil];
-                alert.tag = 1;
-                alert.delegate = self;
-                [alert show];
-                return;
-            }
+//            if ([[UserManager sharedManager] notUsingVenmo]) {
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You must sign up with Venmo to use this feature." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"Sign in", nil];
+//                alert.tag = 1;
+//                alert.delegate = self;
+//                [alert show];
+//                return;
+//            }
             [[tableView cellForRowAtIndexPath:indexPath] setUserInteractionEnabled:NO];
             [self searchVenmo];
             return;

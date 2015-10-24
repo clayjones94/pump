@@ -21,7 +21,7 @@
 @synthesize recents = _recents;
 @synthesize memberships = _memberships;
 @synthesize ownerships = _ownerships;
-@synthesize notUsingVenmo = _notUsingVenmo;
+@synthesize loggedIn = _loggedIn;
 
 + (UserManager *)sharedManager {
     static UserManager *sharedManager = nil;
@@ -66,19 +66,19 @@
     [task resume];
 }
 
--(void) updateOwnershipsWithBlock: (void (^)(NSArray *ownerships, NSError *error))block {
-    [Database getTripOwnershipsWithID: [Venmo sharedInstance].session.user.externalId andStatus:0 withBlock:^(NSArray *data, NSError *error) {
-        _ownerships = data;
-        block(data, nil);
-    }];
-}
-
--(void) updateMembershipsWithBlock: (void (^)(NSArray *memberships, NSError *error))block{
-    [Database getTripMembershipsWithID: [Venmo sharedInstance].session.user.externalId andStatus:0 withBlock:^(NSArray *data, NSError *error) {
-        _memberships = data;
-        block(data, nil);
-    }];
-}
+//-(void) updateOwnershipsWithBlock: (void (^)(NSArray *ownerships, NSError *error))block {
+//    [Database getTripOwnershipsWithID: [Venmo sharedInstance].session.user.externalId andStatus:0 withBlock:^(NSArray *data, NSError *error) {
+//        _ownerships = data;
+//        block(data, nil);
+//    }];
+//}
+//
+//-(void) updateMembershipsWithBlock: (void (^)(NSArray *memberships, NSError *error))block{
+//    [Database getTripMembershipsWithID: [Venmo sharedInstance].session.user.externalId andStatus:0 withBlock:^(NSArray *data, NSError *error) {
+//        _memberships = data;
+//        block(data, nil);
+//    }];
+//}
 
 -(void) addFriendToRecents:(NSDictionary *)friendDict {
     if (![_recents containsObject:friendDict]) {
@@ -117,14 +117,14 @@
                                                  VENPermissionAccessPhone,
                                                  VENPermissionAccessFriends] withCompletionHandler:^(BOOL success, NSError *error) {
                                                      if (success) {
-                                                         [Database authUserWithVenmoWithBlock:^(BOOL success) {
-                                                             if (success) {
-                                                                 block(success);
-                                                                 [UserManager sharedManager].notUsingVenmo = NO;
-                                                             } else {
-                                                                 [[Venmo sharedInstance] logout];
-                                                             }
-                                                         }];
+//                                                         [Database authUserWithVenmoWithBlock:^(BOOL success) {
+//                                                             if (success) {
+//                                                                 block(success);
+//                                                                 [UserManager sharedManager].loggedIn = YES;
+//                                                             } else {
+//                                                                 [[Venmo sharedInstance] logout];
+//                                                             }
+//                                                         }];
                                                      } else {
                                                          UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unsuccessful" message:@"An error occured while logging in." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
                                                          dispatch_async(dispatch_get_main_queue(), ^{

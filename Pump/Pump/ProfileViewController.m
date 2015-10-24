@@ -84,7 +84,7 @@
     [self.navigationItem setTitle:@"Pending"];
     if ([UIApplication sharedApplication].applicationIconBadgeNumber != 0) {
         [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-        [Database updateBadgeCount];
+//        [Database updateBadgeCount];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"Recieve Notification" object:nil];
     }
 }
