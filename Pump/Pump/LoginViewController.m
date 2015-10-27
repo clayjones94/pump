@@ -24,11 +24,11 @@
 -(void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.view setBackgroundColor:[UIColor whiteColor]];
+    [Utils addDefaultGradientToView:self.view];
     
-    UIImageView *background = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login Background"]];
-    [background setFrame:self.view.frame];
-    [self.view addSubview:background];
+    UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"login_title"]];
+    [image setFrame:CGRectMake(self.view.frame.size.width/2 - image.frame.size.width/2, self.view.frame.size.height/2 - image.frame.size.height/2, 245, 160)];
+    [self.view addSubview:image];
     
     signInButton = [UIButton buttonWithType: UIButtonTypeCustom];
     [signInButton setBackgroundColor:[UIColor clearColor]];

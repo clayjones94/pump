@@ -13,8 +13,6 @@
 #import <CoreLocation/CoreLocation.h>
 #import "DecimalKeypad.h"
 
-@interface TripViewController : UIViewController <TripManagerDelegate, CLLocationManagerDelegate, GMSMapViewDelegate, UIAlertViewDelegate, DecimalKeypadDelegate>
-
-- (void)openPendingsFromNotification:(BOOL)isRequest;
-
+@interface TripViewController : UIViewController <TripManagerDelegate, GMSMapViewDelegate, UIAlertViewDelegate, DecimalKeypadDelegate>
+@property (nonatomic) PFUser *user;
 @end

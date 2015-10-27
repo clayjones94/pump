@@ -10,6 +10,9 @@
 #import "Utils.h"
 #import <Parse/Parse.h>
 #import "ConnectWithVenmoViewController.h"
+#import <Venmo-iOS-SDK/Venmo.h>
+#import "PhoneViewController.h"
+#import "FindCarViewController.h"
 
 #define TEXT_FIELD_WIDTH 200
 #define MAX_CHARACTER_LENGTH 50
@@ -35,6 +38,8 @@
     [_scrollView setContentSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height * 1.5)];
     [_scrollView setScrollEnabled:NO];
     [_scrollView setBackgroundColor:[Utils defaultColor]];
+    [Utils addDefaultGradientToView:_scrollView];
+    
     [self.view addSubview:_scrollView];
     
     CGFloat height = self.view.frame.size.height;
@@ -60,6 +65,7 @@
     [_passwordField setTextColor:[UIColor whiteColor]];
     [_passwordField setFont:[UIFont fontWithName:@"AppleSDGothicNeo-Regular" size:14]];
     [_passwordField setDelegate:self];
+    _passwordField.secureTextEntry = YES;
     [_scrollView addSubview:_passwordField];
     
     underline = [[UIView alloc] initWithFrame:CGRectMake(_passwordField.frame.origin.x, _passwordField.frame.origin.y + _passwordField.frame.size.height + 3, _passwordField.frame.size.width, 1)];
@@ -132,16 +138,28 @@
 
 -(void) registerUser {
     if (_passwordField.text.length >= 7) {
-        NSString *username = _usernameField.text;
+        NSString *username = _usernameField.text.lowercaseString;
         NSString *password = _passwordField.text;
         
         
         [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser *user, NSError *error) {
-            if (user) {   // Hooray! Let them use the app now.
-                ConnectWithVenmoViewController *vc = [ConnectWithVenmoViewController new];
-                [self.navigationController pushViewController:vc animated:YES];
+            if (user) {
+                if (![Venmo sharedInstance].isSessionValid) {
+                    ConnectWithVenmoViewController *vc = [ConnectWithVenmoViewController new];
+                    [self.navigationController pushViewController:vc animated:YES];
+                } else if(!user[@"phone"]){
+                    PhoneViewController *vc = [PhoneViewController new];
+                    [self.navigationController pushViewController:vc animated:YES];
+                } else if(!user[@"using_car"]) {
+                    FindCarViewController *vc = [FindCarViewController new];
+                    [self.navigationController pushViewController:vc animated:YES];
+                } else {
+                    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                }
             } else {
-                NSString *errorString = [error userInfo][@"error"];   // Show the errorString somewhere and let the user try again.
+                NSString *errorString = [error userInfo][@"error"];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Sign In" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+                [alert show];
             }
         }];
     } else if (_passwordField.text.length < 7){

@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
 
 @interface SearchViewTableViewCell : UITableViewCell
 
-@property (nonatomic) NSDictionary *user;
+@property (nonatomic) PFUser *user;
 
 @end

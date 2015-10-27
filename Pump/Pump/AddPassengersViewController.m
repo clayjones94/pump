@@ -69,13 +69,13 @@
             [[UserManager sharedManager] addFriendToRecents:passenger];
         }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Show Popup" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Passengers Changed" object:nil];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void) cancel {
     [self dismissViewControllerAnimated:YES completion:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Show Popup" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Passengers Changed" object:nil];
 }
 
 @end

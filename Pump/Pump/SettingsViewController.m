@@ -14,6 +14,7 @@
 #import "Database.h"
 #import "TripManager.h"
 #import "Storage.h"
+#import <Parse/Parse.h>
 
 @interface SettingsViewController ()
 
@@ -52,6 +53,7 @@
 
 -(void) logout {
     [[Venmo sharedInstance] logout];
+    [PFUser logOut];
 //    [UserManager sharedManager].notUsingVenmo = NO;
     [[UserManager sharedManager] logoutOfManager];
     [[TripManager sharedManager] logoutOfManager];

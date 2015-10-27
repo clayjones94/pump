@@ -24,14 +24,23 @@
 
 @synthesize year = _year;
 
+- (void)loadView {
+    [super loadView];
+    self.view.autoresizesSubviews = YES;
+    self.view.autoresizingMask=(UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [super viewDidLoad];
-    
+}
+
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
     CGFloat width = self.view.frame.size.width;
     CGFloat height = self.view.frame.size.height;
     
     [self.view setBackgroundColor:[Utils defaultColor]];
+    [Utils addDefaultGradientToView:self.view];
     
     UILabel *titleLabel = [[UILabel alloc] init];
     [titleLabel setAttributedText:[Utils defaultString:@"Select a make:" size:24 color:[UIColor whiteColor]]];

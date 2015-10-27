@@ -10,6 +10,7 @@
 #import "Utils.h"
 #import "Database.h"
 #import <Parse/Parse.h>
+#import "CustomMPGViewController.h"
 
 #define TEXT_FIELD_WIDTH 180
 
@@ -38,10 +39,15 @@ NSMutableString *_currentString;
     [super viewDidLoad];
     [super viewDidLoad];
     
+}
+
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
     CGFloat width = self.view.frame.size.width;
     CGFloat height = self.view.frame.size.height;
     
     [self.view setBackgroundColor:[Utils defaultColor]];
+    [Utils addDefaultGradientToView:self.view];
     
     UILabel *titleLabel = [[UILabel alloc] init];
     [titleLabel setAttributedText:[Utils defaultString:@"Select a model:" size:24 color:[UIColor whiteColor]]];
@@ -167,9 +173,15 @@ NSMutableString *_currentString;
             currentUser[@"car_year"] = _year;
             currentUser[@"car_make"] = _make;
             currentUser[@"car_model"] = _model;
+            currentUser[@"using_car"] = [NSNumber numberWithBool: YES];
             [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 if (succeeded) {
                     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                    if (self.navigationController.parentViewController) {
+                        [self.navigationController willMoveToParentViewController:nil];
+                        [self.navigationController.view removeFromSuperview];
+                        [self.navigationController removeFromParentViewController];
+                    }
                 } else {
                     // There was a problem, check error.description
                 }
@@ -182,15 +194,21 @@ NSMutableString *_currentString;
                 [self getMPGForCar];
             } else {
                 _currentString = [NSMutableString new];
-                //[self.navigationController dismissViewControllerAnimated:YES completion:nil];
                 PFUser *currentUser = [PFUser currentUser];
                 currentUser[@"gas_type"] = _gasType;
                 currentUser[@"car_year"] = _year;
                 currentUser[@"car_make"] = _make;
                 currentUser[@"car_model"] = _model;
+                currentUser[@"using_car"] = [NSNumber numberWithBool: YES];
                 [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                     if (succeeded) {
-                        
+                        CustomMPGViewController *vc = [CustomMPGViewController new];
+                        [self.navigationController pushViewController:vc animated:YES];
+//                        if (self.navigationController.parentViewController) {
+//                            [self.navigationController willMoveToParentViewController:nil];
+//                            [self.navigationController.view removeFromSuperview];
+//                            [self.navigationController removeFromParentViewController];
+//                        }
                     } else {
                         // There was a problem, check error.description
                     }

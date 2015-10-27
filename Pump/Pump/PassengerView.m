@@ -12,6 +12,7 @@
 #import "Utils.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <Venmo-iOS-SDK/Venmo.h>
+#import <Parse/Parse.h>
 
 @implementation PassengerView {
     CGRect _boundingFrame;
@@ -78,7 +79,7 @@
         [backgroundView setBackgroundColor:[Utils defaultLightColor]];
         [cell addSubview:backgroundView];
         [cell sendSubviewToBack:backgroundView];
-        NSDictionary *passenger = [[TripManager sharedManager].passengers objectAtIndex:indexPath.row-1];
+        PFUser *passenger = [[TripManager sharedManager].passengers objectAtIndex:indexPath.row-1];
         [cell setPassenger: passenger];
         
         float cost;
@@ -89,8 +90,8 @@
         }
         [cell.detailTextLabel setAttributedText:[Utils defaultString:[NSString stringWithFormat:@"$%.2f",cost] size:12 color:[UIColor whiteColor]]];
         
-        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[passenger objectForKey:@"profile_picture_url"]]
-                          placeholderImage:[UIImage imageNamed:@"profile_pic_default"]];
+//        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[passenger objectForKey:@"profile_picture_url"]]
+//                          placeholderImage:[UIImage imageNamed:@"profile_pic_default"]];
         return cell;
     }
     return cell;

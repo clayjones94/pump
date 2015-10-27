@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+@import Contacts;
 
 @class UserManager;
 
@@ -25,6 +26,8 @@
 @property (nonatomic) NSArray *memberships;
 @property (nonatomic) NSArray *ownerships;
 @property (nonatomic) BOOL loggedIn;
+@property (nonatomic) CNContactStore *contactStore;
+@property (nonatomic) NSMutableArray *phoneNumbers;
 
 + (UserManager *)sharedManager;
 -(void) getVenmoFriendsWithBlock: (void (^)(NSArray *friends, NSError *error))block;

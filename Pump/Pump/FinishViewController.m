@@ -1,0 +1,383 @@
+//
+//  FinishViewController.m
+//  Pump
+//
+//  Created by Clay Jones on 10/25/15.
+//  Copyright © 2015 Clay Jones. All rights reserved.
+//
+
+#import "FinishViewController.h"
+#import "FinishView.h"
+#import "TripManager.h"
+#import "Utils.h"
+#import "PassengerView.h"
+#import "UserManager.h"
+#import "Database.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import <Venmo-iOS-SDK/Venmo.h>
+#import <Parse/Parse.h>
+#import "AddPassengersViewController.h"
+
+@interface FinishViewController ()
+
+@end
+
+@implementation FinishViewController {
+    UITextView *_descriptionField;
+    UIActivityIndicatorView *_indicator;
+    UIButton *_saveButton;
+    UIButton *_discardButton;
+    PassengerView *passengerView;
+    UIButton *otherCarButton;
+    UIButton *myCarButton;
+    UIView *buttonBackgroundView;
+    BOOL hasPassengers;
+    UIButton *_carButton;
+    UILabel *_detailLabel;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addPassengers) name:@"Add Passengers" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(update) name:@"Passengers Changed" object:nil];
+    
+    [self.view setBackgroundColor:[UIColor clearColor]];
+    UIView *backView = [[UIView alloc] initWithFrame:self.view.frame];
+    [backView setBackgroundColor:[Utils defaultColor]];
+    [backView setAlpha:.9];
+    [self.view addSubview:backView];
+    [self.view sendSubviewToBack:backView];
+    _indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    [_indicator setHidden:YES];
+    [_indicator setFrame:CGRectMake(self.view.frame.size.width/2 - 25, self.view.frame.size.height/2 - 15, 50, 50)];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(update) name:@"Delete Passengers" object:nil];
+    
+    UILabel *totalCostLabel = [[UILabel alloc] init];
+    NSAttributedString *costString = [Utils defaultString:[NSString stringWithFormat:@"$%.2f", [TripManager sharedManager].distanceTraveled/1609.344 * [[[TripManager sharedManager] gasPrice] doubleValue] / [[[TripManager sharedManager] mpg] doubleValue]] size:30 color:[UIColor whiteColor]];
+    [totalCostLabel setAttributedText:costString];
+    [totalCostLabel sizeToFit];
+    [totalCostLabel setFrame:CGRectMake(self.view.frame.size.width/2 - totalCostLabel.frame.size.width/2, 50 - totalCostLabel.frame.size.height/2, totalCostLabel.frame.size.width, totalCostLabel.frame.size.height)];
+    
+    [self.view addSubview:totalCostLabel];
+    
+    _descriptionField = [[UITextView alloc] initWithFrame:CGRectMake(22.5, 75, self.view.frame.size.width - 45, 50)];
+    [_descriptionField setBackgroundColor:[Utils defaultLightColor]];
+    [_descriptionField setText:@"Add a description..."];
+    [_descriptionField setTextColor:[UIColor whiteColor]];
+    _descriptionField.textContainerInset = UIEdgeInsetsMake(5, 8, 0, 20);
+    [_descriptionField setFont:[UIFont fontWithName:@"AppleSDGothicNeo-Bold" size:12]];
+    [_descriptionField setEditable:YES];
+    [_descriptionField setUserInteractionEnabled:YES];
+    _descriptionField.delegate = self;
+    [self.view addSubview:_descriptionField];
+    
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]
+                                   initWithTarget:self
+                                   action:@selector(dismissKeyboard)];
+    [tap setCancelsTouchesInView:NO];
+    [self.view addGestureRecognizer:tap];
+    
+    hasPassengers = YES;
+    
+    buttonBackgroundView = [[UIView alloc] init];
+    [buttonBackgroundView setBackgroundColor:[Utils defaultLightColor]];
+    [buttonBackgroundView.layer setCornerRadius:15];
+    [self.view addSubview:buttonBackgroundView];
+    
+    
+    
+    _saveButton = [UIButton buttonWithType: UIButtonTypeCustom];
+    [_saveButton setBackgroundColor:[UIColor clearColor]];
+    [_saveButton.layer setBorderWidth:1];
+    [_saveButton.layer setBorderColor:[UIColor whiteColor].CGColor];
+    [_saveButton addTarget:self action:@selector(saveTrips:) forControlEvents:UIControlEventTouchUpInside];
+    _discardButton = [UIButton buttonWithType: UIButtonTypeCustom];
+    [_discardButton setBackgroundColor:[UIColor clearColor]];
+    [_discardButton.layer setBorderWidth:1];
+    [_discardButton.layer setBorderColor:[UIColor whiteColor].CGColor];
+    [_discardButton addTarget:self action:@selector(discardTrip) forControlEvents:UIControlEventTouchUpInside];
+    
+    _detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(22.5, 180, 0, 0)];
+    [self.view addSubview:_detailLabel];
+    
+    //    if (hasPassengers) {
+    [_detailLabel setAttributedText:[Utils defaultString:@"Passengers:" size:14 color:[UIColor whiteColor]]];
+    passengerView = [[PassengerView alloc] initWithFrame:CGRectMake(20, 195, self.view.frame.size.width - 40, self.view.frame.size.height - 265)];
+    [passengerView.layer setBorderColor:[UIColor whiteColor].CGColor];
+    [self.view addSubview:passengerView];
+    CGFloat height = (([TripManager sharedManager].passengers.count + 2) * 40 > self.view.frame.size.height - 265) ? self.view.frame.size.height - 265 + 205 : ([TripManager sharedManager].passengers.count + 2) * 40 + 205;
+    [_saveButton setFrame:CGRectMake(self.view.frame.size.width*2/3 - 50/3 , height, 50, 50)];
+    [_discardButton setFrame:CGRectMake(self.view.frame.size.width/3 - 50*2/3 , height, 50, 50)];
+    //    } else {
+    //        [_detailLabel setAttributedText:[Utils defaultString:@"Car Owner:" size:14 color:[UIColor whiteColor]]];
+    //        [self.view addSubview:_carButton];
+    //        [_saveButton setFrame:CGRectMake(self.view.frame.size.width*2/3 - 50/3 , 245, 50, 50)];
+    //        [_discardButton setFrame:CGRectMake(self.view.frame.size.width/3 - 50*2/3, 245, 50, 50)];
+    //    }
+    //    [_detailLabel sizeToFit];
+    [self.view addSubview:_descriptionField];
+    
+    [_saveButton setImage:[UIImage imageNamed:@"Checkmark Filled-25"] forState:UIControlStateNormal];
+    [_saveButton.layer setCornerRadius:25];
+    [_saveButton clipsToBounds];
+    [_saveButton setUserInteractionEnabled:YES];
+    [self.view addSubview:_saveButton];
+    
+    [_discardButton setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
+    [_discardButton.layer setCornerRadius:25];
+    [_discardButton setUserInteractionEnabled:YES];
+    [self.view addSubview:_discardButton];
+}
+
+
+-(void) changeCar {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Choose Car" object:nil];
+}
+
+-(void) update {
+    if (hasPassengers) {
+        [_detailLabel setAttributedText:[Utils defaultString:@"Passengers:" size:14 color:[UIColor whiteColor]]];
+        if (!passengerView) {
+            passengerView = [[PassengerView alloc] initWithFrame:CGRectMake(20, 195, self.view.frame.size.width - 40, self.view.frame.size.height - 265)];
+        } else {
+            [passengerView.tableView reloadData];
+        }
+        if (![passengerView superview]) {
+            [self.view addSubview:passengerView];
+        }
+        if (_carButton && _carButton.superview) {
+            [_carButton removeFromSuperview];
+        }
+        CGFloat height = (([TripManager sharedManager].passengers.count + 2) * 40 > self.view.frame.size.height - 265) ? self.view.frame.size.height - 265 + 205 : ([TripManager sharedManager].passengers.count + 2) * 40 + 205;
+        [_saveButton setFrame:CGRectMake(self.view.frame.size.width*2/3 - 50/3 , height, 50, 50)];
+        [_discardButton setFrame:CGRectMake(self.view.frame.size.width/3 - 50 * 2/3 , height, 50, 50)];
+        [self.view bringSubviewToFront:_saveButton];
+        [self.view bringSubviewToFront:_discardButton];
+    } else {
+        [_detailLabel setAttributedText:[Utils defaultString:@"Driver:" size:14 color:[UIColor whiteColor]]];
+        if (passengerView) {
+            [passengerView removeFromSuperview];
+        }
+        if (_carButton) {
+            [self.view addSubview:_carButton];
+        }
+        NSAttributedString *title;
+        if (![TripManager sharedManager].car) {
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"%@", @"Choose a car..."] size:12 color:[UIColor whiteColor]]];
+        } else {
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"%@'s car", [[TripManager sharedManager].car objectForKey:@"display_name"]] size:14 color:[UIColor whiteColor]]];
+            [_carButton.imageView sd_setImageWithURL:[NSURL URLWithString:[[TripManager sharedManager].car objectForKey:@"profile_picture_url"]]
+                                    placeholderImage:[UIImage imageNamed:@"profile_pic_default"]];
+        }
+        [_carButton setAttributedTitle: title forState:UIControlStateNormal];
+        [_saveButton setFrame:CGRectMake(self.view.frame.size.width*2/3 - 50/3, 245, 50, 50)];
+        [_discardButton setFrame:CGRectMake(self.view.frame.size.width/3 - 50*2/3, 245, 50, 50)];
+        [self.view bringSubviewToFront:_saveButton];
+        [self.view bringSubviewToFront:_discardButton];
+    }
+    [_detailLabel sizeToFit];
+}
+
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    if ([touch.view isKindOfClass:[UITableView class]] || [touch.view isKindOfClass:[UIButton class]]) return YES;
+    return NO;
+}
+
+-(void)dismissKeyboard {
+    [_descriptionField resignFirstResponder];
+}
+
+- (void)textViewDidBeginEditing:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:@"Add a description..."]) {
+        textView.text = @"";
+        textView.textColor = [UIColor whiteColor]; //optional
+    }
+    [textView becomeFirstResponder];
+}
+
+
+
+-(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    if ([text isEqualToString:@"\n"]) {
+        [self dismissKeyboard];
+        return NO;
+    }
+    if(range.length + range.location > textView.text.length)
+    {
+        return NO;
+    }
+    
+    NSUInteger newLength = [textView.text length] + [text length] - range.length;
+    return newLength <= 100;
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    if ([textView.text isEqualToString:@""]) {
+        textView.text = @"Add a description...";
+        textView.textColor = [UIColor whiteColor]; //optional
+    } else {
+        textView.textColor = [UIColor whiteColor];
+    }
+    [textView resignFirstResponder];
+}
+
+-(void) saveTrips: (UIButton *) sender {
+    //    if ([[UserManager sharedManager] notUsingVenmo]) {
+    //        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Sorry" message:@"You must sign up with Venmo to use this feature." delegate:self.view cancelButtonTitle:@"Cancel" otherButtonTitles: @"Sign in", nil];
+    //        alert.tag = 1;
+    //        alert.delegate = self.view;
+    //        [alert show];
+    //        return;
+    //    }
+    if ((![TripManager sharedManager].car && [TripManager sharedManager].passengers.count == 0) || ([_descriptionField.text isEqualToString:@"Add a description..."] && _descriptionField.text.length > 0)) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Wait" message:@"You must add passengers or a friend's car and write a description before completing this ride." delegate:self.view cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+    } else {
+        [_indicator startAnimating];
+        [_indicator setHidden:NO];
+        [self.view addSubview:_indicator];
+        [sender setUserInteractionEnabled:NO];
+        PFObject *trip = [PFObject objectWithClassName:@"Trip"];
+        trip[@"description"] = _descriptionField.text;
+        trip[@"distance"] = [NSNumber numberWithFloat: [TripManager sharedManager].distanceTraveled];
+        trip[@"price_per_passenger"] = [NSNumber numberWithFloat: [self costOfPayment]];
+        trip[@"polyline"] = [[[[TripManager sharedManager] polyline] path] encodedPath];
+        trip[@"mpg"] = [[TripManager sharedManager] mpg];
+        trip[@"gas_price"] = [[TripManager sharedManager] gasPrice];
+        trip[@"passengers"] = [TripManager sharedManager].passengers;
+        PFRelation *ownerRelation = [trip relationForKey:@"owner"];
+        [ownerRelation addObject:[PFUser currentUser]];
+        
+        [trip saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                [[TripManager sharedManager] setStatus:FINISHED];
+                [[TripManager sharedManager] setStatus:PENDING];
+                [self dismissViewControllerAnimated:YES completion:nil];
+            } else {
+                // There was a problem, check error.description
+            }
+        }];
+        //        __block NSUInteger numPassengers = [TripManager sharedManager].passengers.count;
+        //        [Database postTripWithDistance:[NSNumber numberWithDouble:[TripManager sharedManager].distanceTraveled/1609.344] gasPrice:[TripManager sharedManager].gasPrice mpg:[TripManager sharedManager].mpg polyline: [[[[TripManager sharedManager] polyline] path] encodedPath] includeUser: [TripManager sharedManager].includeUserAsPassenger description: _descriptionField.text  andPassengers: [TripManager sharedManager].passengers withBlock:^(NSDictionary *data, NSError *error) {
+        //            dispatch_async(dispatch_get_main_queue(), ^{
+        //                [_saveButton setUserInteractionEnabled:YES];
+        //            });
+        //            if (!error) {
+        //                if (hasPassengers) {
+        //                    __block int numCompleted = 0;
+        //                    __block int numErrors = 0;
+        //                    for (NSString *passengerID in passengerIDs) {
+        //                        [[Venmo sharedInstance] sendRequestTo:passengerID amount:[self.view costOfPayment] * 100 note:[NSString stringWithFormat:@"%@", _descriptionField.text] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
+        //                            numCompleted ++;
+        //                            if (error) {
+        //                                numErrors++;
+        //                            }
+        //                            if (numCompleted == numPassengers){
+        //                                if (numErrors) {
+        //                                    UIAlertView *alert = [[UIAlertView alloc]
+        //                                                          initWithTitle:@"Requests not processed" message:[NSString stringWithFormat: @"%d of your requests were not processed in Venmo.", numErrors] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        //                                    dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+        //                                } else {
+        //                                    UIAlertView *alert = [[UIAlertView alloc]
+        //                                                          initWithTitle:@"Requests completed" message:[NSString stringWithFormat: @"All of your requests were completed"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        //                                    dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+        //                                }
+        //                                [_indicator stopAnimating];
+        //                                [_indicator setHidden:YES];
+        //                                [_indicator removeFromSuperview];
+        //                                dispatch_async(dispatch_get_main_queue(), ^{
+        //                                    [TripManager sharedManager].passengers = [NSMutableArray new];
+        //                                    [[TripManager sharedManager] setStatus:PENDING];
+        //                                    _descriptionField.text = @"Add a description...";
+        //                                    _descriptionField.textColor = [UIColor whiteColor];
+        //                                });
+        //                            }
+        //                        }];
+        //                    }
+        //                } else {
+        //                    [[Venmo sharedInstance] sendPaymentTo:[[TripManager sharedManager].car objectForKey: @"id"] amount:[self.view costOfPayment] * 100 note:[NSString stringWithFormat:@"%@", _descriptionField.text] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
+        //                        if (error) {
+        //                            UIAlertView *alert = [[UIAlertView alloc]
+        //                                                  initWithTitle:@"Payment not processed" message:[NSString stringWithFormat: @"Your payment could not be completed in Venmo"] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        //                            dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+        //                        } else {
+        //                            UIAlertView *alert = [[UIAlertView alloc]
+        //                                                  initWithTitle:@"Payment Confirmed" message:[NSString stringWithFormat: @"Your payment was completed."] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        //                            dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+        //                        }
+        //                        [_indicator stopAnimating];
+        //                        [_indicator setHidden:YES];
+        //                        [_indicator removeFromSuperview];
+        //                        dispatch_async(dispatch_get_main_queue(), ^{
+        //                            [TripManager sharedManager].passengers = [NSMutableArray new];
+        //                            [[TripManager sharedManager] setStatus:PENDING];
+        //                            _descriptionField.text = @"Add a description...";
+        //                            _descriptionField.textColor = [UIColor whiteColor];
+        //                        });
+        //                    }];
+        //                }
+        //            } else {
+        //
+        //            }
+        //        }];
+    }
+}
+
+-(float) costOfPayment {
+    float cost;
+    if (hasPassengers) {
+        if ([[TripManager sharedManager] includeUserAsPassenger]) {
+            cost = [TripManager sharedManager].distanceTraveled/1609.344 * [[[TripManager sharedManager] gasPrice] doubleValue] / [[[TripManager sharedManager] mpg] doubleValue] / ([TripManager sharedManager].passengers.count + 1);
+        } else {
+            cost = [TripManager sharedManager].distanceTraveled/1609.344 * [[[TripManager sharedManager] gasPrice] doubleValue] / [[[TripManager sharedManager] mpg] doubleValue] / ([TripManager sharedManager].passengers.count);
+        }
+    } else {
+        cost = [TripManager sharedManager].distanceTraveled/1609.344 * [[[TripManager sharedManager] gasPrice] doubleValue] / [[[TripManager sharedManager] mpg] doubleValue];
+    }
+    return cost;
+}
+
+- (void) discardTrip {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Quit trip" message:@"This trip will not be saved." delegate:self.view cancelButtonTitle:@"Cancel" otherButtonTitles: @"Ok", nil];
+    alert.tag = 0;
+    alert.delegate = self;
+    [alert show];
+}
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1 && alertView.tag == 0) {
+        [[TripManager sharedManager] setStatus:FINISHED];
+        [[TripManager sharedManager] setStatus:PENDING];
+        _descriptionField.text = @"Add a description...";
+        _descriptionField.textColor = [UIColor whiteColor];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+-(void) addPassengers {
+    AddPassengersViewController *vc = [AddPassengersViewController new];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:nav animated:YES completion:nil];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end

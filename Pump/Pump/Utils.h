@@ -11,6 +11,7 @@
 
 @interface Utils : NSObject
 
++(void) addDefaultGradientToView: (UIView *)view;
 + (UIColor *)defaultColor;
 + (UIColor *)defaultLightColor;
 +(UIColor *) mpgColor;

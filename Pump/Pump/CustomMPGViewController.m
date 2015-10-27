@@ -7,21 +7,105 @@
 //
 
 #import "CustomMPGViewController.h"
+#import "Utils.h"
+#import "DecimalKeypad.h"
+#import <Parse/Parse.h>
 
 @interface CustomMPGViewController ()
 
 @end
 
-@implementation CustomMPGViewController
+@implementation CustomMPGViewController {
+    UITextField *_mpgField;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    //    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    //    [cancelButton setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
+    //    [cancelButton setFrame:CGRectMake(10, 30 , 25, 25)];
+    //    [cancelButton addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
+    //    [self.view addSubview:cancelButton];
+    //    //
+    //    //    [self.view clipsToBounds];
+    //    //    [self.view addSubview:topBar];
+    
+    [self.view setBackgroundColor:[Utils defaultColor]];
+    [Utils addDefaultGradientToView:self.view];
+    
+    _mpgField = [[UITextField alloc] initWithFrame:CGRectMake(self.view.frame.size.width/2 - (self.view.frame.size.width - 100)/2, self.view.frame.size.height * 1/4 - 40, self.view.frame.size.width - 100, 80)];
+    [_mpgField setAttributedPlaceholder:[Utils defaultString:@"0" size:45 color:[UIColor whiteColor]]];
+    [_mpgField setBackgroundColor:[Utils defaultLightColor]];
+    [_mpgField.layer setCornerRadius:10];
+    //[_mpgField setPlaceholder:@"0"];
+    [_mpgField setTextAlignment:NSTextAlignmentCenter];
+    //[mpgField setAttributedText:[Utils defaultString:@"" size:30 color:[UIColor blackColor]]];
+    [_mpgField setFont:[UIFont fontWithName:@"AppleSDGothicNeo-Regular" size:45]];
+    [_mpgField setTextColor:[UIColor whiteColor]];
+    [self.view addSubview:_mpgField];
+    [_mpgField setUserInteractionEnabled:NO];
+    //[_mpgField setKeyboardType:UIKeyboardTypeDecimalPad];
+    //[_mpgField becomeFirstResponder];
+    
+    UILabel *title = [[UILabel alloc] init];
+    [title setAttributedText: [Utils defaultString:@"Please estimate your car's gas mileage" size:20 color:[UIColor whiteColor]]];
+    [title sizeToFit];
+    [title setFrame:CGRectMake(self.view.frame.size.width/2 - title.frame.size.width/2, _mpgField.frame.origin.y - title.frame.size.height - 3, title.frame.size.width, title.frame.size.height)];
+    [self.view addSubview:title];
+    
+    DecimalKeypad *keypad = [[DecimalKeypad alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height/2 - 60, self.view.frame.size.width, self.view.frame.size.height/2)];
+    [keypad setBackgroundColor:[UIColor clearColor]];
+    [keypad setTextColor:[UIColor whiteColor]];
+    keypad.delegate = self;
+    keypad.tag = 0;
+    [self.view addSubview:keypad];
+    
+    UIButton *doneButton = [UIButton buttonWithType: UIButtonTypeCustom];
+    [doneButton setBackgroundColor:[Utils defaultLightColor]];
+    [doneButton setFrame:CGRectMake(0, keypad.frame.origin.y + keypad.frame.size.height, self.view.frame.size.width, self.view.frame.size.height - (keypad.frame.origin.y + keypad.frame.size.height))];
+    [doneButton addTarget:self action:@selector(selectMPG) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:doneButton];
+    
+    NSAttributedString *titleString = [Utils defaultString:@"CHANGE" size:24 color:[UIColor whiteColor]];
+    //[doneButton.layer setBorderColor:[UIColor whiteColor].CGColor];
+    //[doneButton.layer setBorderWidth:1];
+    [doneButton setAttributedTitle: titleString forState:UIControlStateNormal];
+}
+
+-(void) selectMPG {
+    NSNumber *mpg = [NSNumber numberWithDouble: [_mpgField.text doubleValue]];
+    [PFUser currentUser][@"mpg"] = mpg;
+    [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (succeeded) {
+            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+            if (self.navigationController.parentViewController) {
+                [self.navigationController willMoveToParentViewController:nil];
+                [self.navigationController.view removeFromSuperview];
+                [self.navigationController removeFromParentViewController];
+            }
+        } else {
+            
+        }
+    }];
+}
+
+-(void)keypad:(DecimalKeypad *)keypad didPressNumberValue:(NSString *)number {
+    if (keypad.tag == 0) {
+        _mpgField.text = [_mpgField.text stringByAppendingString:number];
+    }
+}
+
+-(void)didBackspaceKeypad:(DecimalKeypad *)keypad {
+    if (keypad.tag == 0) {
+        if ([_mpgField.text length] > 0) {
+            _mpgField.text = [_mpgField.text substringToIndex:[_mpgField.text length] - 1];
+        }
+    }
 }
 
 /*

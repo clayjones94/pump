@@ -18,3 +18,64 @@ Parse.Cloud.define("verifyPhoneNumber", function(request, response) {
     error: function(httpResponse) { response.error("Uh oh, something went wrong"); }
   });
 });
+
+Parse.Cloud.define("retrieveRecentPassengers", function(request, response) {          
+	var Trip = Parse.Object.extend("Trip");
+	var query = new Parse.Query(Trip);
+	query.equalTo("owner", Parse.User.current());
+	query.include("passengers");
+	query.limit(10)
+	query.find({
+	  success: function(results) {
+	    alert("Successfully retrieved " + results.length + " trips.");
+	    // Do something with the returned Parse.Object values
+	    var users = [];
+	    var counter = 0;
+	    for (var i = results.length - 1; i >= 0; i--) {
+	    	var trip = results[i];
+	    	var passengers = trip.get("passengers");
+	    	for (var j = passengers.length - 1; j >= 0; j--) {
+	    		var passenger = passengers[j];
+	    		if (containsObject(passenger, users) == false) {
+	    			users.push(passenger);
+	    		};
+	    		counter ++;
+	    		if (counter>20) {break;};
+	    	};
+	    	if (counter>20) {break;};
+	    };
+	    response.success(users);
+	  },
+	  error: function(error) {
+	    alert("Error: " + error.code + " " + error.message);
+	  }
+	});    
+});
+
+function containsObject(obj, list) {
+    var i;
+    for (i = 0; i < list.length; i++) {
+        if (list[i].id === obj.id || obj.id == Parse.User.current().id) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+Parse.Cloud.define("retrieveUsersWithPhoneNumbers", function(request, response) {
+	var query = new Parse.Query(Parse.User);
+	query.containedIn("phone", request.params.phone_numbers);
+	query.notEqualTo("objectId", Parse.User.current().id);
+	query.find({
+	  success: function(results) {
+	    alert("Successfully retrieved " + results.length + " scores.");
+	    // Do something with the returned Parse.Object values
+	    response.success(results);
+	  },
+	  error: function(error) {
+	    alert("Error: " + error.code + " " + error.message);
+	  }
+	});        
+});
+

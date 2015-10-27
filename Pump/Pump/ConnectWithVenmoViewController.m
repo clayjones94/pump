@@ -26,6 +26,11 @@
     CGFloat height = self.view.frame.size.height;
     
     [self.view setBackgroundColor:[Utils defaultColor]];
+    [Utils addDefaultGradientToView:self.view];
+    
+    UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"pig"]];
+    [image setFrame:CGRectMake(self.view.frame.size.width/2 - image.frame.size.width/2, self.view.frame.size.height/2 - image.frame.size.height/2, 150, 158)];
+    [self.view addSubview:image];
     
     UILabel *titleLabel = [[UILabel alloc] init];
     [titleLabel setAttributedText:[Utils defaultString:@"Connect with Venmo" size:24 color:[UIColor whiteColor]]];
@@ -64,12 +69,16 @@
 }
 
 -(void) skip {
+    [PFUser currentUser][@"using_venmo"] = [NSNumber numberWithBool:NO];
+    [[PFUser currentUser] saveInBackground];
     if (![PFUser currentUser][@"phone"]) {
         PhoneViewController *vc = [PhoneViewController new];
         [self.navigationController pushViewController:vc animated:YES];
     } else {
-        FindCarViewController *vc = [FindCarViewController new];
-        [self.navigationController pushViewController:vc animated:YES];
+[       PFUser currentUser][@"using_car"] = [NSNumber numberWithBool: NO];
+        [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }];
     }
 }
 
@@ -81,20 +90,33 @@
                                                  VENPermissionAccessPhone,
                                                  VENPermissionAccessFriends] withCompletionHandler:^(BOOL success, NSError *error) {
                                                      if (success) {
+                                                         [PFUser currentUser][@"using_venmo"] = [NSNumber numberWithBool:YES];
+                                                         [PFUser currentUser][@"using_car"] = [NSNumber numberWithBool: NO];
                                                          if ([Venmo sharedInstance].session.user.primaryPhone && ![PFUser currentUser][@"phone"]) {
                                                              [PFUser currentUser][@"phone"] = [Venmo sharedInstance].session.user.primaryPhone;
                                                              [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                                                                  if (succeeded) {
                                                                      // The object has been saved.
-                                                                     FindCarViewController *vc = [FindCarViewController new];
-                                                                     [self.navigationController pushViewController:vc animated:YES];
+                                                                     if (![PFUser currentUser][@"phone"]) {
+                                                                         PhoneViewController *vc = [PhoneViewController new];
+                                                                         [self.navigationController pushViewController:vc animated:YES];
+                                                                     } else{
+                                                                         [[PFUser currentUser] saveInBackground];
+                                                                         [self dismissViewControllerAnimated:YES completion:nil];
+                                                                     }
                                                                  } else {
-                                                                     // There was a problem, check error.description
+                                                                    
                                                                  }
                                                              }];
                                                          } else {
-                                                             PhoneViewController *vc = [PhoneViewController new];
-                                                             [self.navigationController pushViewController:vc animated:YES];
+                                                             [[PFUser currentUser] saveInBackground];
+                                                             if (![PFUser currentUser][@"phone"]) {
+                                                                 PhoneViewController *vc = [PhoneViewController new];
+                                                                 [self.navigationController pushViewController:vc animated:YES];
+                                                             }
+                                                             else {
+                                                                 [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                                                             }
                                                          }
                                                          
                                                      } else {

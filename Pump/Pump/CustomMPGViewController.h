@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DecimalKeypad.h"
 
-@interface CustomMPGViewController : UIViewController
+@interface CustomMPGViewController : UIViewController <DecimalKeypadDelegate>
 
 @end

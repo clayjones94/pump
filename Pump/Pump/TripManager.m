@@ -7,6 +7,8 @@
 //
 
 #import "TripManager.h"
+#import "Database.h"
+#import <Parse/Parse.h>
 
 @implementation TripManager {
     NSMutableArray *_runningLocations;
@@ -44,7 +46,7 @@
         _passengers = [NSMutableArray new];
         _polyline = [GMSPolyline new];
         _includeUserAsPassenger = YES;
-        _car = nil;
+        _car = [PFUser currentUser];
         
         if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
             if ([CLLocationManager locationServicesEnabled]) {
@@ -64,11 +66,7 @@
     if (_status != FINISHED) {
         _polyline.map = nil;
     }
-//    CLLocationDirection direction = [self getHeadingForDirectionFromCoordinate:_lastLocation.coordinate toCoordinate:newLocation.coordinate];
-//    if (ABS(_direction - direction) > 3) {
-//        _direction = direction;
-//        NSLog(@"Direction: %f", direction);
-//    }
+
     [self.delegate tripManager: self didUpdateLocation: newLocation.coordinate direction:0];
     if (_status == RUNNING || _status == PAUSED) {
         [_runningLocations addObject: newLocation];
@@ -93,21 +91,6 @@
     }
 }
 
-- (float) getHeadingForDirectionFromCoordinate:(CLLocationCoordinate2D)fromLoc toCoordinate:(CLLocationCoordinate2D)toLoc
-{
-    float fLat = degreesToRadians(fromLoc.latitude);
-    float fLng = degreesToRadians(fromLoc.longitude);
-    float tLat = degreesToRadians(toLoc.latitude);
-    float tLng = degreesToRadians(toLoc.longitude);
-    
-    float degree = radiandsToDegrees(atan2(sin(tLng-fLng)*cos(tLat), cos(fLat)*sin(tLat)-sin(fLat)*cos(tLat)*cos(tLng-fLng)));
-    if (degree >= 0) {
-        return degree;
-    } else {
-        return 360+degree;
-    }
-}
-
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     switch ([CLLocationManager authorizationStatus]) {
         case kCLAuthorizationStatusAuthorizedWhenInUse:
@@ -126,22 +109,159 @@
     }
 }
 
+-(void) setCar:(PFUser *)car {
+    _car = car;
+    _mpg = car[@"mpg"];
+    [self selectGasType];
+}
+
 -(void)setGasPrice:(NSNumber *)gasPrice {
     _gasPrice = gasPrice;
-    [[NSUserDefaults standardUserDefaults] setObject:gasPrice forKey:@"gas_price"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    if ([_car.objectId isEqualToString:[PFUser currentUser].objectId]) {
+        [[NSUserDefaults standardUserDefaults] setObject:_gasPrice forKey:@"gas_price"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 }
 
 -(void)setMpg:(NSNumber *)mpg {
     _mpg = mpg;
-    [[NSUserDefaults standardUserDefaults] setObject:mpg forKey:@"mpg"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
+    if ([_car.objectId isEqualToString:[PFUser currentUser].objectId]) {
+        [[NSUserDefaults standardUserDefaults] setObject:_mpg forKey:@"mpg"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+}
+
+-(void) selectGasType {
+    GasType type = GAS_TYPE_REGULAR;
+    if ([_car[@"gas_type"] isEqualToString:@"Midgrade Gasoline"]) {
+        type = GAS_TYPE_MIDGRADE;
+    } else if([_car[@"gas_type"] isEqualToString:@"Premium Gasoline"]) {
+        type = GAS_TYPE_PREMIUM;
+    } else if ([_car[@"gas_type"] isEqualToString:@"Diesel Gasoline"]) {
+        type = GAS_TYPE_DIESEL;
+    }
+    switch (type) {
+        case GAS_TYPE_REGULAR:
+        {
+            [Database retrieveLocalGasPriceForType:GAS_TYPE_REGULAR withBlock:^(NSArray *data, NSError *error) {
+                if (error) {
+                    _gasPrice = [[NSUserDefaults standardUserDefaults] objectForKey:@"gas_price"];
+                    if (!_gasPrice) {
+                        _gasPrice = @3.00;
+                    }
+                    return;
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    double gasAverage = 0;
+                    int count = 0;
+                    for (NSDictionary *station in data) {
+                        if([[station objectForKey:@"reg_price"] doubleValue]) {
+                            count++;
+                            gasAverage += [[station objectForKey:@"reg_price"] doubleValue];
+                        }
+                    }
+                    gasAverage /= count++;
+                    if (gasAverage > 0) {
+                        NSNumber *gasPrice = [NSNumber numberWithDouble: gasAverage];
+                        [self setGasPrice:gasPrice];
+                    }
+                });
+            }];
+            break;
+        }
+        case GAS_TYPE_MIDGRADE:
+        {
+            [Database retrieveLocalGasPriceForType:GAS_TYPE_MIDGRADE withBlock:^(NSArray *data, NSError *error) {
+                if (error) {
+                    _gasPrice = [[NSUserDefaults standardUserDefaults] objectForKey:@"gas_price"];
+                    if (!_gasPrice) {
+                        _gasPrice = @3.00;
+                    }
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    double gasAverage = 0;
+                    int count = 0;
+                    for (NSDictionary *station in data) {
+                        if([[station objectForKey:@"mid_price"] doubleValue]) {
+                            count++;
+                            gasAverage += [[station objectForKey:@"mid_price"] doubleValue];
+                        }
+                        return;
+                    }
+                    gasAverage /= count++;
+                    if (gasAverage > 0) {
+                        NSNumber *gasPrice = [NSNumber numberWithDouble: gasAverage];
+                        [self setGasPrice:gasPrice];
+                    }
+                });
+            }];
+            break;
+        }
+        case GAS_TYPE_PREMIUM:
+        {
+            [Database retrieveLocalGasPriceForType:GAS_TYPE_PREMIUM withBlock:^(NSArray *data, NSError *error) {
+                if (error) {
+                    _gasPrice = [[NSUserDefaults standardUserDefaults] objectForKey:@"gas_price"];
+                    if (!_gasPrice) {
+                        _gasPrice = @3.00;
+                    }
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    double gasAverage = 0;
+                    int count = 0;
+                    for (NSDictionary *station in data) {
+                        if([[station objectForKey:@"pre_price"] doubleValue]) {
+                            count++;
+                            gasAverage += [[station objectForKey:@"pre_price"] doubleValue];
+                        }
+                        return;
+                    }
+                    gasAverage /= count++;
+                    if (gasAverage > 0) {
+                        NSNumber *gasPrice = [NSNumber numberWithDouble: gasAverage];
+                        [self setGasPrice:gasPrice];
+                    }
+                });
+            }];
+            break;
+        }
+        case GAS_TYPE_DIESEL:
+        {
+            [Database retrieveLocalGasPriceForType:GAS_TYPE_DIESEL withBlock:^(NSArray *data, NSError *error) {
+                if (error) {
+                    _gasPrice = [[NSUserDefaults standardUserDefaults] objectForKey:@"gas_price"];
+                    if (!_gasPrice) {
+                        _gasPrice = @3.00;
+                    }
+                    return;
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    double gasAverage = 0;
+                    int count = 0;
+                    for (NSDictionary *station in data) {
+                        if([[station objectForKey:@"diesel_price"] doubleValue]) {
+                            count++;
+                            gasAverage += [[station objectForKey:@"diesel_price"] doubleValue];
+                        }
+                    }
+                    gasAverage /= count++;
+                    if (gasAverage > 0) {
+                        NSNumber *gasPrice = [NSNumber numberWithDouble: gasAverage];
+                        [self setGasPrice:gasPrice];
+                    }
+                });
+            }];
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 -(void)setStatus:(TripStatusType)status {
     _status = status;
     if (_status == PENDING) {
+        [self selectGasType];
         _runningLocations = [[NSMutableArray alloc] init];
         _distanceTraveled = 0;
         _includeUserAsPassenger = YES;
@@ -149,6 +269,16 @@
         _car = nil;
     }
     else if (_status == RUNNING) {
+        if (_car[@"mpg"]) {
+            _mpg = _car[@"mpg"];
+        } else {
+            [_car fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+                if (object) {
+                    _mpg = object[@"mpg"];
+                }
+            }];
+        }
+        [self selectGasType];
     }
     [self.delegate tripManager:self didUpdateStatus:_status];
 }

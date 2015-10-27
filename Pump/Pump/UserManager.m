@@ -22,6 +22,9 @@
 @synthesize memberships = _memberships;
 @synthesize ownerships = _ownerships;
 @synthesize loggedIn = _loggedIn;
+@synthesize contactStore = _contactStore;
+@synthesize phoneNumbers = _phoneNumbers;
+
 
 + (UserManager *)sharedManager {
     static UserManager *sharedManager = nil;
@@ -34,16 +37,12 @@
 
 - (id)init {
     if (self == [super init]) {
-        _recents = [NSMutableArray new];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"recents"]) {
-                 NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"recents"];
-                NSArray *recentArr = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-                if (recentArr) {
-                    [UserManager sharedManager].recents = [NSMutableArray arrayWithArray: recentArr];
-                }
-            }
-        });
+        _contactStore = [CNContactStore new];
+        if ([CNContactStore authorizationStatusForEntityType:CNEntityTypeContacts] == CNAuthorizationStatusNotDetermined) {
+            [_contactStore requestAccessForEntityType:CNEntityTypeContacts completionHandler:^(BOOL granted, NSError * _Nullable error) {
+
+            }];
+        }
     }
     return self;
 }

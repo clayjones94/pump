@@ -11,6 +11,7 @@
 #import "Constants.h"
 #import <MapKit/MapKit.h>
 #import <GoogleMaps/GoogleMaps.h>
+#import <Parse/Parse.h>
 
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiandsToDegrees(x) (x * 180.0 / M_PI)
@@ -36,7 +37,7 @@
 @property (nonatomic)NSNumber *gasPrice;
 @property (nonatomic)NSMutableArray *passengers;
 @property (nonatomic) BOOL includeUserAsPassenger;
-@property (nonatomic) NSDictionary *car;
+@property (nonatomic) PFUser *car;
 
 -(void)logoutOfManager;
 

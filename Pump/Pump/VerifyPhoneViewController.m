@@ -34,6 +34,7 @@
     CGFloat height = self.view.frame.size.height;
     
     [self.view setBackgroundColor:[Utils defaultColor]];
+    [Utils addDefaultGradientToView:self.view];
     
     UILabel *titleLabel = [[UILabel alloc] init];
     [titleLabel setAttributedText:[Utils defaultString:@"Enter your code" size:24 color:[UIColor whiteColor]]];
@@ -117,10 +118,10 @@
     if ([_inputCode isEqualToString:_code]) {
         PFUser *currentUser = [PFUser currentUser];
         currentUser[@"phone"] = _phoneNumber;
+        currentUser[@"using_car"] = [NSNumber numberWithBool:NO];
         [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
-                FindCarViewController *vc = [FindCarViewController new];
-                [self.navigationController pushViewController:vc animated:YES];
+                [self dismissViewControllerAnimated:YES completion:nil];
             } else {
                 // There was a problem, check error.description
             }

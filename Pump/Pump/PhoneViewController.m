@@ -29,6 +29,7 @@
     CGFloat height = self.view.frame.size.height;
     
     [self.view setBackgroundColor:[Utils defaultColor]];
+    [Utils addDefaultGradientToView:self.view];
     
     UILabel *titleLabel = [[UILabel alloc] init];
     [titleLabel setAttributedText:[Utils defaultString:@"We need your phone" size:24 color:[UIColor whiteColor]]];
@@ -41,7 +42,7 @@
     [descriptionLabel setNumberOfLines:3];
     //[descriptionLabel sizeThatFits:CGSizeMake(titleLabel.frame.size.width, 300)];
     [descriptionLabel sizeToFit];
-    [descriptionLabel setFrame:CGRectMake(width/2 - descriptionLabel.frame.size.width/2, titleLabel.frame.origin.y + titleLabel.frame.size.height + 4, descriptionLabel.frame.size.width, descriptionLabel.frame.size.height)];
+    [descriptionLabel setFrame:CGRectMake(width/2 - descriptionLabel.frame.size.width/2, titleLabel.frame.origin.y + titleLabel.frame.size.height + 4, descriptionLabel.frame.size.width, descriptionLabel.frame.size.height-20)];
     [descriptionLabel setTextAlignment:NSTextAlignmentCenter];
     [self.view addSubview:descriptionLabel];
     

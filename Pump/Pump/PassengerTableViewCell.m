@@ -23,7 +23,7 @@
 
 -(void)setPassenger:(NSDictionary *)passenger {
     _passenger = passenger;
-    self.textLabel.attributedText = [Utils defaultString:[_passenger objectForKey:@"display_name"] size:12 color:[UIColor whiteColor]] ;
+    self.textLabel.attributedText = [Utils defaultString:_passenger[@"username"] size:12 color:[UIColor whiteColor]] ;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

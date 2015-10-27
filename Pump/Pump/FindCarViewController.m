@@ -20,10 +20,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self.view setFrame:self.navigationController.view.frame];
     CGFloat width = self.view.frame.size.width;
     CGFloat height = self.view.frame.size.height;
     
+    UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"red_car"]];
+    [image setFrame:CGRectMake(self.view.frame.size.width/2 - image.frame.size.width/2, self.view.frame.size.height/2 - image.frame.size.height/2, 181, 141)];
+    [self.view addSubview:image];
+    
     [self.view setBackgroundColor:[Utils defaultColor]];
+    [Utils addDefaultGradientToView:self.view];
     
     UILabel *titleLabel = [[UILabel alloc] init];
     [titleLabel setAttributedText:[Utils defaultString:@"Find your car" size:24 color:[UIColor whiteColor]]];
@@ -66,6 +72,9 @@
 }
 
 -(void) skip {
+    PFUser *currentUser = [PFUser currentUser];
+    currentUser[@"using_car"] = [NSNumber numberWithBool: NO];
+    [currentUser saveInBackground];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
