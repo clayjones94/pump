@@ -16,6 +16,7 @@
 		92F1F30C1BDD6B45004B4728 /* NoCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F1F30B1BDD6B45004B4728 /* NoCarViewController.m */; };
 		92F1F30F1BDDA655004B4728 /* FinishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F1F30E1BDDA655004B4728 /* FinishViewController.m */; };
 		92F5B9811BDF4225009EE4B7 /* BorrowCarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F5B9801BDF4225009EE4B7 /* BorrowCarTableViewCell.m */; };
+		92F5B9881BDF5C70009EE4B7 /* TripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F5B9861BDF5C70009EE4B7 /* TripViewController.m */; };
 		AE14081D1BD8AC5C0086AE34 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE14081C1BD8AC5C0086AE34 /* AudioToolbox.framework */; };
 		AE14081F1BD8AC630086AE34 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE14081E1BD8AC630086AE34 /* CFNetwork.framework */; };
 		AE1408211BD8AC6D0086AE34 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1408201BD8AC6D0086AE34 /* CoreGraphics.framework */; };
@@ -42,7 +43,6 @@
 		AE2F44911B8E3C9D00F57579 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2F44901B8E3C9D00F57579 /* AppDelegate.m */; };
 		AE2F44991B8E3C9D00F57579 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AE2F44981B8E3C9D00F57579 /* Images.xcassets */; };
 		AE2F44A81B8E3C9D00F57579 /* PumpTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2F44A71B8E3C9D00F57579 /* PumpTests.m */; };
-		AE2F44B61B8E3D7A00F57579 /* TripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2F44B51B8E3D7A00F57579 /* TripViewController.m */; };
 		AE2F44B91B8E3F9C00F57579 /* TripManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2F44B81B8E3F9C00F57579 /* TripManager.m */; };
 		AE2F44C11B8E4C1000F57579 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = AE2F44C01B8E4C1000F57579 /* Utils.m */; };
 		AE5FC0041BA6044E00A398FF /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE5FC0031BA6044E00A398FF /* ProfileViewController.m */; };
@@ -95,6 +95,8 @@
 		92F1F30E1BDDA655004B4728 /* FinishViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinishViewController.m; sourceTree = "<group>"; };
 		92F5B97F1BDF4225009EE4B7 /* BorrowCarTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BorrowCarTableViewCell.h; sourceTree = "<group>"; };
 		92F5B9801BDF4225009EE4B7 /* BorrowCarTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BorrowCarTableViewCell.m; sourceTree = "<group>"; };
+		92F5B9851BDF5C70009EE4B7 /* TripViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TripViewController.h; sourceTree = "<group>"; };
+		92F5B9861BDF5C70009EE4B7 /* TripViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TripViewController.m; sourceTree = "<group>"; };
 		99633532325669FEA5A87E5B /* libPods-Pump.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Pump.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE14081C1BD8AC5C0086AE34 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		AE14081E1BD8AC630086AE34 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -141,8 +143,6 @@
 		AE2F44A11B8E3C9D00F57579 /* PumpTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PumpTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE2F44A61B8E3C9D00F57579 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE2F44A71B8E3C9D00F57579 /* PumpTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PumpTests.m; sourceTree = "<group>"; };
-		AE2F44B41B8E3D7A00F57579 /* TripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TripViewController.h; path = ../TripViewController.h; sourceTree = "<group>"; };
-		AE2F44B51B8E3D7A00F57579 /* TripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TripViewController.m; path = ../TripViewController.m; sourceTree = "<group>"; };
 		AE2F44B71B8E3F9C00F57579 /* TripManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripManager.h; sourceTree = "<group>"; };
 		AE2F44B81B8E3F9C00F57579 /* TripManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TripManager.m; sourceTree = "<group>"; };
 		AE2F44BB1B8E406B00F57579 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
@@ -237,10 +237,10 @@
 		92C68FD41BDD414D00F20263 /* Trip Home */ = {
 			isa = PBXGroup;
 			children = (
+				92F5B9851BDF5C70009EE4B7 /* TripViewController.h */,
+				92F5B9861BDF5C70009EE4B7 /* TripViewController.m */,
 				923C3FD51BDCA8A00000E6F4 /* HomeViewController.h */,
 				923C3FD61BDCA8A00000E6F4 /* HomeViewController.m */,
-				AE2F44B41B8E3D7A00F57579 /* TripViewController.h */,
-				AE2F44B51B8E3D7A00F57579 /* TripViewController.m */,
 				923C3FD91BDCAA5C0000E6F4 /* BorrowTripViewController.h */,
 				923C3FDA1BDCAA5C0000E6F4 /* BorrowTripViewController.m */,
 				92F5B97F1BDF4225009EE4B7 /* BorrowCarTableViewCell.h */,
@@ -298,7 +298,6 @@
 				AE14084F1BDA0F530086AE34 /* CarModelViewController.m */,
 				AE1408511BDA9F710086AE34 /* CustomMPGViewController.h */,
 				AE1408521BDA9F710086AE34 /* CustomMPGViewController.m */,
-				92C68FD41BDD414D00F20263 /* Trip Home */,
 			);
 			name = "Login Flow";
 			sourceTree = "<group>";
@@ -327,6 +326,7 @@
 		AE2F448A1B8E3C9D00F57579 /* Pump */ = {
 			isa = PBXGroup;
 			children = (
+				92C68FD41BDD414D00F20263 /* Trip Home */,
 				AE1408171BD8AB2A0086AE34 /* Login Flow */,
 				AE2F448F1B8E3C9D00F57579 /* AppDelegate.h */,
 				AE2F44901B8E3C9D00F57579 /* AppDelegate.m */,
@@ -459,7 +459,7 @@
 		AE2F44801B8E3C9D00F57579 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Clay Jones";
 				TargetAttributes = {
 					AE2F44871B8E3C9D00F57579 = {
@@ -568,9 +568,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92F5B9881BDF5C70009EE4B7 /* TripViewController.m in Sources */,
 				AE1408421BD99FFD0086AE34 /* VerifyPhoneViewController.m in Sources */,
 				AEA3DE4B1BB1049700F36830 /* TripHistoryViewController.m in Sources */,
-				AE2F44B61B8E3D7A00F57579 /* TripViewController.m in Sources */,
 				AE67F15B1BAA0AB30068CF72 /* TripInfoViewController.m in Sources */,
 				AEA3DE511BB46DAA00F36830 /* SettingsViewController.m in Sources */,
 				92F5B9811BDF4225009EE4B7 /* BorrowCarTableViewCell.m in Sources */,
@@ -655,6 +655,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = NO;
@@ -739,6 +740,7 @@
 				INFOPLIST_FILE = Pump/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Clay-Jones.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -760,6 +762,7 @@
 				INFOPLIST_FILE = Pump/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Clay-Jones.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -779,6 +782,7 @@
 				);
 				INFOPLIST_FILE = PumpTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Clay-Jones.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pump.app/Pump";
 			};
@@ -794,6 +798,7 @@
 				);
 				INFOPLIST_FILE = PumpTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "Clay-Jones.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Pump.app/Pump";
 			};

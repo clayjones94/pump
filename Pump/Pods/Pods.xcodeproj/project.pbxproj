@@ -1927,49 +1927,13 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		1207287555E856E5EA18F29FB9366833 /* Debug */ = {
+		03A7F6CA58B03108029EE0BA3E8B2152 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2F24D221A12F6FE32388F67BF1112B1D /* SSKeychain.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/SSKeychain/SSKeychain-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		1A55F069E3E608ECEDB33999CBB418D2 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F014FFE921A6A37E9B59F7E9F9DB4CD0 /* HMSegmentedControl.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/HMSegmentedControl/HMSegmentedControl-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		248EE761893571FC40FFFE9EEC20F57B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 725A76195755066842F50A02911BE213 /* VENTokenField.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/VENTokenField/VENTokenField-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
@@ -1981,13 +1945,13 @@
 			};
 			name = Release;
 		};
-		2C2F8691BB644B35754D6F12E80C37A9 /* Debug */ = {
+		0F7DE481608D3DE569CB8591319EDAFF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4A553EA36D9FF7F710344F7B998ED365 /* SDWebImage.xcconfig */;
+			baseConfigurationReference = 2F24D221A12F6FE32388F67BF1112B1D /* SSKeychain.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/SDWebImage/SDWebImage-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				GCC_PREFIX_HEADER = "Target Support Files/SSKeychain/SSKeychain-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
@@ -1999,153 +1963,12 @@
 			};
 			name = Debug;
 		};
-		43A0F93E8D55C7B94E4113B55C4BC430 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 70124BE9DE16A537441ED749371C7415 /* KLCPopup.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/KLCPopup/KLCPopup-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		47B1A7A02833E111D3FEE14436A448AC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = EBC54DFDEB50AE0BCC44843E3D86AD68 /* FrameAccessor.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/FrameAccessor/FrameAccessor-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		4B5E6C07AE23766530F2C004E4FB3D7A /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F6824BC2CDCEF0DA4C7C1DBA1CF16521 /* AFNetworking.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/AFNetworking/AFNetworking-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		4D0EAF7CBEBA206EF24D76072AFBD1F4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F6824BC2CDCEF0DA4C7C1DBA1CF16521 /* AFNetworking.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/AFNetworking/AFNetworking-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		4D85545B67A3C94480629171FAF797DF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 73D8313B542666C4C88CBE992C631986 /* Pods-Pump.debug.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				MACH_O_TYPE = staticlib;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		511103F7F15A7E8F83B268EA03462CAB /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = YES;
-				ENABLE_NS_ASSERTIONS = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				STRIP_INSTALLED_PRODUCT = NO;
-				SYMROOT = "${SRCROOT}/../build";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		52BEA89894CDA51793A58BEAD44663B6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 725A76195755066842F50A02911BE213 /* VENTokenField.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/VENTokenField/VENTokenField-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		563D4F3AD1DE4FAF313BA504787DDB5F /* Release */ = {
+		1E9D5A1B2A8D13FB71D2A07E0DE82F3D /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 315A09646D49AF26FAD82CABACA0D0F7 /* Pods-Pump.release.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MACH_O_TYPE = staticlib;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
@@ -2157,13 +1980,13 @@
 			};
 			name = Release;
 		};
-		580319AEB3CD8128D4C6459636AC7C5F /* Release */ = {
+		20826736B0302355F209CE5F878863AF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5EC1F2770F5CD81526E4184CC1F3A214 /* VENCore.xcconfig */;
+			baseConfigurationReference = E76DE5EAD072AA9182428C14D9D3DC85 /* BBBadgeBarButtonItem.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/VENCore/VENCore-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				GCC_PREFIX_HEADER = "Target Support Files/BBBadgeBarButtonItem/BBBadgeBarButtonItem-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
@@ -2175,13 +1998,31 @@
 			};
 			name = Release;
 		};
-		5F84377431851AF98CFD48918C160388 /* Debug */ = {
+		2351932BEE4C226D340E1C07B6E0894E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E96C0A248BD6A51B9A960FBAA59C6AF9 /* CMDQueryStringSerialization.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/CMDQueryStringSerialization/CMDQueryStringSerialization-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		3DD29ADDC4BD621AAE696E74537A2F05 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 70124BE9DE16A537441ED749371C7415 /* KLCPopup.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/KLCPopup/KLCPopup-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
@@ -2193,133 +2034,7 @@
 			};
 			name = Debug;
 		};
-		813E6807EC264BC9AF983CCD301E9DCA /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = EBC54DFDEB50AE0BCC44843E3D86AD68 /* FrameAccessor.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/FrameAccessor/FrameAccessor-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		832355C584EEA227FF562E07F223F707 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E96C0A248BD6A51B9A960FBAA59C6AF9 /* CMDQueryStringSerialization.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/CMDQueryStringSerialization/CMDQueryStringSerialization-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		869AE3665E2BBE5D802FB6AB2175DD44 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4A553EA36D9FF7F710344F7B998ED365 /* SDWebImage.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/SDWebImage/SDWebImage-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		8E24171BB5B004E36149CBD339A43478 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2F24D221A12F6FE32388F67BF1112B1D /* SSKeychain.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/SSKeychain/SSKeychain-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		8E2C4ACFCC7697FB4FB082A468941A55 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E76DE5EAD072AA9182428C14D9D3DC85 /* BBBadgeBarButtonItem.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/BBBadgeBarButtonItem/BBBadgeBarButtonItem-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		991B0C760C294930766B6595CA83B64A /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E96C0A248BD6A51B9A960FBAA59C6AF9 /* CMDQueryStringSerialization.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/CMDQueryStringSerialization/CMDQueryStringSerialization-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		9F07088C461B69A1321990D924F0B971 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E76DE5EAD072AA9182428C14D9D3DC85 /* BBBadgeBarButtonItem.xcconfig */;
-			buildSettings = {
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/BBBadgeBarButtonItem/BBBadgeBarButtonItem-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		AA05AF9C3A14EE0E32F42C6E6D42D34F /* Debug */ = {
+		5CE5176205D06FF3FFE3DDDA9291E44B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -2351,20 +2066,20 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				ONLY_ACTIVE_ARCH = YES;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Debug;
 		};
-		F1A4C17E376E240C66D2884F96784FA2 /* Debug */ = {
+		658481B74BE6C74AA78E152EF606BFF2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2B0FEB96C03D75C483958E29D8705A57 /* Venmo-iOS-SDK.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Venmo-iOS-SDK/Venmo-iOS-SDK-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
@@ -2376,13 +2091,13 @@
 			};
 			name = Debug;
 		};
-		F45E37E16E69FF5987F4C18F1C74A815 /* Release */ = {
+		6A7FCCC9DF8F06978BD5E9A8108E2919 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2B0FEB96C03D75C483958E29D8705A57 /* Venmo-iOS-SDK.xcconfig */;
+			baseConfigurationReference = E96C0A248BD6A51B9A960FBAA59C6AF9 /* CMDQueryStringSerialization.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/Venmo-iOS-SDK/Venmo-iOS-SDK-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				GCC_PREFIX_HEADER = "Target Support Files/CMDQueryStringSerialization/CMDQueryStringSerialization-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
@@ -2394,13 +2109,83 @@
 			};
 			name = Release;
 		};
-		F8C1DDC2C76C39A4FE7861FA84F3A6AD /* Release */ = {
+		74857149DC1E0D599B8A01A78349A926 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "RELEASE=1";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		850795DA91FC181552110E774E38B80B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = F014FFE921A6A37E9B59F7E9F9DB4CD0 /* HMSegmentedControl.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/HMSegmentedControl/HMSegmentedControl-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		8B13DF2EBC5CD45AFAEE8F4C4A99945E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E76DE5EAD072AA9182428C14D9D3DC85 /* BBBadgeBarButtonItem.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/BBBadgeBarButtonItem/BBBadgeBarButtonItem-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		91D1AA0ED4953624967D3BD7B5A7B23F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 725A76195755066842F50A02911BE213 /* VENTokenField.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/VENTokenField/VENTokenField-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
@@ -2412,13 +2197,13 @@
 			};
 			name = Release;
 		};
-		FFE04EF22FDE1BF1D1F74B898264E350 /* Debug */ = {
+		9DEA7310CF0D31D600828403FCC91048 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5EC1F2770F5CD81526E4184CC1F3A214 /* VENCore.xcconfig */;
+			baseConfigurationReference = 725A76195755066842F50A02911BE213 /* VENTokenField.xcconfig */;
 			buildSettings = {
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/VENCore/VENCore-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				GCC_PREFIX_HEADER = "Target Support Files/VENTokenField/VENTokenField-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
@@ -2429,6 +2214,221 @@
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
+		};
+		B8644BC89A7B7C53957C735B224D2EED /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EBC54DFDEB50AE0BCC44843E3D86AD68 /* FrameAccessor.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/FrameAccessor/FrameAccessor-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		BE86758109F0441EDB32A7C5BC4EDBD0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 70124BE9DE16A537441ED749371C7415 /* KLCPopup.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/KLCPopup/KLCPopup-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		C421C84F6F166947BAAEA7F26B7FA720 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5EC1F2770F5CD81526E4184CC1F3A214 /* VENCore.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/VENCore/VENCore-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		C8BADE3370751E8B06781C1F894153C6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4A553EA36D9FF7F710344F7B998ED365 /* SDWebImage.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SDWebImage/SDWebImage-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		CA13546E435F539E31325AE7DF484FA3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F014FFE921A6A37E9B59F7E9F9DB4CD0 /* HMSegmentedControl.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/HMSegmentedControl/HMSegmentedControl-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		DFE543725AE798112BB20B248524988D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EBC54DFDEB50AE0BCC44843E3D86AD68 /* FrameAccessor.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/FrameAccessor/FrameAccessor-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		E3647966C32E4D3E9C377A8BA6C52248 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2B0FEB96C03D75C483958E29D8705A57 /* Venmo-iOS-SDK.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/Venmo-iOS-SDK/Venmo-iOS-SDK-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		E66EBC4E0608CABF7EBEBB9B1252F96D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5EC1F2770F5CD81526E4184CC1F3A214 /* VENCore.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/VENCore/VENCore-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		ED2012DAF3BBCC59D6E38405BF8E76BC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F6824BC2CDCEF0DA4C7C1DBA1CF16521 /* AFNetworking.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/AFNetworking/AFNetworking-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		ED32D84A7C8157883D9712D4CE238C54 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F6824BC2CDCEF0DA4C7C1DBA1CF16521 /* AFNetworking.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/AFNetworking/AFNetworking-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		F656117E9F0011D03856A01B622734B9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 73D8313B542666C4C88CBE992C631986 /* Pods-Pump.debug.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MACH_O_TYPE = staticlib;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		FFB519E84E4F4A1FAFEE21D0F2CD49C0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4A553EA36D9FF7F710344F7B998ED365 /* SDWebImage.xcconfig */;
+			buildSettings = {
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/SDWebImage/SDWebImage-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -2436,8 +2436,8 @@
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AA05AF9C3A14EE0E32F42C6E6D42D34F /* Debug */,
-				511103F7F15A7E8F83B268EA03462CAB /* Release */,
+				5CE5176205D06FF3FFE3DDDA9291E44B /* Debug */,
+				74857149DC1E0D599B8A01A78349A926 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2445,8 +2445,8 @@
 		347E9BA283340153288375433E29A926 /* Build configuration list for PBXNativeTarget "HMSegmentedControl" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1A55F069E3E608ECEDB33999CBB418D2 /* Debug */,
-				F8C1DDC2C76C39A4FE7861FA84F3A6AD /* Release */,
+				850795DA91FC181552110E774E38B80B /* Debug */,
+				CA13546E435F539E31325AE7DF484FA3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2454,8 +2454,8 @@
 		5603675BBA46A2680A82E87BAD481A41 /* Build configuration list for PBXNativeTarget "BBBadgeBarButtonItem" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9F07088C461B69A1321990D924F0B971 /* Debug */,
-				8E2C4ACFCC7697FB4FB082A468941A55 /* Release */,
+				8B13DF2EBC5CD45AFAEE8F4C4A99945E /* Debug */,
+				20826736B0302355F209CE5F878863AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2463,8 +2463,8 @@
 		588E55699A4B669D5E64D263876F7F7F /* Build configuration list for PBXNativeTarget "CMDQueryStringSerialization" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				832355C584EEA227FF562E07F223F707 /* Debug */,
-				991B0C760C294930766B6595CA83B64A /* Release */,
+				2351932BEE4C226D340E1C07B6E0894E /* Debug */,
+				6A7FCCC9DF8F06978BD5E9A8108E2919 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2472,8 +2472,8 @@
 		6041F42620B7C9DE7A237D857CFD3EF1 /* Build configuration list for PBXNativeTarget "VENTokenField" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				52BEA89894CDA51793A58BEAD44663B6 /* Debug */,
-				248EE761893571FC40FFFE9EEC20F57B /* Release */,
+				9DEA7310CF0D31D600828403FCC91048 /* Debug */,
+				91D1AA0ED4953624967D3BD7B5A7B23F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2481,8 +2481,8 @@
 		65C440F2AABDA4CA2F618CCAEE4CB818 /* Build configuration list for PBXNativeTarget "FrameAccessor" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				47B1A7A02833E111D3FEE14436A448AC /* Debug */,
-				813E6807EC264BC9AF983CCD301E9DCA /* Release */,
+				DFE543725AE798112BB20B248524988D /* Debug */,
+				B8644BC89A7B7C53957C735B224D2EED /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2490,8 +2490,8 @@
 		8620DAC7EA8FADE9FDACB7CD71DC158A /* Build configuration list for PBXNativeTarget "KLCPopup" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5F84377431851AF98CFD48918C160388 /* Debug */,
-				43A0F93E8D55C7B94E4113B55C4BC430 /* Release */,
+				3DD29ADDC4BD621AAE696E74537A2F05 /* Debug */,
+				BE86758109F0441EDB32A7C5BC4EDBD0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2499,8 +2499,8 @@
 		8961B63ACE51D3989A5F557CBC141FAA /* Build configuration list for PBXNativeTarget "SSKeychain" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				1207287555E856E5EA18F29FB9366833 /* Debug */,
-				8E24171BB5B004E36149CBD339A43478 /* Release */,
+				0F7DE481608D3DE569CB8591319EDAFF /* Debug */,
+				03A7F6CA58B03108029EE0BA3E8B2152 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2508,8 +2508,8 @@
 		A279F90EDB785BED2A289FED54DFF2BD /* Build configuration list for PBXNativeTarget "SDWebImage" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2C2F8691BB644B35754D6F12E80C37A9 /* Debug */,
-				869AE3665E2BBE5D802FB6AB2175DD44 /* Release */,
+				C8BADE3370751E8B06781C1F894153C6 /* Debug */,
+				FFB519E84E4F4A1FAFEE21D0F2CD49C0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2517,8 +2517,8 @@
 		A903F971702871B72BEA8510BB8CC55A /* Build configuration list for PBXNativeTarget "AFNetworking" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4D0EAF7CBEBA206EF24D76072AFBD1F4 /* Debug */,
-				4B5E6C07AE23766530F2C004E4FB3D7A /* Release */,
+				ED2012DAF3BBCC59D6E38405BF8E76BC /* Debug */,
+				ED32D84A7C8157883D9712D4CE238C54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2526,8 +2526,8 @@
 		CB36D23104137A6AD5125547815C11DD /* Build configuration list for PBXNativeTarget "Pods-Pump" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4D85545B67A3C94480629171FAF797DF /* Debug */,
-				563D4F3AD1DE4FAF313BA504787DDB5F /* Release */,
+				F656117E9F0011D03856A01B622734B9 /* Debug */,
+				1E9D5A1B2A8D13FB71D2A07E0DE82F3D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2535,8 +2535,8 @@
 		CFED151B0C0271F4ED190EF074F99DAF /* Build configuration list for PBXNativeTarget "VENCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				FFE04EF22FDE1BF1D1F74B898264E350 /* Debug */,
-				580319AEB3CD8128D4C6459636AC7C5F /* Release */,
+				C421C84F6F166947BAAEA7F26B7FA720 /* Debug */,
+				E66EBC4E0608CABF7EBEBB9B1252F96D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2544,8 +2544,8 @@
 		D29B6D2899CE5F1510A24840529996E8 /* Build configuration list for PBXNativeTarget "Venmo-iOS-SDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F1A4C17E376E240C66D2884F96784FA2 /* Debug */,
-				F45E37E16E69FF5987F4C18F1C74A815 /* Release */,
+				658481B74BE6C74AA78E152EF606BFF2 /* Debug */,
+				E3647966C32E4D3E9C377A8BA6C52248 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

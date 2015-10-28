@@ -6,8 +6,13 @@
 //  Copyright (c) 2015 Clay Jones. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "TripManager.h"
+#import "KLCPopup.h"
+#import <GoogleMaps/GoogleMaps.h>
+#import <CoreLocation/CoreLocation.h>
+#import "DecimalKeypad.h"
 
-@interface TripViewController : NSObject
-
+@interface TripViewController : UIViewController <TripManagerDelegate, GMSMapViewDelegate, UIAlertViewDelegate, DecimalKeypadDelegate>
+@property (nonatomic) PFUser *user;
 @end

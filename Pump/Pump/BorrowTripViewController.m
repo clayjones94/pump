@@ -14,6 +14,7 @@
 #import <Parse/Parse.h>
 #import "TripManager.h"
 #import "UserManager.h"
+#import "TripViewController.h"
 
 @interface BorrowTripViewController ()
 
@@ -131,6 +132,10 @@
                                 }];
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+
+}
+
 -(BOOL) array: (NSMutableArray *) array containsUser: (PFUser *)user {
     for (PFUser *u in array) {
         if ([user.objectId isEqualToString:u.objectId]) {
@@ -214,7 +219,17 @@
     [firstnameQuery whereKey:@"first_name" hasPrefix:text.lowercaseString];
     PFQuery *lastnameQuery = [PFUser query];
     [lastnameQuery whereKey:@"last_name" hasPrefix:text.lowercaseString];
-    _userQuery = [PFQuery orQueryWithSubqueries:@[usernameQuery, firstnameQuery, lastnameQuery]];
+    NSArray *array = [text componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    array = [array filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF != ''"]];
+    if (array.count == 0) {
+        array = @[@""];
+    }
+    PFQuery *fullnameQuery = [PFUser query];
+    [fullnameQuery whereKey:@"first_name" equalTo:((NSString *)array.firstObject).lowercaseString];
+    if (array.count > 1) {
+        [fullnameQuery whereKey:@"last_name" hasPrefix:((NSString *)[array objectAtIndex:1]).lowercaseString];
+    }
+    _userQuery = [PFQuery orQueryWithSubqueries:@[usernameQuery, fullnameQuery, lastnameQuery]];
     [_userQuery whereKey:@"using_car" equalTo:[NSNumber numberWithBool:YES]];
     _userQuery.limit = 10;
     [_userQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
@@ -396,6 +411,10 @@
             [_selectedFriends addObject:user];
         }
     }
+    TripViewController *vc = [TripViewController new];
+    [vc setUser:user];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"Hide Segment" object:nil];
+    [self.navigationController pushViewController:vc animated:YES];
     //[self.delegate searchView:self didSelectUser:user];
     [tableView reloadData];
     [_tokenField reloadData];

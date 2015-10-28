@@ -19,6 +19,7 @@
 #import "TripManager.h"
 #import "LoginViewController.h"
 #import "SettingsViewController.h"
+#import "FinishViewController.h"
 
 @interface HomeViewController ()
 
@@ -72,26 +73,58 @@ BOOL needRefresh;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: settingsButton];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideSegment) name:@"Hide Segment" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSegment) name:@"Show Segment" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finishTrip) name:@"Finish Trip" object:nil];
     
     [self addSegmentedControlSubviews];
     
     
     TripViewController *vc1 = [TripViewController new];
-    vc1 setUser
+    [vc1 setUser:[PFUser currentUser]];
     BorrowTripViewController *vc2 = [BorrowTripViewController new];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc2];
     [nav setNavigationBarHidden:YES];
     
     _viewcontrollers = [[NSArray alloc] initWithObjects:vc1, nav, nil];
     
-    [((UIViewController *)vc1).view setFrame:CGRectMake(0, _segmentedControl.frame.size.height, self.view.frame.size.width,
+    [vc1.view setFrame:CGRectMake(0, _segmentedControl.frame.size.height, self.view.frame.size.width,
                                   self.view.frame.size.height - _segmentedControl.frame.size.height)];
     //((TripViewController *)vc1).parentVC = self;
-    [self addChildViewController:(UIViewController *)vc1];
-    [self.view addSubview:((UIViewController *)vc1).view];
-    [(UIViewController *)vc1 didMoveToParentViewController:self];
-    _currentvc = (UIViewController *)vc1;
+    [self addChildViewController:vc1];
+    [self.view addSubview:vc1.view];
+    [vc1 didMoveToParentViewController:self];
+    _currentvc = vc1;
     
+}
+
+-(void) finishTrip {
+    FinishViewController *vc = [FinishViewController new];
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+-(void) hideSegment {
+    [UIView animateWithDuration:.3 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [_currentvc.view setFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        [_segmentedControl setFrame:CGRectMake(_segmentedControl.frame.origin.x, _segmentedControl.frame.origin.y - _segmentedControl.frame.size.height, _segmentedControl.frame.size.width, _segmentedControl.frame.size.height)];
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [_segmentedControl removeFromSuperview];
+        }
+    }];
+    [UIView animateWithDuration:0 delay:.15 options:UIViewAnimationOptionCurveLinear animations:^{
+        [self.navigationController setNavigationBarHidden:YES animated:YES];
+    } completion:nil];
+}
+
+-(void) showSegment {
+    [self.view addSubview:_segmentedControl];
+    
+    [UIView animateWithDuration:.5 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        [_segmentedControl setFrame:CGRectMake(_segmentedControl.frame.origin.x, 0, _segmentedControl.frame.size.width, _segmentedControl.frame.size.height)];
+        [_currentvc.view setFrame:CGRectMake(0, _segmentedControl.frame.size.height, self.view.frame.size.width, self.view.frame.size.height - _segmentedControl.frame.size.height)];
+        [self.navigationController setNavigationBarHidden:NO animated:YES];
+    } completion:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated {
@@ -129,6 +162,7 @@ BOOL needRefresh;
     _segmentedControl.borderColor = [UIColor lightGrayColor];
     [self.view addSubview:_segmentedControl];
 }
+
 
 - (void)displayViewController:(UIViewController *)vc {
     if (vc == _currentvc) {

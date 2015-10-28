@@ -10,7 +10,7 @@
 #import <VENTokenField/VENTokenField.h>
 #import "UserManager.h"
 
-@class SearchUserView;
+@class BorrowTripViewController;
 
 @protocol BorrowTripViewControllerDelegate <NSObject>
 @optional

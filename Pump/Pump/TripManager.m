@@ -66,6 +66,7 @@
     if (_status != FINISHED) {
         _polyline.map = nil;
     }
+     NSLog(@"%@", _car[@"first_name"]);
 
     [self.delegate tripManager: self didUpdateLocation: newLocation.coordinate direction:0];
     if (_status == RUNNING || _status == PAUSED) {
@@ -151,7 +152,7 @@
                     }
                     return;
                 }
-                dispatch_async(dispatch_get_main_queue(), ^{
+                //dispatch_async(dispatch_get_main_queue(), ^{
                     double gasAverage = 0;
                     int count = 0;
                     for (NSDictionary *station in data) {
@@ -165,7 +166,7 @@
                         NSNumber *gasPrice = [NSNumber numberWithDouble: gasAverage];
                         [self setGasPrice:gasPrice];
                     }
-                });
+                //});
             }];
             break;
         }
@@ -178,7 +179,7 @@
                         _gasPrice = @3.00;
                     }
                 }
-                dispatch_async(dispatch_get_main_queue(), ^{
+                //dispatch_async(dispatch_get_main_queue(), ^{
                     double gasAverage = 0;
                     int count = 0;
                     for (NSDictionary *station in data) {
@@ -193,7 +194,7 @@
                         NSNumber *gasPrice = [NSNumber numberWithDouble: gasAverage];
                         [self setGasPrice:gasPrice];
                     }
-                });
+                //});
             }];
             break;
         }
@@ -206,7 +207,7 @@
                         _gasPrice = @3.00;
                     }
                 }
-                dispatch_async(dispatch_get_main_queue(), ^{
+                //dispatch_async(dispatch_get_main_queue(), ^{
                     double gasAverage = 0;
                     int count = 0;
                     for (NSDictionary *station in data) {
@@ -221,7 +222,7 @@
                         NSNumber *gasPrice = [NSNumber numberWithDouble: gasAverage];
                         [self setGasPrice:gasPrice];
                     }
-                });
+                //});
             }];
             break;
         }
@@ -235,7 +236,7 @@
                     }
                     return;
                 }
-                dispatch_async(dispatch_get_main_queue(), ^{
+                //dispatch_async(dispatch_get_main_queue(), ^{
                     double gasAverage = 0;
                     int count = 0;
                     for (NSDictionary *station in data) {
@@ -249,7 +250,7 @@
                         NSNumber *gasPrice = [NSNumber numberWithDouble: gasAverage];
                         [self setGasPrice:gasPrice];
                     }
-                });
+                //});
             }];
             break;
         }
@@ -272,11 +273,11 @@
         if (_car[@"mpg"]) {
             _mpg = _car[@"mpg"];
         } else {
-            [_car fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-                if (object) {
-                    _mpg = object[@"mpg"];
-                }
-            }];
+//            [_car fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
+//                if (object) {
+//                    _mpg = object[@"mpg"];
+//                }
+//            }];
         }
         [self selectGasType];
     }
