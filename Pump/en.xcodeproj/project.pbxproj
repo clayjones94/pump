@@ -13,6 +13,9 @@
 		923C3FD41BDBEC550000E6F4 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 923C3FCD1BDB1B2D0000E6F4 /* Parse.framework */; };
 		923C3FD71BDCA8A00000E6F4 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 923C3FD61BDCA8A00000E6F4 /* HomeViewController.m */; };
 		923C3FDB1BDCAA5C0000E6F4 /* BorrowTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 923C3FDA1BDCAA5C0000E6F4 /* BorrowTripViewController.m */; };
+		92987F561BE04DE30076C817 /* PlacesSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92987F551BE04DE30076C817 /* PlacesSearchView.m */; };
+		92987F591BE04F5B0076C817 /* PlacesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92987F581BE04F5B0076C817 /* PlacesTableViewCell.m */; };
+		92987F5D1BE079E40076C817 /* DirectionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 92987F5C1BE079E40076C817 /* DirectionsManager.m */; };
 		92F1F30C1BDD6B45004B4728 /* NoCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F1F30B1BDD6B45004B4728 /* NoCarViewController.m */; };
 		92F1F30F1BDDA655004B4728 /* FinishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F1F30E1BDDA655004B4728 /* FinishViewController.m */; };
 		92F5B9811BDF4225009EE4B7 /* BorrowCarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F5B9801BDF4225009EE4B7 /* BorrowCarTableViewCell.m */; };
@@ -89,6 +92,12 @@
 		923C3FD61BDCA8A00000E6F4 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		923C3FD91BDCAA5C0000E6F4 /* BorrowTripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BorrowTripViewController.h; sourceTree = "<group>"; };
 		923C3FDA1BDCAA5C0000E6F4 /* BorrowTripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BorrowTripViewController.m; sourceTree = "<group>"; };
+		92987F541BE04DE30076C817 /* PlacesSearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlacesSearchView.h; sourceTree = "<group>"; };
+		92987F551BE04DE30076C817 /* PlacesSearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlacesSearchView.m; sourceTree = "<group>"; };
+		92987F571BE04F5B0076C817 /* PlacesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlacesTableViewCell.h; sourceTree = "<group>"; };
+		92987F581BE04F5B0076C817 /* PlacesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlacesTableViewCell.m; sourceTree = "<group>"; };
+		92987F5B1BE079E40076C817 /* DirectionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectionsManager.h; sourceTree = "<group>"; };
+		92987F5C1BE079E40076C817 /* DirectionsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectionsManager.m; sourceTree = "<group>"; };
 		92F1F30A1BDD6B45004B4728 /* NoCarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoCarViewController.h; sourceTree = "<group>"; };
 		92F1F30B1BDD6B45004B4728 /* NoCarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoCarViewController.m; sourceTree = "<group>"; };
 		92F1F30D1BDDA655004B4728 /* FinishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinishViewController.h; sourceTree = "<group>"; };
@@ -247,6 +256,12 @@
 				92F5B9801BDF4225009EE4B7 /* BorrowCarTableViewCell.m */,
 				92F1F30A1BDD6B45004B4728 /* NoCarViewController.h */,
 				92F1F30B1BDD6B45004B4728 /* NoCarViewController.m */,
+				92987F541BE04DE30076C817 /* PlacesSearchView.h */,
+				92987F551BE04DE30076C817 /* PlacesSearchView.m */,
+				92987F571BE04F5B0076C817 /* PlacesTableViewCell.h */,
+				92987F581BE04F5B0076C817 /* PlacesTableViewCell.m */,
+				92987F5B1BE079E40076C817 /* DirectionsManager.h */,
+				92987F5C1BE079E40076C817 /* DirectionsManager.m */,
 			);
 			name = "Trip Home";
 			sourceTree = "<group>";
@@ -582,6 +597,7 @@
 				AE5FC0071BA605CB00A398FF /* ProfileFriendTableViewCell.m in Sources */,
 				AE14083F1BD98D570086AE34 /* PhoneViewController.m in Sources */,
 				AEA3DE541BB49D1A00F36830 /* Storage.m in Sources */,
+				92987F561BE04DE30076C817 /* PlacesSearchView.m in Sources */,
 				AE1408391BD8B3530086AE34 /* SignInViewController.m in Sources */,
 				923C3FDB1BDCAA5C0000E6F4 /* BorrowTripViewController.m in Sources */,
 				AE14084D1BDA0C4F0086AE34 /* CarMakeViewController.m in Sources */,
@@ -589,6 +605,7 @@
 				AE1408361BD8B30C0086AE34 /* RegisterViewController.m in Sources */,
 				AE2F44B91B8E3F9C00F57579 /* TripManager.m in Sources */,
 				AE1408531BDA9F710086AE34 /* CustomMPGViewController.m in Sources */,
+				92987F591BE04F5B0076C817 /* PlacesTableViewCell.m in Sources */,
 				AE14B5A91B9A277D00398348 /* LoginViewController.m in Sources */,
 				AEC98B1D1B927B8900607E60 /* SearchUserView.m in Sources */,
 				AE2F44C11B8E4C1000F57579 /* Utils.m in Sources */,
@@ -601,6 +618,7 @@
 				AEEA52CD1B9D6DC30081BA97 /* Model.xcdatamodeld in Sources */,
 				AE1408491BD9B4890086AE34 /* CarYearViewController.m in Sources */,
 				AE737EF21BAC5895004A73E0 /* PendingOwnershipsViewController.m in Sources */,
+				92987F5D1BE079E40076C817 /* DirectionsManager.m in Sources */,
 				AE737EF61BAC5A3C004A73E0 /* PendingMembershipsViewController.m in Sources */,
 				AE2F448E1B8E3C9D00F57579 /* main.m in Sources */,
 				AEA31D661BCCAF4D00D08AF0 /* FinishView.m in Sources */,

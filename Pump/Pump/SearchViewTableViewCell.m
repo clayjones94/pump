@@ -14,6 +14,7 @@
 @implementation SearchViewTableViewCell
 
 @synthesize user = _user;
+@synthesize contact = _contact;
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -24,6 +25,15 @@
 -(void)setUser:(PFUser *)user{
     _user = user;
     self.textLabel.attributedText = [Utils defaultString:[NSString stringWithFormat:@"%@ %@", _user[@"first_name_cased"], _user[@"last_name_cased"]] size:16 color:[UIColor darkGrayColor]] ;
+    self.detailTextLabel.attributedText = [Utils defaultString:[NSString stringWithFormat:@"%@", _user[@"phone"]] size:10 color:[UIColor darkGrayColor]] ;
+}
+
+-(void) setContact:(CNContact *)contact{
+    _contact = contact;
+    self.textLabel.attributedText = [Utils defaultString:[NSString stringWithFormat:@"%@ %@", contact.givenName,contact.familyName] size:16 color:[UIColor darkGrayColor]] ;
+    if (contact.phoneNumbers.firstObject.value.stringValue) {
+        self.detailTextLabel.attributedText = [Utils defaultString:contact.phoneNumbers.firstObject.value.stringValue size:10 color:[UIColor darkGrayColor]] ;
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

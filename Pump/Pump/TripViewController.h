@@ -12,7 +12,9 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import <CoreLocation/CoreLocation.h>
 #import "DecimalKeypad.h"
+#import "PlacesSearchView.h"
+#import "DirectionsManager.h"
 
-@interface TripViewController : UIViewController <TripManagerDelegate, GMSMapViewDelegate, UIAlertViewDelegate, DecimalKeypadDelegate>
+@interface TripViewController : UIViewController <TripManagerDelegate, GMSMapViewDelegate, UIAlertViewDelegate, DecimalKeypadDelegate, PlacesSearchViewDelegate>
 @property (nonatomic) PFUser *user;
 @end

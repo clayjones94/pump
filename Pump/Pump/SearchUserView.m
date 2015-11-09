@@ -21,6 +21,8 @@
     NSMutableArray *_contactUsers;
     NSMutableArray *_recentUsers;
     NSMutableArray *_pumpUsers;
+    NSMutableArray *_contacts;
+    NSMutableArray *_filteredContacts;
     NSMutableArray *_filteredContactUsers;
     NSMutableArray *_filteredRecentUsers;
     NSMutableArray *_filteredPumpUsers;
@@ -69,23 +71,6 @@
     
     _pumpUsers = [NSMutableArray new];
     
-//    PFQuery *recentQuery = [PFQuery queryWithClassName:@"Trip"];
-//    [recentQuery whereKey:@"owner" notEqualTo:[PFUser currentUser].objectId];
-//    [recentQuery includeKey:@"passengers"];
-//    recentQuery.limit = 10;
-//    [recentQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-//        _recentUsers = [NSMutableArray new];
-//        int counter = 0;
-//        for (PFObject *trip in objects) {
-//            for(PFUser *passenger in trip[@"passengers"]){
-//                if (![self array:_recentUsers containsUser:passenger]) {
-//                    [_recentUsers addObject:passenger];
-//                    counter ++
-//                }
-//                if (counter > 20)break;
-//            }
-//        }
-//    }];
     
     [self contactPhonesNumbersWithBlock:^(BOOL finished) {
         [PFCloud callFunctionInBackground:@"retrieveUsersWithPhoneNumbers"
@@ -136,10 +121,14 @@
 
 -(void)contactPhonesNumbersWithBlock: (void (^)(BOOL finished))block{
     _contactNumbers = [NSMutableArray new];
+    _contacts = [NSMutableArray new];
     NSError *error;
-    CNContactFetchRequest *fetch = [[CNContactFetchRequest alloc] initWithKeysToFetch:@[CNContactPhoneNumbersKey]];
+    CNContactFetchRequest *fetch = [[CNContactFetchRequest alloc] initWithKeysToFetch:@[CNContactPhoneNumbersKey, CNContactGivenNameKey, CNContactFamilyNameKey]];
     CNContactStore *store = [UserManager sharedManager].contactStore;
     block([store enumerateContactsWithFetchRequest:fetch error:&error usingBlock:^(CNContact * _Nonnull contact, BOOL * _Nonnull stop) {
+        if (contact.phoneNumbers.count > 0) {
+            [_contacts addObject:contact];
+        }
         for (CNLabeledValue *number in contact.phoneNumbers) {
             CNPhoneNumber *phone = number.value;
             [_contactNumbers addObject:[self formatPhoneNumber: phone.stringValue]];
@@ -178,8 +167,12 @@
 }
 
 -(NSString *)tokenField:(VENTokenField *)tokenField titleForTokenAtIndex:(NSUInteger)index {
-    PFUser *user = [_selectedFriends objectAtIndex:index];
-    return user[@"username"];
+    id user = [_selectedFriends objectAtIndex:index];
+    if ([user isKindOfClass:[PFUser class]]) {
+        return [NSString stringWithFormat:@"%@ %@", user[@"first_name_cased"],user[@"last_name_cased"]];
+    } else {
+        return [NSString stringWithFormat:@"%@ %@", ((CNContact *)user).givenName,((CNContact *)user).familyName];
+    }
 }
 
 -(NSString *)tokenFieldCollapsedText:(VENTokenField *)tokenField {
@@ -202,18 +195,20 @@
 }
 
 -(void)tokenField:(VENTokenField *)tokenField didChangeText:(NSString *)text {
-    PFQuery *usernameQuery = [PFUser query];
-    [usernameQuery whereKey:@"username" hasPrefix:text.lowercaseString];
-    PFQuery *firstnameQuery = [PFUser query];
-    [firstnameQuery whereKey:@"first_name" hasPrefix:text.lowercaseString];
-    PFQuery *lastnameQuery = [PFUser query];
-    [lastnameQuery whereKey:@"last_name" hasPrefix:text.lowercaseString];
-    _userQuery = [PFQuery orQueryWithSubqueries:@[usernameQuery, firstnameQuery, lastnameQuery]];
-    _userQuery.limit = 10;
-    [_userQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        _pumpUsers = [NSMutableArray arrayWithArray: objects];
-        [_tableview reloadData];
-    }];
+    if (_filteredContacts.count < 10 && _filteredContactUsers.count < 10 && _filteredRecentUsers.count < 10) {
+        PFQuery *usernameQuery = [PFUser query];
+        [usernameQuery whereKey:@"username" hasPrefix:text.lowercaseString];
+        PFQuery *firstnameQuery = [PFUser query];
+        [firstnameQuery whereKey:@"first_name" hasPrefix:text.lowercaseString];
+        PFQuery *lastnameQuery = [PFUser query];
+        [lastnameQuery whereKey:@"last_name" hasPrefix:text.lowercaseString];
+        _userQuery = [PFQuery orQueryWithSubqueries:@[usernameQuery, firstnameQuery, lastnameQuery]];
+        _userQuery.limit = 10;
+        [_userQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+            _pumpUsers = [NSMutableArray arrayWithArray: objects];
+            [_tableview reloadData];
+        }];
+    }
     if(text.length == 0)
     {
         isFiltered = FALSE;
@@ -221,8 +216,9 @@
     else
     {
         isFiltered = true;
-        _filteredRecentUsers = nil;//[[NSMutableArray alloc] init];
+        _filteredRecentUsers = [[NSMutableArray alloc] init];
         _filteredContactUsers = [[NSMutableArray alloc] init];
+        _filteredContacts = [[NSMutableArray alloc] init];;
         
         for (PFUser* friend in _recentUsers)
         {
@@ -237,6 +233,8 @@
             }
         }
         
+        
+        
         for (PFUser* friend in _contactUsers)
         {
             
@@ -247,6 +245,18 @@
             if(nameRange.location != NSNotFound || phoneRange.location != NSNotFound ||  usernameRange.location != NSNotFound)
             {
                 [_filteredContactUsers addObject:friend];
+            }
+        }
+        
+        for (CNContact* friend in _contacts)
+        {
+            
+            NSRange nameRange = [[NSString stringWithFormat: @"%@ %@", friend.givenName, friend.familyName] rangeOfString:text options:NSCaseInsensitiveSearch];
+            NSRange phoneRange = [friend.phoneNumbers.firstObject.value.stringValue rangeOfString:text options:NSCaseInsensitiveSearch];
+            
+            if(nameRange.location != NSNotFound || phoneRange.location != NSNotFound)
+            {
+                [_filteredContacts addObject:friend];
             }
         }
     }
@@ -266,7 +276,7 @@
     SearchViewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Friend Cell"];
     [cell setUserInteractionEnabled:YES];
     if (!cell) {
-        cell = [[SearchViewTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Friend Cell"];
+        cell = [[SearchViewTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Friend Cell"];
     }
     
     PFUser *user;
@@ -276,7 +286,7 @@
             user = [_filteredRecentUsers objectAtIndex:indexPath.row];
         } else if(indexPath.section == 1) {
             user = [_filteredContactUsers objectAtIndex:indexPath.row];
-        } else {
+        } else if(indexPath.section == 3){
             user = [_pumpUsers objectAtIndex:indexPath.row];
         }
     } else {
@@ -284,7 +294,7 @@
             user = [_recentUsers objectAtIndex:indexPath.row];
         } else if(indexPath.section == 1) {
             user = [_contactUsers objectAtIndex:indexPath.row];
-        } else {
+        } else if(indexPath.section == 3){
             user = [_pumpUsers objectAtIndex:indexPath.row];
         }
     }
@@ -299,7 +309,15 @@
 //    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[friendDict objectForKey:@"profile_picture_url"]]
 //                      placeholderImage:[UIImage imageNamed:@"profile_pic_default"]];
     
-    [cell setUser:user];
+    if (user) {
+        [cell setUser:user];
+    } else {
+        if (isFiltered) {
+            [cell setContact:_filteredContacts[indexPath.row]];
+        } else {
+            [cell setContact:_contacts[indexPath.row]];
+        }
+    }
     
     if ([_selectedFriends containsObject:user]) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
@@ -335,9 +353,21 @@
             }
             return @"";
         }
+    } else if (section == 2) {
+        if (isFiltered) {
+            if (_filteredContacts.count > 0) {
+                return @"My contacts";
+            }
+            return @"";
+        } else {
+            if (_contacts.count > 0) {
+                return @"My contacts";
+            }
+            return @"";
+        }
     } else {
         if (_pumpUsers.count > 0) {
-            return @"Pump users";
+            return @"Other users";
         }
         return @"";
     }
@@ -372,26 +402,35 @@
             user = [_filteredRecentUsers objectAtIndex:indexPath.row];
         } else if(indexPath.section == 1) {
             user = [_filteredContactUsers objectAtIndex:indexPath.row];
-        } else {
+        } else if(indexPath.section == 3) {
             user = [_pumpUsers objectAtIndex:indexPath.row];
         }
-        if ([_selectedFriends containsObject:user]) {
-            [_selectedFriends removeObject:user];
+        
+        if (user) {
+            if ([_selectedFriends containsObject:user]) {
+                [_selectedFriends removeObject:user];
+            } else {
+                [_selectedFriends addObject:user];
+            }
         } else {
-            [_selectedFriends addObject:user];
+            [_selectedFriends addObject:[_filteredContacts objectAtIndex:indexPath.row]];
         }
     } else {
         if (indexPath.section == 0) {
             user = [_recentUsers objectAtIndex:indexPath.row];
         } else if(indexPath.section == 1) {
             user = [_contactUsers objectAtIndex:indexPath.row];
-        } else {
+        } else if(indexPath.section == 3) {
             user = [_pumpUsers objectAtIndex:indexPath.row];
         }
-        if ([_selectedFriends containsObject:user]) {
-            [_selectedFriends removeObject:user];
+        if (user) {
+            if ([_selectedFriends containsObject:user]) {
+                [_selectedFriends removeObject:user];
+            } else {
+                [_selectedFriends addObject:user];
+            }
         } else {
-            [_selectedFriends addObject:user];
+            [_selectedFriends addObject:[_contacts objectAtIndex:indexPath.row]];
         }
     }
     //[self.delegate searchView:self didSelectUser:user];
@@ -400,14 +439,16 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     
     // Return the number of sections.
-    if (_filteredRecentUsers.count > 0 || _recentUsers.count > 0 || _filteredContactUsers.count > 0 || _contactUsers.count > 0 || _pumpUsers.count > 0) {
+    if (_filteredRecentUsers.count > 0 || _recentUsers.count > 0 || _filteredContactUsers.count > 0 || _contactUsers.count > 0 || _pumpUsers.count > 0 || _contacts.count > 0 || _filteredContacts.count > 0) {
+        _tableview.backgroundView = nil;
+        _tableview.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         
         _tableview.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         _tableview.backgroundView = nil;
@@ -417,6 +458,8 @@
                 rowCount = _filteredRecentUsers.count;
             } else if (section == 1) {
                 rowCount = _filteredContactUsers.count;
+            } else if (section == 2) {
+                rowCount = _filteredContacts.count;
             } else {
                 rowCount = _pumpUsers.count;
             }
@@ -425,6 +468,8 @@
                 rowCount = _recentUsers.count;
             } else if (section == 1) {
                 rowCount = _contactUsers.count;
+            } else if (section == 2) {
+                rowCount = _contacts.count;
             } else {
                 rowCount = _pumpUsers.count;
             }

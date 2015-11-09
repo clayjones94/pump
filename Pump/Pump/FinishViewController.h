@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Constants.h"
+#import "PassengerView.h"
 
-@interface FinishViewController : UIViewController <UITextViewDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate>
+@class FinishViewController;
+
+@interface FinishViewController : UIViewController <UITextViewDelegate, UIGestureRecognizerDelegate, UIAlertViewDelegate, PassengerViewDelegate>
 
 @end

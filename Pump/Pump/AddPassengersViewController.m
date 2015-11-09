@@ -7,6 +7,7 @@
 //
 
 #import "AddPassengersViewController.h"
+#import "FinishViewController.h"
 #import "Utils.h"
 #import "TripManager.h"
 #import "UserManager.h"
@@ -41,6 +42,7 @@
     [self.navigationItem.rightBarButtonItem setTintColor:[UIColor whiteColor]];
     
     _searchView = [[SearchUserView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64)];
+    [TripManager sharedManager].passengers = [NSMutableArray new];
     
     [self.view addSubview: _searchView];
 }
@@ -66,14 +68,15 @@
     for (NSDictionary *passenger in _searchView.selectedFriends) {
         if (![[TripManager sharedManager].passengers containsObject:passenger]) {
             [[TripManager sharedManager].passengers addObject:passenger];
-            [[UserManager sharedManager] addFriendToRecents:passenger];
         }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Passengers Changed" object:nil];
-    [self dismissViewControllerAnimated:YES completion:nil];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"Passengers Changed" object:nil];
+    FinishViewController *vc = [FinishViewController new];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 -(void) cancel {
+    [TripManager sharedManager].passengers = [NSMutableArray new];
     [self dismissViewControllerAnimated:YES completion:nil];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"Passengers Changed" object:nil];
 }

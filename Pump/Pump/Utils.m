@@ -56,31 +56,52 @@
 }
 
 
-+(UIColor *) mpgColor {
-    return [UIColor colorWithRed:(255.0f/255.0)
-                           green:(173.0f/255.0)
-                            blue:(0.0f/255.0)
++(UIColor *) greenColor {
+    return [UIColor colorWithRed:(126.0f/255.0)
+                           green:(211.0f/255.0)
+                            blue:(33.0f/255.0)
                            alpha:1.0f];
 }
 
-+(UIColor *) mpgLightColor {
++(UIColor *) greenLightColor {
     return [UIColor colorWithRed:(255.0f/255.0)
                            green:(203.0f/255.0)
                             blue:(93.0f/255.0)
                            alpha:1.0f];
 }
 
-+(UIColor *) gasColor {
-    return [UIColor colorWithRed:(255.0f/255.0)
-                           green:(13.0f/255.0)
++(UIColor *) redColor {
+    return [UIColor colorWithRed:(224.0f/255.0)
+                           green:(22.0f/255.0)
                             blue:(0.0f/255.0)
                            alpha:1.0f];
 }
 
-+(UIColor *) gasLightColor {
++(UIColor *) redLightColor {
     return [UIColor colorWithRed:(255.0f/255.0)
                            green:(101.0f/255.0)
                             blue:(93.0f/255.0)
+                           alpha:1.0f];
+}
+
++(UIColor *) orangeColor {
+    return [UIColor colorWithRed:(224.0f/255.0)
+                           green:(108.0f/255.0)
+                            blue:(0.0f/255.0)
+                           alpha:1.0f];
+}
+
++(UIColor *) orangeLightColor {
+    return [UIColor colorWithRed:(255.0f/255.0)
+                           green:(101.0f/255.0)
+                            blue:(93.0f/255.0)
+                           alpha:1.0f];
+}
+
++(UIColor *) venmoColor {
+    return [UIColor colorWithRed:(61.0f/255.0)
+                           green:(149.0f/255.0)
+                            blue:(206.0f/255.0)
                            alpha:1.0f];
 }
 

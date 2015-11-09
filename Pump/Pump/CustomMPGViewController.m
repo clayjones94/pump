@@ -79,17 +79,14 @@
 
 -(void) selectMPG {
     NSNumber *mpg = [NSNumber numberWithDouble: [_mpgField.text doubleValue]];
+    [[NSUserDefaults standardUserDefaults] setObject:mpg forKey:@"mpg"];
     [PFUser currentUser][@"mpg"] = mpg;
+    [self dismissViewControllerAnimated:YES completion:nil];
     [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (succeeded) {
-            [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-            if (self.navigationController.parentViewController) {
-                [self.navigationController willMoveToParentViewController:nil];
-                [self.navigationController.view removeFromSuperview];
-                [self.navigationController removeFromParentViewController];
-            }
+            [self dismissViewControllerAnimated:YES completion:nil];
         } else {
-            
+            [self dismissViewControllerAnimated:YES completion:nil];
         }
     }];
 }

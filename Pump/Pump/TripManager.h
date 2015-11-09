@@ -12,6 +12,7 @@
 #import <MapKit/MapKit.h>
 #import <GoogleMaps/GoogleMaps.h>
 #import <Parse/Parse.h>
+#import "DirectionsManager.h"
 
 #define degreesToRadians(x) (M_PI * x / 180.0)
 #define radiandsToDegrees(x) (x * 180.0 / M_PI)
@@ -21,12 +22,17 @@
 @protocol TripManagerDelegate <NSObject>
 @optional
 - (void) tripManager: (TripManager *)manager didUpdateStatus: (TripStatusType)status;
-- (void) tripManager: (TripManager *)manager didUpdateLocationWith: (CLLocationDistance) distance and:(GMSPolyline *)polyline;
+- (void) tripManager: (TripManager *)manager didUpdateCost: (NSNumber *)cost;
+- (void) tripManager: (TripManager *)manager didUpdateStepDistance: (CLLocationDistance)distance totalDistance: (CLLocationDistance) totalDistance totalTime: (NSTimeInterval) totalTime;
+-(void) tripManager: (TripManager *)manager didUpdatePath: (GMSPath *)path;
+-(void) tripManager: (TripManager *)manager didUpdateInstructions: (NSAttributedString *) instructions withIcon: (UIImage *)icon;
 - (void) tripManager: (TripManager *)manager didUpdateLocation: (CLLocationCoordinate2D) coor direction:(CLLocationDirection)direction;
+
+-(void) didStartDirectingTripManager: (TripManager *)manager;
 @end
 
 
-@interface TripManager : NSObject <CLLocationManagerDelegate>
+@interface TripManager : NSObject <CLLocationManagerDelegate, DirectionsManagerDelegate>
 @property id <TripManagerDelegate> delegate;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property GMSPolyline *polyline;
@@ -38,6 +44,8 @@
 @property (nonatomic)NSMutableArray *passengers;
 @property (nonatomic) BOOL includeUserAsPassenger;
 @property (nonatomic) PFUser *car;
+@property (nonatomic) NSAttributedString *stepInstruction;
+@property (nonatomic) NSMutableArray *paymentStatuses;
 
 -(void)logoutOfManager;
 

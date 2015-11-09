@@ -24,7 +24,7 @@
 @end
 
 @implementation AppDelegate {
-    HomeViewController *_homevc;
+    TripViewController *_homevc;
     UINavigationController *_nav;
     
 }
@@ -57,7 +57,7 @@
     [Parse setApplicationId:@"3salmH3rmskFoOp8q1BzjV2Vh6ZS4NL3FDKCOVN8"
                   clientKey:@"S02VfRDWGwjPFvRz5QR0CaJIEgQ8rJa5QpqcNzBO"];
     
-    _homevc = [[HomeViewController alloc] init];
+    _homevc = [[TripViewController alloc] init];
     _nav = [[UINavigationController alloc] initWithRootViewController:_homevc];
     UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:21];
     NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObjects:@[font, [UIColor whiteColor]]

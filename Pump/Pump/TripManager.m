@@ -25,6 +25,8 @@
 @synthesize includeUserAsPassenger = _includeUserAsPassenger;
 @synthesize car = _car;
 @synthesize direction = _direction;
+@synthesize stepInstruction = _stepInstruction;
+@synthesize paymentStatuses = _paymentStatuses;
 
 + (TripManager *)sharedManager {
     static TripManager *sharedManager = nil;
@@ -47,6 +49,9 @@
         _polyline = [GMSPolyline new];
         _includeUserAsPassenger = YES;
         _car = [PFUser currentUser];
+        _mpg = [[NSUserDefaults standardUserDefaults] objectForKey:@"mpg"];
+        
+        [DirectionsManager sharedManager].delegate = self;
         
         if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
             if ([CLLocationManager locationServicesEnabled]) {
@@ -61,12 +66,22 @@
     return self;
 }
 
+-(void)managerDidStartDirecting:(DirectionsManager *)manager {
+    [self.delegate didStartDirectingTripManager:self];
+}
+
+-(void)manager:(DirectionsManager *)manager didUpdatePath:(GMSPath *)path {
+    [self.delegate tripManager:self didUpdatePath:path];
+}
+
+-(void)managerDidChangeSteps:(DirectionsManager *)manager {
+     _stepInstruction = [[DirectionsManager sharedManager] currentInstruction];
+    UIImage *image = [manager currentManeuver];
+    [self.delegate tripManager:self didUpdateInstructions:_stepInstruction withIcon:image];
+}
+
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
     CLLocation *newLocation = [locations lastObject];
-    if (_status != FINISHED) {
-        _polyline.map = nil;
-    }
-     NSLog(@"%@", _car[@"first_name"]);
 
     [self.delegate tripManager: self didUpdateLocation: newLocation.coordinate direction:0];
     if (_status == RUNNING || _status == PAUSED) {
@@ -77,19 +92,21 @@
     
         _lastLocation = [_runningLocations lastObject];
         
-        NSUInteger count = _runningLocations.count;
-        GMSMutablePath *path = [[GMSMutablePath alloc] init];
-        for (int i = 0; i < count; i++) {
-            CLLocation *location = [_runningLocations objectAtIndex:i];
-            CLLocationCoordinate2D coor = location.coordinate;
-            [path addCoordinate:coor];
-        }
+//        NSUInteger count = _runningLocations.count;
+//        GMSMutablePath *path = [[GMSMutablePath alloc] init];
+//        for (int i = 0; i < count; i++) {
+//            CLLocation *location = [_runningLocations objectAtIndex:i];
+//            CLLocationCoordinate2D coor = location.coordinate;
+//            [path addCoordinate:coor];
+//        }
         
-        _polyline = [GMSPolyline polylineWithPath:path];
-        _polyline.strokeColor = [UIColor blueColor];
-        _polyline.strokeWidth = 5.f;
-        [self.delegate tripManager:self didUpdateLocationWith:_distanceTraveled and:_polyline];
+        double cost = _distanceTraveled / 1609.34 * [_gasPrice doubleValue] / [_mpg doubleValue];
+        
+        [self.delegate tripManager:self didUpdateCost:[NSNumber numberWithDouble:cost]];
     }
+    [[DirectionsManager sharedManager] updateLocationWithBlock:^(CLLocationDistance stepDistance, CLLocationDistance totalDistance, NSTimeInterval totalTime) {
+        [self.delegate tripManager:self didUpdateStepDistance:stepDistance totalDistance:totalDistance totalTime:totalTime];
+    }];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
@@ -280,6 +297,8 @@
 //            }];
         }
         [self selectGasType];
+    } else if (_status == FINISHED) {
+        _paymentStatuses = [[NSMutableArray alloc] init];
     }
     [self.delegate tripManager:self didUpdateStatus:_status];
 }
