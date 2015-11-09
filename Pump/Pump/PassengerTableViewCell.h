@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Parse/Parse.h>
+#import "Constants.h"
 
-@interface PassengerTableViewCell : UITableViewCell
+@interface PassengerTableViewCell : UITableViewCell<CAAction>
 
-@property (nonatomic) NSDictionary *passenger;
+@property (nonatomic) id passenger;
+@property (nonatomic) double cost;
+
+@property (nonatomic) PaymentStatus status;
 
 @end

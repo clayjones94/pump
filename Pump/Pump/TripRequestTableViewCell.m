@@ -99,32 +99,32 @@
     } else {
         [[Storage sharedManager] updateMembershipStatus:@1 ForID:_memberID];
     }
-    [Database updateTripMembershipsWithIDs:[NSArray arrayWithObject:_memberID] status:@1 withBlock:^(NSArray *data, NSError *error) {
-        NSDictionary *updated = [data firstObject];
-        if (updated.count != 0) {
-
-            if (_isRequest) {
-                [[Venmo sharedInstance] sendRequestTo:[updated objectForKey: @"member"] amount:[[updated objectForKey:@"amount"]floatValue] * 100 note:[NSString stringWithFormat:@"%@", [updated objectForKey:@"description"]] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
-                    
-                    UIAlertView *alert = [[UIAlertView alloc]
-                                          initWithTitle:@"Request Confirmed" message:[NSString stringWithFormat: @"You requested $%.2f.", [[updated objectForKey:@"amount"]floatValue]] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                    dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
-                }];
-            } else {
-                [[Venmo sharedInstance] sendPaymentTo:[updated objectForKey: @"owner"] amount:[[updated objectForKey:@"amount"]floatValue] * 100 note:[NSString stringWithFormat:@"%@", [updated objectForKey:@"description"]] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
-                    UIAlertView *alert = [[UIAlertView alloc]
-                                          initWithTitle:@"Payment Confirmed" message:[NSString stringWithFormat: @"You paid $%.2f", [[updated objectForKey:@"amount"]floatValue]] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                    dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
-                }];
-            }
-            
-            
-        } else {
-            UIAlertView *alert = [[UIAlertView alloc]
-                                  initWithTitle:@"Already Completed" message:[NSString stringWithFormat:@"Someone has already completed this request."] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
-        }
-    }];
+//    [Database updateTripMembershipsWithIDs:[NSArray arrayWithObject:_memberID] status:@1 withBlock:^(NSArray *data, NSError *error) {
+//        NSDictionary *updated = [data firstObject];
+//        if (updated.count != 0) {
+//
+//            if (_isRequest) {
+//                [[Venmo sharedInstance] sendRequestTo:[updated objectForKey: @"member"] amount:[[updated objectForKey:@"amount"]floatValue] * 100 note:[NSString stringWithFormat:@"%@", [updated objectForKey:@"description"]] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
+//                    
+//                    UIAlertView *alert = [[UIAlertView alloc]
+//                                          initWithTitle:@"Request Confirmed" message:[NSString stringWithFormat: @"You requested $%.2f.", [[updated objectForKey:@"amount"]floatValue]] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+//                    dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+//                }];
+//            } else {
+//                [[Venmo sharedInstance] sendPaymentTo:[updated objectForKey: @"owner"] amount:[[updated objectForKey:@"amount"]floatValue] * 100 note:[NSString stringWithFormat:@"%@", [updated objectForKey:@"description"]] completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
+//                    UIAlertView *alert = [[UIAlertView alloc]
+//                                          initWithTitle:@"Payment Confirmed" message:[NSString stringWithFormat: @"You paid $%.2f", [[updated objectForKey:@"amount"]floatValue]] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+//                    dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+//                }];
+//            }
+//            
+//            
+//        } else {
+//            UIAlertView *alert = [[UIAlertView alloc]
+//                                  initWithTitle:@"Already Completed" message:[NSString stringWithFormat:@"Someone has already completed this request."] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+//            dispatch_async(dispatch_get_main_queue(),^{ [alert show];});
+//        }
+//    }];
     [self setCellRequestedOrIgnored];
 }
 
@@ -134,9 +134,9 @@
     } else {
         [[Storage sharedManager] updateMembershipStatus:@2 ForID:_memberID];
     }
-    [Database updateTripMembershipWithID:_memberID status:@2 withBlock:^(NSDictionary *data, NSError *error) {
-        [self setCellRequestedOrIgnored];
-    }];
+//    [Database updateTripMembershipWithID:_memberID status:@2 withBlock:^(NSDictionary *data, NSError *error) {
+//        [self setCellRequestedOrIgnored];
+//    }];
     [self setCellRequestedOrIgnored];
 }
 

@@ -113,26 +113,26 @@
 -(void)setTripMembership:(NSDictionary *)tripMembership {
     _tripMembership = tripMembership;
     
-    [Database getTripWithID:[_tripMembership objectForKey:@"trip"] withBlock:^(NSDictionary *data, NSError *error) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            _trip = data;
-            [self updateTripInfoBar];
-            GMSPath *path = [GMSPath pathFromEncodedPath:[data objectForKey:@"polyline"]];
-            GMSPolyline *polyline = [GMSPolyline polylineWithPath:path];
-            [polyline setStrokeWidth:5];
-            //[polyline setStrokeColor:[Utils defaultColor]];
-            polyline.map = _mapView;
-            GMSMarker *start = [GMSMarker markerWithPosition:[polyline.path coordinateAtIndex:0]];
-            GMSMarker *finish = [GMSMarker markerWithPosition:[polyline.path coordinateAtIndex:path.count - 1]];
-            [start setIcon:[GMSMarker markerImageWithColor:[UIColor greenColor]]];
-            [finish setIcon:[GMSMarker markerImageWithColor:[UIColor redColor]]];
-            start.map = _mapView;
-            finish.map = _mapView;
-            GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] initWithPath:path];
-            GMSCameraUpdate *update = [GMSCameraUpdate fitBounds:bounds withPadding:20];
-            [_mapView animateWithCameraUpdate:update];
-        });
-    }];
+//    [Database getTripWithID:[_tripMembership objectForKey:@"trip"] withBlock:^(NSDictionary *data, NSError *error) {
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            _trip = data;
+//            [self updateTripInfoBar];
+//            GMSPath *path = [GMSPath pathFromEncodedPath:[data objectForKey:@"polyline"]];
+//            GMSPolyline *polyline = [GMSPolyline polylineWithPath:path];
+//            [polyline setStrokeWidth:5];
+//            //[polyline setStrokeColor:[Utils defaultColor]];
+//            polyline.map = _mapView;
+//            GMSMarker *start = [GMSMarker markerWithPosition:[polyline.path coordinateAtIndex:0]];
+//            GMSMarker *finish = [GMSMarker markerWithPosition:[polyline.path coordinateAtIndex:path.count - 1]];
+//            [start setIcon:[GMSMarker markerImageWithColor:[UIColor greenColor]]];
+//            [finish setIcon:[GMSMarker markerImageWithColor:[UIColor redColor]]];
+//            start.map = _mapView;
+//            finish.map = _mapView;
+//            GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] initWithPath:path];
+//            GMSCameraUpdate *update = [GMSCameraUpdate fitBounds:bounds withPadding:20];
+//            [_mapView animateWithCameraUpdate:update];
+//        });
+//    }];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -25,17 +25,17 @@
 }
 
 - (void) updatePendingTripMembshipsWithBlock: (void (^)(NSArray *data, NSError *error))block {
-    [Database getTripMembershipsWithID: [Venmo sharedInstance].session.user.externalId andStatus:0 withBlock:^(NSArray *data, NSError *error) {
-        _pendingTripMemberships = [NSMutableArray arrayWithArray: data];
-        block(data, error);
-    }];
+//    [Database getTripMembershipsWithID: [Venmo sharedInstance].session.user.externalId andStatus:0 withBlock:^(NSArray *data, NSError *error) {
+//        _pendingTripMemberships = [NSMutableArray arrayWithArray: data];
+//        block(data, error);
+//    }];
 }
 
 - (void) updatePendingTripOwnershipsWithBlock: (void (^)(NSArray *data, NSError *error))block {
-    [Database getTripOwnershipsWithID: [Venmo sharedInstance].session.user.externalId andStatus:0 withBlock:^(NSArray *data, NSError *error) {
-        _pendingTripOwnerships = [NSMutableArray arrayWithArray: data];
-        block(data, error);
-    }];
+//    [Database getTripOwnershipsWithID: [Venmo sharedInstance].session.user.externalId andStatus:0 withBlock:^(NSArray *data, NSError *error) {
+//        _pendingTripOwnerships = [NSMutableArray arrayWithArray: data];
+//        block(data, error);
+//    }];
 }
 
 -(NSMutableArray *) membershipsWithOwner: (NSString *) friendID {

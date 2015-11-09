@@ -11,12 +11,16 @@
 
 @interface Utils : NSObject
 
++(void) addDefaultGradientToView: (UIView *)view;
 + (UIColor *)defaultColor;
 + (UIColor *)defaultLightColor;
-+(UIColor *) mpgColor;
-+(UIColor *) mpgLightColor;
-+(UIColor *) gasColor;
-+(UIColor *) gasLightColor;
++(UIColor *) greenColor;
++(UIColor *) greenLightColor;
++(UIColor *) redColor;
++(UIColor *) redLightColor;
++(UIColor *) orangeColor;
++(UIColor *) orangeLightColor;
++(UIColor *) venmoColor;
 +(NSAttributedString *)defaultString: (NSString *)string size: (CGFloat)size color: (UIColor *)color;
 
 @end

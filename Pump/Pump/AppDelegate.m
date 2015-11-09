@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "TripViewController.h"
+#import "HomeViewController.h"
 #import "Utils.h"
 #import "Database.h"
 #import "Constants.h"
@@ -16,27 +17,27 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import "TripManager.h"
 #import "UserManager.h"
+#import <Parse/Parse.h>
 
 @interface AppDelegate ()
 
 @end
 
 @implementation AppDelegate {
-    TripViewController *_tripvc;
+    TripViewController *_homevc;
     UINavigationController *_nav;
     
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    if ([[UIApplication sharedApplication] respondsToSelector:@selector(registerUserNotificationSettings:)]) {
-        UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound);
-        UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes categories:nil];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:settings];
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-    } else {
-        [[UIApplication sharedApplication] registerForRemoteNotifications];
-    }
+    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
+                                                    UIUserNotificationTypeBadge |
+                                                    UIUserNotificationTypeSound);
+    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
+                                                                             categories:nil];
+    [application registerUserNotificationSettings:settings];
+    [application registerForRemoteNotifications];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
@@ -53,9 +54,11 @@
 //    }
 
     [GMSServices provideAPIKey:@"AIzaSyA-N5dxHG2g7YzeegbO0tJF4XbAGUgbbtg"];
+    [Parse setApplicationId:@"3salmH3rmskFoOp8q1BzjV2Vh6ZS4NL3FDKCOVN8"
+                  clientKey:@"S02VfRDWGwjPFvRz5QR0CaJIEgQ8rJa5QpqcNzBO"];
     
-    _tripvc = [[TripViewController alloc] init];
-    _nav = [[UINavigationController alloc] initWithRootViewController:_tripvc];
+    _homevc = [[TripViewController alloc] init];
+    _nav = [[UINavigationController alloc] initWithRootViewController:_homevc];
     UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:21];
     NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObjects:@[font, [UIColor whiteColor]]
                                                                 forKeys: @[NSFontAttributeName, NSForegroundColorAttributeName]];
@@ -86,38 +89,14 @@
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    // Called when app is opened from a push notification and when app is running and a notification is received.
-    // In the first scenario, try pushing the shared poll. In the latter, just set the badge count on the tabbar.
-    if ([application applicationState] != UIApplicationStateActive) {
-        [_nav popToRootViewControllerAnimated:YES];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"Open from Notification" object:nil];
-    }
-//    NSDictionary *info = [userInfo objectForKey:@"aps"];
-//    [UIApplication sharedApplication].applicationIconBadgeNumber = [[info objectForKey:@"badge"] integerValue];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"Recieve Notification" object:nil];
+    [PFPush handlePush:userInfo];
 }
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
-    NSLog(@"My token is: %@", deviceToken);
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    NSUInteger capacity = deviceToken.length * 2;
-    NSMutableString *sbuf = [NSMutableString stringWithCapacity:capacity];
-    const unsigned char *buf = deviceToken.bytes;
-    NSInteger i;
-    for (i = 0; i < deviceToken.length; ++i) {
-        [sbuf appendFormat:@"%02lX", (unsigned long)buf[i]];
-    }
-    if (![[defaults objectForKey:APNS_TOKEN_KEY] isEqualToString:sbuf]) {
-        [defaults setObject:sbuf forKey:APNS_TOKEN_KEY];
-        [defaults synchronize];
-        
-        // We only want to refresh the token if we are logged in
-        if ([Venmo sharedInstance].isSessionValid) {
-            [Database updateAPNSToken];
-        }
-    }
+    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+    [currentInstallation setDeviceTokenFromData:deviceToken];
+    [currentInstallation saveInBackground];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error

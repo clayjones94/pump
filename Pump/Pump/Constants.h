@@ -30,4 +30,12 @@ typedef NS_ENUM(NSUInteger, GasType) {
     GAS_TYPE_DIESEL,
 };
 
+typedef NS_ENUM(NSUInteger, PaymentStatus) {
+    PAYMENT_PENDING,
+    PAYMENT_PROCESSING,
+    PAYMENT_FINISHING,
+    PAYMENT_SUCCESS,
+    PAYMENT_FAILED,
+};
+
 #endif
