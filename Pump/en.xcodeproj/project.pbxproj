@@ -16,6 +16,7 @@
 		92987F561BE04DE30076C817 /* PlacesSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92987F551BE04DE30076C817 /* PlacesSearchView.m */; };
 		92987F591BE04F5B0076C817 /* PlacesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92987F581BE04F5B0076C817 /* PlacesTableViewCell.m */; };
 		92987F5D1BE079E40076C817 /* DirectionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 92987F5C1BE079E40076C817 /* DirectionsManager.m */; };
+		92EDC38F1BF2C196009988D1 /* FinishBorrowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92EDC38E1BF2C196009988D1 /* FinishBorrowViewController.m */; };
 		92F1F30C1BDD6B45004B4728 /* NoCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F1F30B1BDD6B45004B4728 /* NoCarViewController.m */; };
 		92F1F30F1BDDA655004B4728 /* FinishViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F1F30E1BDDA655004B4728 /* FinishViewController.m */; };
 		92F5B9811BDF4225009EE4B7 /* BorrowCarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92F5B9801BDF4225009EE4B7 /* BorrowCarTableViewCell.m */; };
@@ -56,7 +57,6 @@
 		AE737EF21BAC5895004A73E0 /* PendingOwnershipsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE737EF11BAC5895004A73E0 /* PendingOwnershipsViewController.m */; };
 		AE737EF61BAC5A3C004A73E0 /* PendingMembershipsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE737EF51BAC5A3C004A73E0 /* PendingMembershipsViewController.m */; };
 		AE737EF91BAC9344004A73E0 /* ChooseCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AE737EF81BAC9344004A73E0 /* ChooseCarViewController.m */; };
-		AEA31D661BCCAF4D00D08AF0 /* FinishView.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA31D651BCCAF4D00D08AF0 /* FinishView.m */; };
 		AEA31D691BCCF3CC00D08AF0 /* DecimalKeypad.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA31D681BCCF3CC00D08AF0 /* DecimalKeypad.m */; };
 		AEA3DE4B1BB1049700F36830 /* TripHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA3DE4A1BB1049700F36830 /* TripHistoryViewController.m */; };
 		AEA3DE4E1BB28CC100F36830 /* TripRequestTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AEA3DE4D1BB28CC100F36830 /* TripRequestTableViewCell.m */; };
@@ -98,6 +98,8 @@
 		92987F581BE04F5B0076C817 /* PlacesTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlacesTableViewCell.m; sourceTree = "<group>"; };
 		92987F5B1BE079E40076C817 /* DirectionsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectionsManager.h; sourceTree = "<group>"; };
 		92987F5C1BE079E40076C817 /* DirectionsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectionsManager.m; sourceTree = "<group>"; };
+		92EDC38D1BF2C196009988D1 /* FinishBorrowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinishBorrowViewController.h; sourceTree = "<group>"; };
+		92EDC38E1BF2C196009988D1 /* FinishBorrowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinishBorrowViewController.m; sourceTree = "<group>"; };
 		92F1F30A1BDD6B45004B4728 /* NoCarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoCarViewController.h; sourceTree = "<group>"; };
 		92F1F30B1BDD6B45004B4728 /* NoCarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoCarViewController.m; sourceTree = "<group>"; };
 		92F1F30D1BDDA655004B4728 /* FinishViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinishViewController.h; sourceTree = "<group>"; };
@@ -172,8 +174,6 @@
 		AE737EF51BAC5A3C004A73E0 /* PendingMembershipsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PendingMembershipsViewController.m; sourceTree = "<group>"; };
 		AE737EF71BAC9344004A73E0 /* ChooseCarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseCarViewController.h; sourceTree = "<group>"; };
 		AE737EF81BAC9344004A73E0 /* ChooseCarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseCarViewController.m; sourceTree = "<group>"; };
-		AEA31D641BCCAF4D00D08AF0 /* FinishView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinishView.h; sourceTree = "<group>"; };
-		AEA31D651BCCAF4D00D08AF0 /* FinishView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinishView.m; sourceTree = "<group>"; };
 		AEA31D671BCCF3CC00D08AF0 /* DecimalKeypad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DecimalKeypad.h; sourceTree = "<group>"; };
 		AEA31D681BCCF3CC00D08AF0 /* DecimalKeypad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DecimalKeypad.m; sourceTree = "<group>"; };
 		AEA3DE491BB1049700F36830 /* TripHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TripHistoryViewController.h; sourceTree = "<group>"; };
@@ -390,8 +390,8 @@
 				AEA3DE501BB46DAA00F36830 /* SettingsViewController.m */,
 				AEA3DE521BB49D1A00F36830 /* Storage.h */,
 				AEA3DE531BB49D1A00F36830 /* Storage.m */,
-				AEA31D641BCCAF4D00D08AF0 /* FinishView.h */,
-				AEA31D651BCCAF4D00D08AF0 /* FinishView.m */,
+				92EDC38D1BF2C196009988D1 /* FinishBorrowViewController.h */,
+				92EDC38E1BF2C196009988D1 /* FinishBorrowViewController.m */,
 				92F1F30D1BDDA655004B4728 /* FinishViewController.h */,
 				92F1F30E1BDDA655004B4728 /* FinishViewController.m */,
 				AEA31D671BCCF3CC00D08AF0 /* DecimalKeypad.h */,
@@ -599,6 +599,7 @@
 				AEA3DE541BB49D1A00F36830 /* Storage.m in Sources */,
 				92987F561BE04DE30076C817 /* PlacesSearchView.m in Sources */,
 				AE1408391BD8B3530086AE34 /* SignInViewController.m in Sources */,
+				92EDC38F1BF2C196009988D1 /* FinishBorrowViewController.m in Sources */,
 				923C3FDB1BDCAA5C0000E6F4 /* BorrowTripViewController.m in Sources */,
 				AE14084D1BDA0C4F0086AE34 /* CarMakeViewController.m in Sources */,
 				AEEA52D01B9E3EA00081BA97 /* Friend.m in Sources */,
@@ -621,7 +622,6 @@
 				92987F5D1BE079E40076C817 /* DirectionsManager.m in Sources */,
 				AE737EF61BAC5A3C004A73E0 /* PendingMembershipsViewController.m in Sources */,
 				AE2F448E1B8E3C9D00F57579 /* main.m in Sources */,
-				AEA31D661BCCAF4D00D08AF0 /* FinishView.m in Sources */,
 				AE737EF91BAC9344004A73E0 /* ChooseCarViewController.m in Sources */,
 				AEA930561BA86D400090981A /* PassengerTableViewCell.m in Sources */,
 				92F1F30F1BDDA655004B4728 /* FinishViewController.m in Sources */,

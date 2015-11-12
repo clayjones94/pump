@@ -48,8 +48,11 @@
         _passengers = [NSMutableArray new];
         _polyline = [GMSPolyline new];
         _includeUserAsPassenger = YES;
-        _car = [PFUser currentUser];
+        _car = nil;
         _mpg = [[NSUserDefaults standardUserDefaults] objectForKey:@"mpg"];
+        if (!_mpg) {
+            [self setMpg:@10];
+        }
         
         [DirectionsManager sharedManager].delegate = self;
         
@@ -127,37 +130,32 @@
     }
 }
 
--(void) setCar:(PFUser *)car {
+-(void) setCar:(id) car {
     _car = car;
-    _mpg = car[@"mpg"];
-    [self selectGasType];
+    if (!car) {
+        [self setMpg:[[NSUserDefaults standardUserDefaults] objectForKey:@"mpg"]];
+    }
+    [self.delegate tripManager:self didSelectCar:_car];
 }
 
 -(void)setGasPrice:(NSNumber *)gasPrice {
     _gasPrice = gasPrice;
-    if ([_car.objectId isEqualToString:[PFUser currentUser].objectId]) {
-        [[NSUserDefaults standardUserDefaults] setObject:_gasPrice forKey:@"gas_price"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
 }
 
 -(void)setMpg:(NSNumber *)mpg {
     _mpg = mpg;
-    if ([_car.objectId isEqualToString:[PFUser currentUser].objectId]) {
-        [[NSUserDefaults standardUserDefaults] setObject:_mpg forKey:@"mpg"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
+    [self.delegate tripManager:self didUpdateMPG:mpg];
 }
 
 -(void) selectGasType {
     GasType type = GAS_TYPE_REGULAR;
-    if ([_car[@"gas_type"] isEqualToString:@"Midgrade Gasoline"]) {
-        type = GAS_TYPE_MIDGRADE;
-    } else if([_car[@"gas_type"] isEqualToString:@"Premium Gasoline"]) {
-        type = GAS_TYPE_PREMIUM;
-    } else if ([_car[@"gas_type"] isEqualToString:@"Diesel Gasoline"]) {
-        type = GAS_TYPE_DIESEL;
-    }
+//    if ([_car[@"gas_type"] isEqualToString:@"Midgrade Gasoline"]) {
+//        type = GAS_TYPE_MIDGRADE;
+//    } else if([_car[@"gas_type"] isEqualToString:@"Premium Gasoline"]) {
+//        type = GAS_TYPE_PREMIUM;
+//    } else if ([_car[@"gas_type"] isEqualToString:@"Diesel Gasoline"]) {
+//        type = GAS_TYPE_DIESEL;
+//    }
     switch (type) {
         case GAS_TYPE_REGULAR:
         {
@@ -284,17 +282,16 @@
         _distanceTraveled = 0;
         _includeUserAsPassenger = YES;
         _passengers = [NSMutableArray new];
-        _car = nil;
+        if (!_car || !_mpg) {
+            [self setMpg: [[NSUserDefaults standardUserDefaults] objectForKey:@"mpg"]];
+        }
     }
     else if (_status == RUNNING) {
-        if (_car[@"mpg"]) {
-            _mpg = _car[@"mpg"];
-        } else {
-//            [_car fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-//                if (object) {
-//                    _mpg = object[@"mpg"];
-//                }
-//            }];
+        if (!_car) {
+            [self setMpg: [[NSUserDefaults standardUserDefaults] objectForKey:@"mpg"]];
+        }
+        if (!_mpg) {
+            _mpg = @10;
         }
         [self selectGasType];
     } else if (_status == FINISHED) {

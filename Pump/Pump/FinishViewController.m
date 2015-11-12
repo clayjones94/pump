@@ -7,7 +7,6 @@
 //
 
 #import "FinishViewController.h"
-#import "FinishView.h"
 #import "TripManager.h"
 #import "Utils.h"
 #import "UserManager.h"

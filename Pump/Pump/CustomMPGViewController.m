@@ -10,6 +10,7 @@
 #import "Utils.h"
 #import "DecimalKeypad.h"
 #import <Parse/Parse.h>
+#import "TripManager.h"
 
 @interface CustomMPGViewController ()
 
@@ -21,7 +22,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    [self.navigationController setNavigationBarHidden:YES];
 }
 
 -(void)viewDidLayoutSubviews {
@@ -53,7 +54,7 @@
     //[_mpgField becomeFirstResponder];
     
     UILabel *title = [[UILabel alloc] init];
-    [title setAttributedText: [Utils defaultString:@"Please estimate your car's gas mileage" size:20 color:[UIColor whiteColor]]];
+    [title setAttributedText: [Utils defaultString:@"Enter gas mileage" size:20 color:[UIColor whiteColor]]];
     [title sizeToFit];
     [title setFrame:CGRectMake(self.view.frame.size.width/2 - title.frame.size.width/2, _mpgField.frame.origin.y - title.frame.size.height - 3, title.frame.size.width, title.frame.size.height)];
     [self.view addSubview:title];
@@ -71,7 +72,7 @@
     [doneButton addTarget:self action:@selector(selectMPG) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:doneButton];
     
-    NSAttributedString *titleString = [Utils defaultString:@"CHANGE" size:24 color:[UIColor whiteColor]];
+    NSAttributedString *titleString = [Utils defaultString:@"ENTER" size:24 color:[UIColor whiteColor]];
     //[doneButton.layer setBorderColor:[UIColor whiteColor].CGColor];
     //[doneButton.layer setBorderWidth:1];
     [doneButton setAttributedTitle: titleString forState:UIControlStateNormal];
@@ -79,16 +80,22 @@
 
 -(void) selectMPG {
     NSNumber *mpg = [NSNumber numberWithDouble: [_mpgField.text doubleValue]];
-    [[NSUserDefaults standardUserDefaults] setObject:mpg forKey:@"mpg"];
-    [PFUser currentUser][@"mpg"] = mpg;
+    if ([mpg doubleValue] == 0) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Enter MPG" message:@"The mileage you have entered is not valid" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:@"Ok" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [alert dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [alert addAction:action];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }
+    
+    if (![TripManager sharedManager].car) {
+        [[NSUserDefaults standardUserDefaults] setObject:mpg forKey:@"mpg"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    [TripManager sharedManager].mpg = mpg;
     [self dismissViewControllerAnimated:YES completion:nil];
-    [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (succeeded) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        } else {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }
-    }];
 }
 
 -(void)keypad:(DecimalKeypad *)keypad didPressNumberValue:(NSString *)number {

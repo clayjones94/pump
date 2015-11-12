@@ -10,6 +10,7 @@
 #import "SearchUserView.h"
 #import "TripManager.h"
 #import "Utils.h"
+#import "CustomMPGViewController.h"
 
 @interface ChooseCarViewController ()
 
@@ -57,20 +58,12 @@
 
 -(void) cancel {
     [self dismissViewControllerAnimated:YES completion:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Show Popup" object:nil];
 }
 
--(void) selectMyCar {
-    [TripManager sharedManager].car = nil;
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Select Car" object:nil];
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
-
--(void)searchView:(SearchUserView *)manager didSelectUser:(NSDictionary *)user {
+-(void)searchView:(SearchUserView *)manager didSelectUser:(id)user {
     [TripManager sharedManager].car = user;
-    [[UserManager sharedManager] addFriendToRecents:user];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Select Car" object:nil];
-    [self dismissViewControllerAnimated:YES completion:nil];
+    CustomMPGViewController *vc = [CustomMPGViewController new];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
