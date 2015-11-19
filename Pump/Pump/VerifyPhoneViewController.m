@@ -126,21 +126,11 @@
                 // There was a problem, check error.description
             }
         }];
-        [[[UIAlertView alloc] initWithTitle:@"Success"
-                                    message:@"Your phone number was successfully verified."
-                                   delegate:nil
-                          cancelButtonTitle:@"Ok"
-                          otherButtonTitles:nil, nil] show];
+
     } else if(_inputCode.length < 4) {
 
     } else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Wrong code"
-                                    message:@"Looks like the code that you provided did not match our verification code."
-                                   delegate:nil
-                          cancelButtonTitle:@"Cancel"
-                          otherButtonTitles:@"Send Again", nil];
-        alert.delegate = self;
-        [alert show];
+
     }
 }
 

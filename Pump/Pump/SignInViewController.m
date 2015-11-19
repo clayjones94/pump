@@ -157,17 +157,11 @@
                     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
                 }
             } else {
-                NSString *errorString = [error userInfo][@"error"];
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid Sign In" message:errorString delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                [alert show];
             }
         }];
+            
     } else if (_passwordField.text.length < 7){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Password Too Short" message:@"Your password must be at least 7 characters long." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert show];
     }else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Password Mismatch" message:@"It seems that the two passwords you provided were not identical." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert show];
     }
 }
 

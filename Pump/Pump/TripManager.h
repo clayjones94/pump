@@ -31,6 +31,7 @@
 -(void) tripManager:(TripManager *)manager didUpdateMPG: (NSNumber *) mpg;
 
 -(void) didStartDirectingTripManager: (TripManager *)manager;
+-(void) didEndDirectingTripManager: (TripManager *)manager;
 @end
 
 
@@ -39,6 +40,7 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property GMSPolyline *polyline;
 @property CLLocationDistance distanceTraveled;
+@property CLLocationDistance distanceWhenStopped;
 @property (nonatomic) CLLocationDirection direction;
 @property (nonatomic)TripStatusType status;
 @property (nonatomic)NSNumber *mpg;

@@ -122,9 +122,9 @@
 //                                                         }
                                                          
                                                      } else {
-                                                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unsuccessful" message:@"An error occured while connecting to Venmo." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+
                                                          dispatch_async(dispatch_get_main_queue(), ^{
-                                                             [alert show];
+                    
                                                          });
                                                          NSLog(@"%@", error);
                                                      }

@@ -99,21 +99,10 @@
 
 
 -(void)applicationWillEnterForeground:(UIApplication *)application {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Recieve Notification" object:nil];
 }
 
-//-(void)applicationDidEnterBackground:(UIApplication *)application {
-//    
-//}
-
-- (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
-{
-    return YES;
-}
-
-- (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder
-{
-    return YES;
+-(void)applicationDidEnterBackground:(UIApplication *)application {
+    
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
@@ -123,14 +112,14 @@
     return NO;
 }
 
--(void)applicationWillResignActive:(UIApplication *)application {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSData *dataSave = [NSKeyedArchiver archivedDataWithRootObject:[UserManager sharedManager].recents];
-        [userDefaults setObject:dataSave forKey:@"recents"];
-        [userDefaults synchronize];
-    });
-}
+//-(void)applicationWillResignActive:(UIApplication *)application {
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//        NSData *dataSave = [NSKeyedArchiver archivedDataWithRootObject:[UserManager sharedManager].recents];
+//        [userDefaults setObject:dataSave forKey:@"recents"];
+//        [userDefaults synchronize];
+//    });
+//}
 
 -(void)applicationWillTerminate:(UIApplication *)application {
 }

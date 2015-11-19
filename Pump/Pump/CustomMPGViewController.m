@@ -59,6 +59,15 @@
     [title setFrame:CGRectMake(self.view.frame.size.width/2 - title.frame.size.width/2, _mpgField.frame.origin.y - title.frame.size.height - 3, title.frame.size.width, title.frame.size.height)];
     [self.view addSubview:title];
     
+    UIButton *customButton = [UIButton buttonWithType: UIButtonTypeCustom];
+    NSAttributedString *titleString = [Utils defaultString:@"Find car's mileage" size:14 color:[UIColor whiteColor]];
+    [customButton setAttributedTitle: titleString forState:UIControlStateNormal];
+    [customButton sizeToFit];
+    [customButton setFrame:CGRectMake(self.view.frame.size.width/2 - customButton.frame.size.width/2,_mpgField.frame.origin.y + _mpgField.frame.size.height - 30, customButton.frame.size.width, customButton.frame.size.width)];
+    [customButton addTarget:self action:@selector(searchForCar) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:customButton];
+
+    
     DecimalKeypad *keypad = [[DecimalKeypad alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height/2 - 60, self.view.frame.size.width, self.view.frame.size.height/2)];
     [keypad setBackgroundColor:[UIColor clearColor]];
     [keypad setTextColor:[UIColor whiteColor]];
@@ -72,7 +81,7 @@
     [doneButton addTarget:self action:@selector(selectMPG) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:doneButton];
     
-    NSAttributedString *titleString = [Utils defaultString:@"ENTER" size:24 color:[UIColor whiteColor]];
+    titleString = [Utils defaultString:@"ENTER" size:24 color:[UIColor whiteColor]];
     //[doneButton.layer setBorderColor:[UIColor whiteColor].CGColor];
     //[doneButton.layer setBorderWidth:1];
     [doneButton setAttributedTitle: titleString forState:UIControlStateNormal];
@@ -110,6 +119,26 @@
             _mpgField.text = [_mpgField.text substringToIndex:[_mpgField.text length] - 1];
         }
     }
+}
+
+-(void)searchForCar {
+    CarYearViewController *yearVc = [CarYearViewController new];
+    CarFlowViewController *vc = [[CarFlowViewController alloc] initWithRootViewController:yearVc];
+    vc.flowDelegate = self;
+    [self presentViewController:vc animated:YES completion:nil];
+}
+
+-(void)carFlowViewController:(CarFlowViewController *)controller didFindMPG:(NSNumber *)mpg {
+    [_mpgField setText:[NSString stringWithFormat:@"%.1f",[mpg floatValue]]];
+}
+
+-(void)couldNotFindMPGForCarFlowViewController:(CarFlowViewController *)controller {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Sorry" message:@"We could not find any records for your car." preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [alert dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alert addAction:cancel];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 /*

@@ -18,7 +18,6 @@
     UserManager *_userManager;
     UIActivityIndicatorView *_indicator;
     GMSPlacesClient *_placesClient;
-    UITextField *_searchBar;
     
     PFQuery *_userQuery;
     CGRect maxFrame;
@@ -26,6 +25,7 @@
     GMSAutocompletePrediction *_place;
 }
 
+@synthesize searchBar = _searchBar;
 @synthesize friends = _friends;
 @synthesize selectedFriends = _selectedFriends;
 @synthesize mapBounds = _mapBounds;
@@ -164,10 +164,6 @@
                                     dispatch_async(dispatch_get_main_queue(), ^{
                                         [_tableview reloadData];
                                     });
-                                    
-                                    for (GMSAutocompletePrediction* result in results) {
-                                        NSLog(@"Result '%@' with placeID %@", result.attributedFullText.string, result.placeID);
-                                    }
                                 }];
         [self setTableHidden:NO];
     }

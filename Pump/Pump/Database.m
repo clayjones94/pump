@@ -9,7 +9,6 @@
 #import "Database.h"
 #import <Venmo-iOS-SDK/Venmo.h>
 #import "AppDelegate.h"
-#import "Friend.h"
 #import "TripManager.h"
 #import "Constants.h"
 #import "UserManager.h"
@@ -398,7 +397,6 @@
     // Specify that it will be a POST request
     request.HTTPMethod = @"GET";
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSLog(@"%@", data);
         block(data, error);
     }];
     
@@ -412,7 +410,6 @@
     // Specify that it will be a POST request
     request.HTTPMethod = @"GET";
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        NSLog(@"%@", data);
         block(data, error);
     }];
     

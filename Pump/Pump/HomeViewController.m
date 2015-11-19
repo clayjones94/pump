@@ -55,17 +55,6 @@ BOOL needRefresh;
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: cancelButton];
     
-    _profileButton = [[UIButton alloc] init];
-    [_profileButton setBackgroundImage:[UIImage imageNamed:@"User Male Filled-25"] forState:UIControlStateNormal];
-    [_profileButton setFrame:CGRectMake(0, 0, 25, 25)];
-    [_profileButton addTarget:self action:@selector(profileSelected) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: _profileButton];
-    
-    _cancelButton = [[UIButton alloc] init];
-    [_cancelButton setBackgroundImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
-    [_cancelButton setFrame:CGRectMake(0, 0, 25, 25)];
-    [_cancelButton addTarget:self action:@selector(discardTrip) forControlEvents:UIControlEventTouchUpInside];
-    
     UIButton *settingsButton = [[UIButton alloc] init];
     [settingsButton setBackgroundImage:[UIImage imageNamed:@"Settings Filled-25"] forState:UIControlStateNormal];
     [settingsButton setFrame:CGRectMake(0, 0, 25, 25)];

@@ -13,6 +13,7 @@
 		923C3FD41BDBEC550000E6F4 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 923C3FCD1BDB1B2D0000E6F4 /* Parse.framework */; };
 		923C3FD71BDCA8A00000E6F4 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 923C3FD61BDCA8A00000E6F4 /* HomeViewController.m */; };
 		923C3FDB1BDCAA5C0000E6F4 /* BorrowTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 923C3FDA1BDCAA5C0000E6F4 /* BorrowTripViewController.m */; };
+		924E01C61BFD602E00A58355 /* CarFlowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 924E01C51BFD602E00A58355 /* CarFlowViewController.m */; };
 		92987F561BE04DE30076C817 /* PlacesSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92987F551BE04DE30076C817 /* PlacesSearchView.m */; };
 		92987F591BE04F5B0076C817 /* PlacesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92987F581BE04F5B0076C817 /* PlacesTableViewCell.m */; };
 		92987F5D1BE079E40076C817 /* DirectionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 92987F5C1BE079E40076C817 /* DirectionsManager.m */; };
@@ -27,7 +28,6 @@
 		AE1408231BD8AC890086AE34 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1408221BD8AC890086AE34 /* CoreLocation.framework */; };
 		AE1408251BD8AC920086AE34 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1408241BD8AC920086AE34 /* QuartzCore.framework */; };
 		AE1408271BD8AC9C0086AE34 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1408261BD8AC9C0086AE34 /* Security.framework */; };
-		AE1408291BD8ACA20086AE34 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1408281BD8ACA20086AE34 /* StoreKit.framework */; };
 		AE14082B1BD8ACAC0086AE34 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE14082A1BD8ACAC0086AE34 /* SystemConfiguration.framework */; };
 		AE1408311BD8ACD60086AE34 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1408301BD8ACD60086AE34 /* Accounts.framework */; };
 		AE1408331BD8ACDD0086AE34 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AE1408321BD8ACDD0086AE34 /* Social.framework */; };
@@ -69,7 +69,6 @@
 		AEC98B1D1B927B8900607E60 /* SearchUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC98B1C1B927B8900607E60 /* SearchUserView.m */; };
 		AEEA52CA1B9D68AB0081BA97 /* UserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEA52C91B9D68AB0081BA97 /* UserManager.m */; };
 		AEEA52CD1B9D6DC30081BA97 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AEEA52CB1B9D6DC30081BA97 /* Model.xcdatamodeld */; };
-		AEEA52D01B9E3EA00081BA97 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = AEEA52CF1B9E3EA00081BA97 /* Friend.m */; };
 		B6C506DD61CD2E72093DF946 /* libPods-Pump.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99633532325669FEA5A87E5B /* libPods-Pump.a */; };
 /* End PBXBuildFile section */
 
@@ -92,6 +91,8 @@
 		923C3FD61BDCA8A00000E6F4 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		923C3FD91BDCAA5C0000E6F4 /* BorrowTripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BorrowTripViewController.h; sourceTree = "<group>"; };
 		923C3FDA1BDCAA5C0000E6F4 /* BorrowTripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BorrowTripViewController.m; sourceTree = "<group>"; };
+		924E01C41BFD602E00A58355 /* CarFlowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarFlowViewController.h; sourceTree = "<group>"; };
+		924E01C51BFD602E00A58355 /* CarFlowViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CarFlowViewController.m; sourceTree = "<group>"; };
 		92987F541BE04DE30076C817 /* PlacesSearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlacesSearchView.h; sourceTree = "<group>"; };
 		92987F551BE04DE30076C817 /* PlacesSearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlacesSearchView.m; sourceTree = "<group>"; };
 		92987F571BE04F5B0076C817 /* PlacesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlacesTableViewCell.h; sourceTree = "<group>"; };
@@ -115,7 +116,6 @@
 		AE1408221BD8AC890086AE34 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		AE1408241BD8AC920086AE34 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		AE1408261BD8AC9C0086AE34 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		AE1408281BD8ACA20086AE34 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		AE14082A1BD8ACAC0086AE34 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		AE1408301BD8ACD60086AE34 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		AE1408321BD8ACDD0086AE34 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
@@ -197,8 +197,6 @@
 		AEEA52C81B9D68AB0081BA97 /* UserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserManager.h; sourceTree = "<group>"; };
 		AEEA52C91B9D68AB0081BA97 /* UserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserManager.m; sourceTree = "<group>"; };
 		AEEA52CC1B9D6DC30081BA97 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		AEEA52CE1B9E3EA00081BA97 /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Friend.h; path = ../Friend.h; sourceTree = "<group>"; };
-		AEEA52CF1B9E3EA00081BA97 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Friend.m; path = ../Friend.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,7 +210,6 @@
 				AE1408311BD8ACD60086AE34 /* Accounts.framework in Frameworks */,
 				AE14082B1BD8ACAC0086AE34 /* SystemConfiguration.framework in Frameworks */,
 				923C3FD41BDBEC550000E6F4 /* Parse.framework in Frameworks */,
-				AE1408291BD8ACA20086AE34 /* StoreKit.framework in Frameworks */,
 				AE1408271BD8AC9C0086AE34 /* Security.framework in Frameworks */,
 				AE1408251BD8AC920086AE34 /* QuartzCore.framework in Frameworks */,
 				AE1408231BD8AC890086AE34 /* CoreLocation.framework in Frameworks */,
@@ -241,6 +238,21 @@
 				AE14B61E1B9A89C400398348 /* Pods-Pump.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		924E01C31BFD5FCF00A58355 /* Car Flow */ = {
+			isa = PBXGroup;
+			children = (
+				AE1408461BD9B4890086AE34 /* CarYearViewController.h */,
+				AE1408471BD9B4890086AE34 /* CarYearViewController.m */,
+				AE14084B1BDA0C4F0086AE34 /* CarMakeViewController.h */,
+				AE14084C1BDA0C4F0086AE34 /* CarMakeViewController.m */,
+				AE14084E1BDA0F530086AE34 /* CarModelViewController.h */,
+				AE14084F1BDA0F530086AE34 /* CarModelViewController.m */,
+				924E01C41BFD602E00A58355 /* CarFlowViewController.h */,
+				924E01C51BFD602E00A58355 /* CarFlowViewController.m */,
+			);
+			name = "Car Flow";
 			sourceTree = "<group>";
 		};
 		92C68FD41BDD414D00F20263 /* Trip Home */ = {
@@ -276,7 +288,6 @@
 				AE1408321BD8ACDD0086AE34 /* Social.framework */,
 				AE1408301BD8ACD60086AE34 /* Accounts.framework */,
 				AE14082A1BD8ACAC0086AE34 /* SystemConfiguration.framework */,
-				AE1408281BD8ACA20086AE34 /* StoreKit.framework */,
 				AE1408261BD8AC9C0086AE34 /* Security.framework */,
 				AE1408241BD8AC920086AE34 /* QuartzCore.framework */,
 				AE1408221BD8AC890086AE34 /* CoreLocation.framework */,
@@ -305,12 +316,6 @@
 				AE1408411BD99FFD0086AE34 /* VerifyPhoneViewController.m */,
 				AE1408431BD9B3210086AE34 /* FindCarViewController.h */,
 				AE1408441BD9B3210086AE34 /* FindCarViewController.m */,
-				AE1408461BD9B4890086AE34 /* CarYearViewController.h */,
-				AE1408471BD9B4890086AE34 /* CarYearViewController.m */,
-				AE14084B1BDA0C4F0086AE34 /* CarMakeViewController.h */,
-				AE14084C1BDA0C4F0086AE34 /* CarMakeViewController.m */,
-				AE14084E1BDA0F530086AE34 /* CarModelViewController.h */,
-				AE14084F1BDA0F530086AE34 /* CarModelViewController.m */,
 				AE1408511BDA9F710086AE34 /* CustomMPGViewController.h */,
 				AE1408521BDA9F710086AE34 /* CustomMPGViewController.m */,
 			);
@@ -343,6 +348,7 @@
 			children = (
 				92C68FD41BDD414D00F20263 /* Trip Home */,
 				AE1408171BD8AB2A0086AE34 /* Login Flow */,
+				924E01C31BFD5FCF00A58355 /* Car Flow */,
 				AE2F448F1B8E3C9D00F57579 /* AppDelegate.h */,
 				AE2F44901B8E3C9D00F57579 /* AppDelegate.m */,
 				AE2F44B71B8E3F9C00F57579 /* TripManager.h */,
@@ -355,8 +361,6 @@
 				AEA3DE551BB7703900F36830 /* SearchViewTableViewCell.h */,
 				AEA3DE561BB7703900F36830 /* SearchViewTableViewCell.m */,
 				AE2F44981B8E3C9D00F57579 /* Images.xcassets */,
-				AEEA52CE1B9E3EA00081BA97 /* Friend.h */,
-				AEEA52CF1B9E3EA00081BA97 /* Friend.m */,
 				AE2F448B1B8E3C9D00F57579 /* Supporting Files */,
 				AE14B5A41B994C7300398348 /* Database.h */,
 				AE14B5A51B994C7400398348 /* Database.m */,
@@ -484,6 +488,12 @@
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
+							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+							com.apple.Maps.iOS = {
+								enabled = 0;
+							};
 						};
 					};
 					AE2F44A01B8E3C9D00F57579 = {
@@ -602,7 +612,6 @@
 				92EDC38F1BF2C196009988D1 /* FinishBorrowViewController.m in Sources */,
 				923C3FDB1BDCAA5C0000E6F4 /* BorrowTripViewController.m in Sources */,
 				AE14084D1BDA0C4F0086AE34 /* CarMakeViewController.m in Sources */,
-				AEEA52D01B9E3EA00081BA97 /* Friend.m in Sources */,
 				AE1408361BD8B30C0086AE34 /* RegisterViewController.m in Sources */,
 				AE2F44B91B8E3F9C00F57579 /* TripManager.m in Sources */,
 				AE1408531BDA9F710086AE34 /* CustomMPGViewController.m in Sources */,
@@ -618,6 +627,7 @@
 				AE67F1581BA9E7260068CF72 /* TripsViewController.m in Sources */,
 				AEEA52CD1B9D6DC30081BA97 /* Model.xcdatamodeld in Sources */,
 				AE1408491BD9B4890086AE34 /* CarYearViewController.m in Sources */,
+				924E01C61BFD602E00A58355 /* CarFlowViewController.m in Sources */,
 				AE737EF21BAC5895004A73E0 /* PendingOwnershipsViewController.m in Sources */,
 				92987F5D1BE079E40076C817 /* DirectionsManager.m in Sources */,
 				AE737EF61BAC5A3C004A73E0 /* PendingMembershipsViewController.m in Sources */,

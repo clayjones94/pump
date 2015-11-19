@@ -174,8 +174,12 @@
         [self presentViewController:vc animated:YES completion:nil];
     } else  {
         if ((![TripManager sharedManager].car && [TripManager sharedManager].passengers.count == 0) || ([_descriptionField.text isEqualToString:@"Add a description..."] && _descriptionField.text.length > 0)) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Wait" message:@"Please write a description." delegate:self.view cancelButtonTitle:@"OK" otherButtonTitles: nil];
-            [alert show];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Wait" message:@"Please write a description." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                [alert dismissViewControllerAnimated:YES completion:nil];
+            }];
+            [alert addAction:cancel];
+            [self presentViewController:alert animated:YES completion:nil];
         } else {
             [self chargePassengers];
             [_indicator startAnimating];
@@ -194,7 +198,7 @@
         target = ((CNContact *)passenger).phoneNumbers.firstObject.value.stringValue;
     }
     [passengerView updatePaymentStatus:PAYMENT_PROCESSING Passenger:passenger atIndex:index error:nil];
-    [[Venmo sharedInstance] sendPaymentTo:@"venmo@venmo.com" amount:0 note:_descriptionField.text audience:VENTransactionAudienceFriends completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
+    [[Venmo sharedInstance] sendPaymentTo:target amount:[self costOfPayment] * 100 note:_descriptionField.text audience:VENTransactionAudienceFriends completionHandler:^(VENTransaction *transaction, BOOL success, NSError *error) {
         if (success) {
             [passengerView updatePaymentStatus:PAYMENT_FINISHING Passenger:passenger atIndex:i error: nil];
         } else {
@@ -208,6 +212,16 @@
 }
 
 -(void) chargePassengers{
+    float cost = [self costOfPayment] * 100;
+    if (cost < 1) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Sorry" message:@"The cost of your trip was too small." preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [alert dismissViewControllerAnimated:YES completion:nil];
+        }];
+        [alert addAction:cancel];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }
     [self.navigationItem setHidesBackButton:YES animated:YES];
     [_saveButton removeTarget:self action:@selector(saveTrips:) forControlEvents:UIControlEventTouchUpInside];
     [_saveButton addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
@@ -243,23 +257,8 @@
 
 -(float) costOfPayment {
     float cost;
-    if (hasPassengers) {
-        if ([[TripManager sharedManager] includeUserAsPassenger]) {
-            cost = [TripManager sharedManager].distanceTraveled/1609.344 * [[[TripManager sharedManager] gasPrice] doubleValue] / [[[TripManager sharedManager] mpg] doubleValue] / ([TripManager sharedManager].passengers.count + 1);
-        } else {
-            cost = [TripManager sharedManager].distanceTraveled/1609.344 * [[[TripManager sharedManager] gasPrice] doubleValue] / [[[TripManager sharedManager] mpg] doubleValue] / ([TripManager sharedManager].passengers.count);
-        }
-    } else {
-        cost = [TripManager sharedManager].distanceTraveled/1609.344 * [[[TripManager sharedManager] gasPrice] doubleValue] / [[[TripManager sharedManager] mpg] doubleValue];
-    }
+    cost = [TripManager sharedManager].distanceWhenStopped/1609.344 * [[[TripManager sharedManager] gasPrice] doubleValue] / [[[TripManager sharedManager] mpg] doubleValue];
     return cost;
-}
-
-- (void) discardTrip {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Quit trip" message:@"This trip will not be saved." delegate:self.view cancelButtonTitle:@"Cancel" otherButtonTitles: @"Ok", nil];
-    alert.tag = 0;
-    alert.delegate = self;
-    [alert show];
 }
 
 -(void) cancel {

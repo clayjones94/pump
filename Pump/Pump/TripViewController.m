@@ -112,6 +112,22 @@
     [self createLowerView];
     [self createSearchView];
     [self createDirectionsBar];
+    
+    UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc]
+                                           initWithTarget:self
+                                           action:@selector(hideKeyBoard)];
+    
+    [self.navigationController.navigationBar addGestureRecognizer:tapGesture];
+    
+    UITapGestureRecognizer * mapGesture = [[UITapGestureRecognizer alloc]
+                                           initWithTarget:self
+                                           action:@selector(hideKeyBoard)];
+    
+    [_mapView addGestureRecognizer:mapGesture];
+}
+
+-(void)hideKeyBoard {
+    [searchview.searchBar resignFirstResponder];
 }
 
 -(void) viewDidAppear:(BOOL)animated {
@@ -126,8 +142,18 @@
 }
 
 -(void)searchView:(PlacesSearchView *)manager didSelectPlace:(GMSAutocompletePrediction *)place {
-    [[DirectionsManager sharedManager] startDirectionsToLocationDescription:place.placeID];
-    [self displayDirectionButton];
+    [[DirectionsManager sharedManager] startDirectionsToLocationDescription:place.placeID withBlock:^(NSError *error) {
+        if (!error) {
+            [self displayDirectionButton];
+        } else {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Sorry" message:@"We could not find directions to your destination." preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                [alert dismissViewControllerAnimated:YES completion:nil];
+            }];
+            [alert addAction:cancel];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+    }];
     [self resignFirstResponder];
 }
 
@@ -211,9 +237,35 @@
 }
 
 -(void)tripManager:(TripManager *)manager didUpdateStepDistance:(CLLocationDistance)distance totalDistance:(CLLocationDistance)totalDistance totalTime:(NSTimeInterval)totalTime {
-    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"%.1f", distance/1609.34] size:22.0f color:[UIColor whiteColor]]];
-    [title appendAttributedString:[Utils defaultString:@" mi" size:14 color:[UIColor whiteColor]]];
-    [_distanceFromNextLabel setAttributedText:title];
+    if (distance/1609.34 < .1) {
+        int distanceInFt = distance * 3.2808399;
+        NSMutableAttributedString *title;
+        if (distanceInFt < 10) {
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"10"] size:22.0f color:[UIColor whiteColor]]];
+        } else if(distanceInFt < 50) {
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"50"] size:22.0f color:[UIColor whiteColor]]];
+        } else if(distanceInFt < 100) {
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"100"] size:22.0f color:[UIColor whiteColor]]];
+        } else if(distanceInFt < 200) {
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"200"] size:22.0f color:[UIColor whiteColor]]];
+        } else if(distanceInFt < 300) {
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"300"] size:22.0f color:[UIColor whiteColor]]];
+        } else if(distanceInFt < 400) {
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"400"] size:22.0f color:[UIColor whiteColor]]];
+        } else if(distanceInFt < 500) {
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"500"] size:22.0f color:[UIColor whiteColor]]];
+        } else if(distanceInFt < 600) {
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"600"] size:22.0f color:[UIColor whiteColor]]];
+        } else if(distanceInFt < 700) {
+            title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"700"] size:22.0f color:[UIColor whiteColor]]];
+        }
+        [title appendAttributedString:[Utils defaultString:@" feet" size:14 color:[UIColor whiteColor]]];
+        [_distanceFromNextLabel setAttributedText:title];
+    } else {
+        NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithAttributedString:[Utils defaultString:[NSString stringWithFormat:@"%.1f", distance/1609.34] size:22.0f color:[UIColor whiteColor]]];
+        [title appendAttributedString:[Utils defaultString:@" mi" size:14 color:[UIColor whiteColor]]];
+        [_distanceFromNextLabel setAttributedText:title];
+    }
     [_distanceFromNextLabel sizeToFit];
     [_distanceFromNextLabel setFrame:CGRectMake(_infoBar.frame.size.width* .02, _infoBar.frame.size.height * .8 - _distanceFromNextLabel.frame.size.height/2, _distanceFromNextLabel.frame.size.width, _distanceFromNextLabel.frame.size.height)];
     
@@ -224,42 +276,42 @@
     [_totalDistanceLabel setAttributedText:[Utils defaultString:[NSString stringWithFormat:@"%.1fmi",totalDistance/1609.34] size:14 color:[UIColor darkGrayColor]]];
     [_totalDistanceLabel sizeToFit];
     [_totalDistanceLabel setFrame:CGRectMake(_navigationInfoBar.frame.size.width * .15, _totalTimeLabel.frame.origin.y + _totalDistanceLabel.frame.size.height + 5, _totalDistanceLabel.frame.size.width, _totalDistanceLabel.frame.size.height)];
-    
-    UIImage *manueverImage;
-    NSAttributedString *instruction;
-    
-    if (distance / 1609.34 < 2.5) {
-        manueverImage = [[DirectionsManager sharedManager] nextManeuver];
-        instruction = [[DirectionsManager sharedManager] nextInstruction];
-    } else {
-        manueverImage = [[DirectionsManager sharedManager] currentManeuver];
-        instruction = [[DirectionsManager sharedManager] currentInstruction];
-    }
-    
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithAttributedString: instruction];
-    NSRange range = (NSRange){0,[str length]};
-    [str enumerateAttribute:NSFontAttributeName inRange:range options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(id value, NSRange range, BOOL *stop) {
-        UIFont* currentFont = value;
-        UIFont *replacementFont = nil;
-        if ([currentFont.fontName rangeOfString:@"bold" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-            replacementFont = [UIFont fontWithName:@"AppleSDGothicNeo-Bold" size:20.0f];
-        } else {
-            replacementFont = [UIFont fontWithName:@"AppleSDGothicNeo-Regular" size:12.0f];
-        }
-        [str addAttribute:NSFontAttributeName value:replacementFont range:range];
-    }];
-    
-    [_instructionLabel setAttributedText:str];
-    [_instructionLabel setTextColor:[UIColor whiteColor]];
-    [_instructionLabel setTextAlignment:NSTextAlignmentLeft];
-    [_instructionLabel setNumberOfLines:0];
-    [_instructionLabel setLineBreakMode:NSLineBreakByWordWrapping];
-    CGSize labelSize =[_instructionLabel sizeThatFits:CGSizeMake(_infoBar.frame.size.width * .65, _infoBar.frame.size.height * .9)];
-    [_instructionLabel setFrame:CGRectMake(_infoBar.frame.size.width * .25, _infoBar.frame.size.height * .6 - labelSize.height/2, labelSize.width, labelSize.height)];
-    
-    [_iconView setImage:manueverImage];
-    [_iconView sizeToFit];
-    [_iconView setFrame:CGRectMake(_infoBar.frame.size.width * .1 - _iconView.frame.size.width/2, _infoBar.frame.size.height * .4 - _iconView.frame.size.height/2, _iconView.frame.size.width, _iconView.frame.size.height)];
+//    
+//    UIImage *manueverImage;
+//    NSAttributedString *instruction;
+//    
+//    if (distance / 1609.34 < 2.5) {
+//        manueverImage = [[DirectionsManager sharedManager] nextManeuver];
+//        instruction = [[DirectionsManager sharedManager] nextInstruction];
+//    } else {
+//        manueverImage = [[DirectionsManager sharedManager] currentManeuver];
+//        instruction = [[DirectionsManager sharedManager] currentInstruction];
+//    }
+//    
+//    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithAttributedString: instruction];
+//    NSRange range = (NSRange){0,[str length]};
+//    [str enumerateAttribute:NSFontAttributeName inRange:range options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(id value, NSRange range, BOOL *stop) {
+//        UIFont* currentFont = value;
+//        UIFont *replacementFont = nil;
+//        if ([currentFont.fontName rangeOfString:@"bold" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+//            replacementFont = [UIFont fontWithName:@"AppleSDGothicNeo-Bold" size:14.0f];
+//        } else {
+//            replacementFont = [UIFont fontWithName:@"AppleSDGothicNeo-Regular" size:14.0f];
+//        }
+//        [str addAttribute:NSFontAttributeName value:replacementFont range:range];
+//    }];
+//    
+//    [_instructionLabel setAttributedText:str];
+//    [_instructionLabel setTextColor:[UIColor whiteColor]];
+//    [_instructionLabel setTextAlignment:NSTextAlignmentLeft];
+//    [_instructionLabel setNumberOfLines:0];
+//    [_instructionLabel setLineBreakMode:NSLineBreakByWordWrapping];
+//    CGSize labelSize =[_instructionLabel sizeThatFits:CGSizeMake(_infoBar.frame.size.width * .65, _infoBar.frame.size.height * .9)];
+//    [_instructionLabel setFrame:CGRectMake(_infoBar.frame.size.width * .25, _infoBar.frame.size.height * .6 - labelSize.height/2, labelSize.width, labelSize.height)];
+//    
+//    [_iconView setImage:manueverImage];
+//    [_iconView sizeToFit];
+//    [_iconView setFrame:CGRectMake(_infoBar.frame.size.width * .1 - _iconView.frame.size.width/2, _infoBar.frame.size.height * .4 - _iconView.frame.size.height/2, _iconView.frame.size.width, _iconView.frame.size.height)];
 }
 
 -(void)tripManager:(TripManager *)manager didUpdateLocation:(CLLocationCoordinate2D)coor direction:(CLLocationDirection)direction {
@@ -285,7 +337,9 @@
         _polyline.strokeWidth = 7.f;
         _polyline.map = _mapView;
         if (![DirectionsManager sharedManager].isDirecting) {
-            tracking = NO;
+            if (path) {
+                tracking = NO;
+            }
             GMSCoordinateBounds *bounds = [[GMSCoordinateBounds alloc] initWithPath:_polyline.path];
             GMSCameraUpdate *update = [GMSCameraUpdate fitBounds:bounds withPadding:self.navigationController.navigationBar.frame.size.height + 40];
             [_mapView animateWithCameraUpdate:update];
@@ -297,9 +351,42 @@
     [self trackLocation];
 }
 
+-(void)didEndDirectingTripManager:(TripManager *)manager {
+    [self cancelDirections];
+}
+
 -(void)tripManager:(TripManager *)manager didUpdateInstructions:(NSAttributedString *)instructions withIcon:(UIImage *)icon {
-    [_instructionLabel setAttributedText:instructions];
-    [_instructionLabel sizeToFit];
+    NSLog(@"Update Instruction");
+    UIImage *manueverImage;
+    NSAttributedString *instruction;
+    
+    manueverImage = [[DirectionsManager sharedManager] nextManeuver];
+    instruction = [[DirectionsManager sharedManager] nextInstruction];
+    
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithAttributedString: instruction];
+    NSRange range = (NSRange){0,[str length]};
+    [str enumerateAttribute:NSFontAttributeName inRange:range options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(id value, NSRange range, BOOL *stop) {
+        UIFont* currentFont = value;
+        UIFont *replacementFont = nil;
+        if ([currentFont.fontName rangeOfString:@"bold" options:NSCaseInsensitiveSearch].location != NSNotFound) {
+            replacementFont = [UIFont fontWithName:@"AppleSDGothicNeo-Bold" size:14.0f];
+        } else {
+            replacementFont = [UIFont fontWithName:@"AppleSDGothicNeo-Regular" size:14.0f];
+        }
+        [str addAttribute:NSFontAttributeName value:replacementFont range:range];
+    }];
+    
+    [_instructionLabel setAttributedText:str];
+    [_instructionLabel setTextColor:[UIColor whiteColor]];
+    [_instructionLabel setTextAlignment:NSTextAlignmentLeft];
+    [_instructionLabel setNumberOfLines:0];
+    [_instructionLabel setLineBreakMode:NSLineBreakByWordWrapping];
+    CGSize labelSize =[_instructionLabel sizeThatFits:CGSizeMake(_infoBar.frame.size.width * .65, _infoBar.frame.size.height * .9)];
+    [_instructionLabel setFrame:CGRectMake(_infoBar.frame.size.width * .25, _infoBar.frame.size.height * .6 - labelSize.height/2, labelSize.width, labelSize.height)];
+    
+    [_iconView setImage:manueverImage];
+    [_iconView sizeToFit];
+    [_iconView setFrame:CGRectMake(_infoBar.frame.size.width * .1 - _iconView.frame.size.width/2, _infoBar.frame.size.height * .4 - _iconView.frame.size.height/2, _iconView.frame.size.width, _iconView.frame.size.height)];
 }
 
 #pragma MapView
@@ -319,12 +406,35 @@
     
     _myLocationButton = [UIButton buttonWithType: UIButtonTypeCustom];
     //[_myLocationButton setBackgroundColor:[Utils defaultColor]];
-    [_myLocationButton setFrame:CGRectMake(_mapView.frame.size.width - 60, _mapView.frame.size.height * .3 - 15, 30, 30)];
     [_myLocationButton addTarget:self action:@selector(trackLocation) forControlEvents:UIControlEventTouchUpInside];
     
-    [_myLocationButton setBackgroundImage:[UIImage imageNamed:@"Location"] forState:UIControlStateNormal];
-    [_myLocationButton.layer setCornerRadius:3];
+    [_myLocationButton setBackgroundColor:[UIColor clearColor]];
+    [_myLocationButton setAlpha:1];
+    [_myLocationButton.layer setShadowColor:[UIColor blackColor].CGColor];
+    [_myLocationButton.layer setShadowRadius:1];
+    [_myLocationButton.layer setShadowOffset:CGSizeMake(1, 1)];
+    [_myLocationButton.layer setShadowOpacity:.5];
+    _myLocationButton.layer.masksToBounds = NO;
+    [_myLocationButton setFrame:CGRectMake(_mapView.frame.size.width - 60, _mapView.frame.size.height * .3, 50, 50)];
+    [_myLocationButton setImage:[UIImage imageNamed:@"location"] forState:UIControlStateNormal];
+    [_myLocationButton.layer setCornerRadius:25];
     [_myLocationButton clipsToBounds];
+    
+    _moneyButton = [UIButton buttonWithType: UIButtonTypeCustom];
+    [_moneyButton setBackgroundColor:[Utils greenColor]];
+    [_moneyButton setAlpha:1];
+    [_moneyButton.layer setShadowColor:[UIColor blackColor].CGColor];
+    [_moneyButton.layer setShadowRadius:1];
+    [_moneyButton.layer setShadowOffset:CGSizeMake(1, 1)];
+    [_moneyButton.layer setShadowOpacity:.5];
+    _moneyButton.layer.masksToBounds = NO;
+    [_moneyButton setFrame:CGRectMake(0, 0, 50, 50)];
+    NSAttributedString *title = [Utils defaultString:@"$" size:28 color:[UIColor whiteColor]];
+    [_moneyButton setAttributedTitle: title forState:UIControlStateNormal];
+    [_moneyButton addTarget:self action:@selector(trackMoney) forControlEvents:UIControlEventTouchUpInside];
+    [_moneyButton.layer setCornerRadius:25];
+    [_moneyButton clipsToBounds];
+    
     if (!tracking) {
         [_mapView addSubview:_myLocationButton];
     }
@@ -709,16 +819,19 @@
 }
 
 -(void) cancelDirections {
-    [DirectionsManager sharedManager].isDirecting = NO;
+    if (_polyline) {
+        _polyline.map = nil;
+    }
     [self switchToNavigationBar];
     [self removeBottomInfoBar];
     [self displaySearchView];
-    [[DirectionsManager sharedManager] endDirecting];
-    [self trackLocation];
+    if ([DirectionsManager sharedManager].isDirecting) {
+        [[DirectionsManager sharedManager] endDirecting];
+    }
 }
 
 -(void)trackMoney {
-    if(![TripManager sharedManager].mpg) {
+    if(![TripManager sharedManager].mpg || [[TripManager sharedManager].mpg doubleValue] == 0) {
         CustomMPGViewController *vc = [CustomMPGViewController new];
         [self presentViewController:vc animated:YES completion:nil];
     }
@@ -749,11 +862,13 @@
             
         }];
     } else if(![TripManager sharedManager].car) {
+        [TripManager sharedManager].distanceWhenStopped = [TripManager sharedManager].distanceTraveled;
         AddPassengersViewController *vc = [AddPassengersViewController new];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         [self presentViewController:nav animated:YES completion:^{
         }];
     } else {
+        [TripManager sharedManager].distanceWhenStopped = [TripManager sharedManager].distanceTraveled;
         FinishBorrowViewController *vc = [FinishBorrowViewController new];
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
         [self presentViewController:nav animated:YES completion:^{
@@ -803,10 +918,7 @@
 
 
 - (void) discardTrip {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Quit trip" message:@"This trip will not be saved." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"Ok", nil];
-    alert.tag = 0;
-    alert.delegate = self;
-    [alert show];
+
 }
 
 
