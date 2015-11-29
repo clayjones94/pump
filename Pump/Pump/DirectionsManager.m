@@ -120,26 +120,6 @@
         NSDictionary *stepDict = [_steps objectAtIndex:_currentStep];
         NSString * maneuverString = stepDict[@"maneuver"];
         if (maneuverString) {
-//            NSDictionary *iconDict = @{
-//                    @"turn-sharp-left":[UIImage imageNamed:@"turn-sharp-left"],
-//                    @"uturn-right":[UIImage imageNamed:@"uturn-right"],
-//                    @"turn-slight-right":[UIImage imageNamed:@"turn-slight-right"],
-//                    @"merge":[UIImage imageNamed:@"merge"],
-//                    @"roundabout-left":[UIImage imageNamed:@"roundabout-left"],
-//                    @"roundabout-right":[UIImage imageNamed:@"roundabout-right"],
-//                    @"uturn-left":[UIImage imageNamed:@"uturn-left"],
-//                    @"turn-slight-left":[UIImage imageNamed:@"turn-slight-left"],
-//                    @"turn-left":[UIImage imageNamed:@"turn-left"],
-//                    @"ramp-right":[UIImage imageNamed:@"ramp-right"],
-//                    @"turn-right":[UIImage imageNamed:@"turn-right"],
-//                    @"fork-right":[UIImage imageNamed:@"fork-right"],
-//                    @"straight":[UIImage imageNamed:@"straight"],
-//                    @"fork-left":[UIImage imageNamed:@"fork-left"],
-//                    @"ferry-train":[UIImage imageNamed:@"ferry-train"],
-//                    @"turn-sharp-right":[UIImage imageNamed:@"turn-sharp-right"],
-//                    @"ramp-left":[UIImage imageNamed:@"ramp-left"],
-//                    @"ferry":[UIImage imageNamed:@"ferry"],
-//                    };
             return [UIImage imageNamed:maneuverString];
         }
     } else {
@@ -153,26 +133,6 @@
         NSDictionary *stepDict = [_steps objectAtIndex:_currentStep + 1];
         NSString * maneuverString = stepDict[@"maneuver"];
         if (maneuverString) {
-            //            NSDictionary *iconDict = @{
-            //                    @"turn-sharp-left":[UIImage imageNamed:@"turn-sharp-left"],
-            //                    @"uturn-right":[UIImage imageNamed:@"uturn-right"],
-            //                    @"turn-slight-right":[UIImage imageNamed:@"turn-slight-right"],
-            //                    @"merge":[UIImage imageNamed:@"merge"],
-            //                    @"roundabout-left":[UIImage imageNamed:@"roundabout-left"],
-            //                    @"roundabout-right":[UIImage imageNamed:@"roundabout-right"],
-            //                    @"uturn-left":[UIImage imageNamed:@"uturn-left"],
-            //                    @"turn-slight-left":[UIImage imageNamed:@"turn-slight-left"],
-            //                    @"turn-left":[UIImage imageNamed:@"turn-left"],
-            //                    @"ramp-right":[UIImage imageNamed:@"ramp-right"],
-            //                    @"turn-right":[UIImage imageNamed:@"turn-right"],
-            //                    @"fork-right":[UIImage imageNamed:@"fork-right"],
-            //                    @"straight":[UIImage imageNamed:@"straight"],
-            //                    @"fork-left":[UIImage imageNamed:@"fork-left"],
-            //                    @"ferry-train":[UIImage imageNamed:@"ferry-train"],
-            //                    @"turn-sharp-right":[UIImage imageNamed:@"turn-sharp-right"],
-            //                    @"ramp-left":[UIImage imageNamed:@"ramp-left"],
-            //                    @"ferry":[UIImage imageNamed:@"ferry"],
-            //                    };
             return [UIImage imageNamed:maneuverString];
         }
     } else {

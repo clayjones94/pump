@@ -69,17 +69,6 @@
 }
 
 -(void) skip {
-//    [PFUser currentUser][@"using_venmo"] = [NSNumber numberWithBool:NO];
-//    [[PFUser currentUser] saveInBackground];
-//    if (![PFUser currentUser][@"phone"]) {
-//        PhoneViewController *vc = [PhoneViewController new];
-//        [self.navigationController pushViewController:vc animated:YES];
-//    } else {
-//[       PFUser currentUser][@"using_car"] = [NSNumber numberWithBool: NO];
-//        [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//            [self dismissViewControllerAnimated:YES completion:nil];
-//        }];
-//    }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -92,58 +81,10 @@
                                                  VENPermissionAccessFriends] withCompletionHandler:^(BOOL success, NSError *error) {
                                                      if (success) {
                                                          [self dismissViewControllerAnimated:YES completion:nil];
-//                                                         [PFUser currentUser][@"using_venmo"] = [NSNumber numberWithBool:YES];
-//                                                         [PFUser currentUser][@"using_car"] = [NSNumber numberWithBool: NO];
-//                                                         if ([Venmo sharedInstance].session.user.primaryPhone && ![PFUser currentUser][@"phone"]) {
-//                                                             [PFUser currentUser][@"phone"] = [Venmo sharedInstance].session.user.primaryPhone;
-//                                                             [[PFUser currentUser] saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-//                                                                 if (succeeded) {
-//                                                                     // The object has been saved.
-//                                                                     if (![PFUser currentUser][@"phone"]) {
-//                                                                         PhoneViewController *vc = [PhoneViewController new];
-//                                                                         [self.navigationController pushViewController:vc animated:YES];
-//                                                                     } else{
-//                                                                         [[PFUser currentUser] saveInBackground];
-//                                                                         [self dismissViewControllerAnimated:YES completion:nil];
-//                                                                     }
-//                                                                 } else {
-//                                                                    
-//                                                                 }
-//                                                             }];
-//                                                         } else {
-//                                                             [[PFUser currentUser] saveInBackground];
-//                                                             if (![PFUser currentUser][@"phone"]) {
-//                                                                 PhoneViewController *vc = [PhoneViewController new];
-//                                                                 [self.navigationController pushViewController:vc animated:YES];
-//                                                             }
-//                                                             else {
-//                                                                 [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-//                                                             }
-//                                                         }
-                                                         
                                                      } else {
-
-                                                         dispatch_async(dispatch_get_main_queue(), ^{
-                    
-                                                         });
                                                          NSLog(@"%@", error);
                                                      }
                                                  }];
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

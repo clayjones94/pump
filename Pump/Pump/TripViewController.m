@@ -12,19 +12,12 @@
 #import "Utils.h"
 #import "SearchUserView.h"
 #import "AddPassengersViewController.h"
-#import "LoginViewController.h"
 #import <Venmo-iOS-SDK/Venmo.h>
 #import "Database.h"
 #import "UserManager.h"
-#import "ProfileViewController.h"
-#import "PassengerView.h"
 #import "ChooseCarViewController.h"
 #import "SettingsViewController.h"
-#import <BBBadgeBarButtonItem/BBBadgeBarButtonItem.h>
 #import "DecimalKeypad.h"
-#import "TripHistoryViewController.h"
-#import <Parse/Parse.h>
-#import "NoCarViewController.h"
 #import "FinishViewController.h"
 #import "FinishBorrowViewController.h"
 #import "PlacesSearchView.h"
@@ -33,7 +26,6 @@
 #define BOTTOM_BUTTON_SPACING 15
 
 @implementation TripViewController {
-    //MKMapView *_mapView;
     GMSMapView *_mapView;
     UIButton *_myLocationButton;
     UIButton *_moneyButton;
@@ -42,11 +34,7 @@
     UILabel *_distanceLabel;
     UILabel *_costLabel;
     UIView *_infoBar;
-    KLCPopup *_popup;
     UIActivityIndicatorView *_indicator;
-    TripHistoryViewController *_historyVC;
-    UIButton *_profileButton;
-    UIButton *_cancelButton;
     BOOL tracking;
     GMSMarker *_start;
     GMSMarker *_finish;
@@ -81,24 +69,6 @@
     tracking = YES;
     
     _indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    
-//    UIButton *cancelButton = [[UIButton alloc] init];
-//    [cancelButton setBackgroundImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
-//    [cancelButton setFrame:CGRectMake(0, 0, 25, 25)];
-//    [cancelButton addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: cancelButton];
-    
-//    _profileButton = [[UIButton alloc] init];
-//    [_profileButton setBackgroundImage:[UIImage imageNamed:@"User Male Filled-25"] forState:UIControlStateNormal];
-//    [_profileButton setFrame:CGRectMake(0, 0, 25, 25)];
-//    [_profileButton addTarget:self action:@selector(selectFriend) forControlEvents:UIControlEventTouchUpInside];
-//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: _profileButton];
-    
-    _cancelButton = [[UIButton alloc] init];
-    [_cancelButton setBackgroundImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
-    [_cancelButton setFrame:CGRectMake(0, 0, 25, 25)];
-    [_cancelButton addTarget:self action:@selector(discardTrip) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *settingsButton = [[UIButton alloc] init];
     [settingsButton setBackgroundImage:[UIImage imageNamed:@"Settings Filled-25"] forState:UIControlStateNormal];
@@ -163,19 +133,6 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-}
--(void) profileSelected {
-    if (!_historyVC) {
-        _historyVC = [TripHistoryViewController new];
-    }
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:_historyVC];
-    [nav.navigationBar setBackgroundColor:[Utils defaultColor]];
-    [nav.navigationBar setBarTintColor:[Utils defaultColor]];
-    [nav.navigationBar setTintColor:[Utils defaultColor]];
-    nav.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
-    nav.edgesForExtendedLayout = NO;
-    [self presentViewController:nav animated:YES completion:^{
-    }];
 }
 
 -(void) settingsSelected {
@@ -276,42 +233,6 @@
     [_totalDistanceLabel setAttributedText:[Utils defaultString:[NSString stringWithFormat:@"%.1fmi",totalDistance/1609.34] size:14 color:[UIColor darkGrayColor]]];
     [_totalDistanceLabel sizeToFit];
     [_totalDistanceLabel setFrame:CGRectMake(_navigationInfoBar.frame.size.width * .15, _totalTimeLabel.frame.origin.y + _totalDistanceLabel.frame.size.height + 5, _totalDistanceLabel.frame.size.width, _totalDistanceLabel.frame.size.height)];
-//    
-//    UIImage *manueverImage;
-//    NSAttributedString *instruction;
-//    
-//    if (distance / 1609.34 < 2.5) {
-//        manueverImage = [[DirectionsManager sharedManager] nextManeuver];
-//        instruction = [[DirectionsManager sharedManager] nextInstruction];
-//    } else {
-//        manueverImage = [[DirectionsManager sharedManager] currentManeuver];
-//        instruction = [[DirectionsManager sharedManager] currentInstruction];
-//    }
-//    
-//    NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithAttributedString: instruction];
-//    NSRange range = (NSRange){0,[str length]};
-//    [str enumerateAttribute:NSFontAttributeName inRange:range options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(id value, NSRange range, BOOL *stop) {
-//        UIFont* currentFont = value;
-//        UIFont *replacementFont = nil;
-//        if ([currentFont.fontName rangeOfString:@"bold" options:NSCaseInsensitiveSearch].location != NSNotFound) {
-//            replacementFont = [UIFont fontWithName:@"AppleSDGothicNeo-Bold" size:14.0f];
-//        } else {
-//            replacementFont = [UIFont fontWithName:@"AppleSDGothicNeo-Regular" size:14.0f];
-//        }
-//        [str addAttribute:NSFontAttributeName value:replacementFont range:range];
-//    }];
-//    
-//    [_instructionLabel setAttributedText:str];
-//    [_instructionLabel setTextColor:[UIColor whiteColor]];
-//    [_instructionLabel setTextAlignment:NSTextAlignmentLeft];
-//    [_instructionLabel setNumberOfLines:0];
-//    [_instructionLabel setLineBreakMode:NSLineBreakByWordWrapping];
-//    CGSize labelSize =[_instructionLabel sizeThatFits:CGSizeMake(_infoBar.frame.size.width * .65, _infoBar.frame.size.height * .9)];
-//    [_instructionLabel setFrame:CGRectMake(_infoBar.frame.size.width * .25, _infoBar.frame.size.height * .6 - labelSize.height/2, labelSize.width, labelSize.height)];
-//    
-//    [_iconView setImage:manueverImage];
-//    [_iconView sizeToFit];
-//    [_iconView setFrame:CGRectMake(_infoBar.frame.size.width * .1 - _iconView.frame.size.width/2, _infoBar.frame.size.height * .4 - _iconView.frame.size.height/2, _iconView.frame.size.width, _iconView.frame.size.height)];
 }
 
 -(void)tripManager:(TripManager *)manager didUpdateLocation:(CLLocationCoordinate2D)coor direction:(CLLocationDirection)direction {

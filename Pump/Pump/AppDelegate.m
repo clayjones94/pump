@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "TripViewController.h"
-#import "HomeViewController.h"
 #import "Utils.h"
 #import "Database.h"
 #import "Constants.h"
@@ -17,7 +16,6 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import "TripManager.h"
 #import "UserManager.h"
-#import <Parse/Parse.h>
 
 @interface AppDelegate ()
 
@@ -47,8 +45,8 @@
 //    }
 
     [GMSServices provideAPIKey:@"AIzaSyA-N5dxHG2g7YzeegbO0tJF4XbAGUgbbtg"];
-    [Parse setApplicationId:@"3salmH3rmskFoOp8q1BzjV2Vh6ZS4NL3FDKCOVN8"
-                  clientKey:@"S02VfRDWGwjPFvRz5QR0CaJIEgQ8rJa5QpqcNzBO"];
+//    [Parse setApplicationId:@"3salmH3rmskFoOp8q1BzjV2Vh6ZS4NL3FDKCOVN8"
+//                  clientKey:@"S02VfRDWGwjPFvRz5QR0CaJIEgQ8rJa5QpqcNzBO"];
     
     _homevc = [[TripViewController alloc] init];
     _nav = [[UINavigationController alloc] initWithRootViewController:_homevc];
