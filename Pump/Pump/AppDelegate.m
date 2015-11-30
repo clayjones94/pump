@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "TripViewController.h"
-#import "HomeViewController.h"
 #import "Utils.h"
 #import "Database.h"
 #import "Constants.h"
@@ -17,7 +16,6 @@
 #import <GoogleMaps/GoogleMaps.h>
 #import "TripManager.h"
 #import "UserManager.h"
-#import <Parse/Parse.h>
 
 @interface AppDelegate ()
 
@@ -31,13 +29,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
-                                                    UIUserNotificationTypeBadge |
-                                                    UIUserNotificationTypeSound);
-    UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
-                                                                             categories:nil];
-    [application registerUserNotificationSettings:settings];
-    [application registerForRemoteNotifications];
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
@@ -54,8 +45,8 @@
 //    }
 
     [GMSServices provideAPIKey:@"AIzaSyA-N5dxHG2g7YzeegbO0tJF4XbAGUgbbtg"];
-    [Parse setApplicationId:@"3salmH3rmskFoOp8q1BzjV2Vh6ZS4NL3FDKCOVN8"
-                  clientKey:@"S02VfRDWGwjPFvRz5QR0CaJIEgQ8rJa5QpqcNzBO"];
+//    [Parse setApplicationId:@"3salmH3rmskFoOp8q1BzjV2Vh6ZS4NL3FDKCOVN8"
+//                  clientKey:@"S02VfRDWGwjPFvRz5QR0CaJIEgQ8rJa5QpqcNzBO"];
     
     _homevc = [[TripViewController alloc] init];
     _nav = [[UINavigationController alloc] initWithRootViewController:_homevc];
@@ -106,21 +97,10 @@
 
 
 -(void)applicationWillEnterForeground:(UIApplication *)application {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Recieve Notification" object:nil];
 }
 
-//-(void)applicationDidEnterBackground:(UIApplication *)application {
-//    
-//}
-
-- (BOOL)application:(UIApplication *)application shouldSaveApplicationState:(NSCoder *)coder
-{
-    return YES;
-}
-
-- (BOOL)application:(UIApplication *)application shouldRestoreApplicationState:(NSCoder *)coder
-{
-    return YES;
+-(void)applicationDidEnterBackground:(UIApplication *)application {
+    
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
@@ -130,14 +110,14 @@
     return NO;
 }
 
--(void)applicationWillResignActive:(UIApplication *)application {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        NSData *dataSave = [NSKeyedArchiver archivedDataWithRootObject:[UserManager sharedManager].recents];
-        [userDefaults setObject:dataSave forKey:@"recents"];
-        [userDefaults synchronize];
-    });
-}
+//-(void)applicationWillResignActive:(UIApplication *)application {
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+//        NSData *dataSave = [NSKeyedArchiver archivedDataWithRootObject:[UserManager sharedManager].recents];
+//        [userDefaults setObject:dataSave forKey:@"recents"];
+//        [userDefaults synchronize];
+//    });
+//}
 
 -(void)applicationWillTerminate:(UIApplication *)application {
 }

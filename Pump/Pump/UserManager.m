@@ -116,20 +116,9 @@
                                                  VENPermissionAccessPhone,
                                                  VENPermissionAccessFriends] withCompletionHandler:^(BOOL success, NSError *error) {
                                                      if (success) {
-//                                                         [Database authUserWithVenmoWithBlock:^(BOOL success) {
-//                                                             if (success) {
-//                                                                 block(success);
-//                                                                 [UserManager sharedManager].loggedIn = YES;
-//                                                             } else {
-//                                                                 [[Venmo sharedInstance] logout];
-//                                                             }
-//                                                         }];
+                                                         block(YES);
                                                      } else {
-                                                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unsuccessful" message:@"An error occured while logging in." delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-                                                         dispatch_async(dispatch_get_main_queue(), ^{
-                                                             [alert show];
-                                                         });
-                                                         NSLog(@"%@", error);
+                                                         block(NO);
                                                      }
                                                  }];
 }

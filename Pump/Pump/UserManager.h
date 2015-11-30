@@ -33,8 +33,6 @@
 -(void) getVenmoFriendsWithBlock: (void (^)(NSArray *friends, NSError *error))block;
 -(void) addFriendToRecents:(NSDictionary *)friendDict;
 - (NSDictionary *)friendForVenmoID: (NSString *)venID;
--(void) updateOwnershipsWithBlock: (void (^)(NSArray *ownerships, NSError *error))block;
--(void) updateMembershipsWithBlock: (void (^)(NSArray *memberships, NSError *error))block;
 -(void) loginWithBlock:(void (^)(BOOL loggedIn))block;
 -(void)logoutOfManager;
 @end

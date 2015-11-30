@@ -14,7 +14,7 @@
 
 @protocol SearchUserViewDelegate <NSObject>
 @optional
-- (void) searchView: (SearchUserView *)manager didSelectUser: (NSDictionary *)user;
+- (void) searchView: (SearchUserView *)manager didSelectUser: (id)user;
 @end
 
 @interface SearchUserView : UIView<VENTokenFieldDataSource, VENTokenFieldDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>

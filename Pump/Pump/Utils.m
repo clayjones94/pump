@@ -30,14 +30,6 @@
                            green:(102.0f/255.0)
                             blue:(143.0f/255.0)
                            alpha:1.0f];
-//    return [UIColor colorWithRed:(2.0f/255.0)
-//                           green:(160.0f/255.0)
-//                            blue:(175.0f/255.0)
-//                           alpha:1.0f];
-//        return [UIColor colorWithRed:(66.0f/255.0)
-//                               green:(152.0f/255.0)
-//                                blue:(195.0f/255.0)
-//                               alpha:.9f];
 }
 
 + (UIColor *)defaultLightColor {
@@ -45,14 +37,6 @@
                            green:(214.0f/255.0)
                             blue:(255.0f/255.0)
                            alpha:1.0f];
-//    return [UIColor colorWithRed:(72.0f/255.0)
-//                           green:(183.0f/255.0)
-//                            blue:(193.0f/255.0)
-//                           alpha:1.0f];
-    //        return [UIColor colorWithRed:(66.0f/255.0)
-    //                               green:(152.0f/255.0)
-    //                                blue:(195.0f/255.0)
-    //                               alpha:.9f];
 }
 
 

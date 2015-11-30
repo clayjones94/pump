@@ -18,6 +18,7 @@
 
 @synthesize locationManager = _locationManager;
 @synthesize distanceTraveled = _distanceTraveled;
+@synthesize distanceWhenStopped = _distanceWhenStopped;
 @synthesize status = _status;
 @synthesize mpg = _mpg;
 @synthesize gasPrice = _gasPrice;
@@ -41,22 +42,25 @@
     if (self == [super init]) {
         _runningLocations = [[NSMutableArray alloc] init];
         _locationManager = [[CLLocationManager alloc] init];
-        _locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
         _locationManager.delegate = self;
         [_locationManager startUpdatingLocation];
         
         _passengers = [NSMutableArray new];
         _polyline = [GMSPolyline new];
         _includeUserAsPassenger = YES;
-        _car = [PFUser currentUser];
+        _car = nil;
         _mpg = [[NSUserDefaults standardUserDefaults] objectForKey:@"mpg"];
+        if (!_mpg) {
+            [self setMpg:@10];
+        }
         
         [DirectionsManager sharedManager].delegate = self;
         
         if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined) {
             if ([CLLocationManager locationServicesEnabled]) {
-                if ([_locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
-                    [_locationManager requestAlwaysAuthorization];
+                if ([_locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+                    [_locationManager requestWhenInUseAuthorization];
                 } else {
                     [_locationManager startUpdatingLocation];
                 }
@@ -68,6 +72,10 @@
 
 -(void)managerDidStartDirecting:(DirectionsManager *)manager {
     [self.delegate didStartDirectingTripManager:self];
+}
+
+-(void)managerDidEndDirecting:(DirectionsManager *)manager {
+    [self.delegate didEndDirectingTripManager:self];
 }
 
 -(void)manager:(DirectionsManager *)manager didUpdatePath:(GMSPath *)path {
@@ -112,6 +120,8 @@
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     switch ([CLLocationManager authorizationStatus]) {
         case kCLAuthorizationStatusAuthorizedWhenInUse:
+            [manager startUpdatingLocation];
+            break;
         case kCLAuthorizationStatusAuthorizedAlways:
             [manager startUpdatingLocation];
             break;
@@ -127,37 +137,32 @@
     }
 }
 
--(void) setCar:(PFUser *)car {
+-(void) setCar:(id) car {
     _car = car;
-    _mpg = car[@"mpg"];
-    [self selectGasType];
+    if (!car) {
+        [self setMpg:[[NSUserDefaults standardUserDefaults] objectForKey:@"mpg"]];
+    }
+    [self.delegate tripManager:self didSelectCar:_car];
 }
 
 -(void)setGasPrice:(NSNumber *)gasPrice {
     _gasPrice = gasPrice;
-    if ([_car.objectId isEqualToString:[PFUser currentUser].objectId]) {
-        [[NSUserDefaults standardUserDefaults] setObject:_gasPrice forKey:@"gas_price"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
 }
 
 -(void)setMpg:(NSNumber *)mpg {
     _mpg = mpg;
-    if ([_car.objectId isEqualToString:[PFUser currentUser].objectId]) {
-        [[NSUserDefaults standardUserDefaults] setObject:_mpg forKey:@"mpg"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
+    [self.delegate tripManager:self didUpdateMPG:mpg];
 }
 
 -(void) selectGasType {
     GasType type = GAS_TYPE_REGULAR;
-    if ([_car[@"gas_type"] isEqualToString:@"Midgrade Gasoline"]) {
-        type = GAS_TYPE_MIDGRADE;
-    } else if([_car[@"gas_type"] isEqualToString:@"Premium Gasoline"]) {
-        type = GAS_TYPE_PREMIUM;
-    } else if ([_car[@"gas_type"] isEqualToString:@"Diesel Gasoline"]) {
-        type = GAS_TYPE_DIESEL;
-    }
+//    if ([_car[@"gas_type"] isEqualToString:@"Midgrade Gasoline"]) {
+//        type = GAS_TYPE_MIDGRADE;
+//    } else if([_car[@"gas_type"] isEqualToString:@"Premium Gasoline"]) {
+//        type = GAS_TYPE_PREMIUM;
+//    } else if ([_car[@"gas_type"] isEqualToString:@"Diesel Gasoline"]) {
+//        type = GAS_TYPE_DIESEL;
+//    }
     switch (type) {
         case GAS_TYPE_REGULAR:
         {
@@ -284,23 +289,37 @@
         _distanceTraveled = 0;
         _includeUserAsPassenger = YES;
         _passengers = [NSMutableArray new];
-        _car = nil;
+        if (!_car || !_mpg) {
+            [self setMpg: [[NSUserDefaults standardUserDefaults] objectForKey:@"mpg"]];
+        }
+        [self checkBackgroundMode];
     }
     else if (_status == RUNNING) {
-        if (_car[@"mpg"]) {
-            _mpg = _car[@"mpg"];
-        } else {
-//            [_car fetchIfNeededInBackgroundWithBlock:^(PFObject * _Nullable object, NSError * _Nullable error) {
-//                if (object) {
-//                    _mpg = object[@"mpg"];
-//                }
-//            }];
+        if (!_car) {
+            [self setMpg: [[NSUserDefaults standardUserDefaults] objectForKey:@"mpg"]];
+        }
+        if (!_mpg) {
+            _mpg = @10;
         }
         [self selectGasType];
+        [self checkBackgroundMode];
     } else if (_status == FINISHED) {
         _paymentStatuses = [[NSMutableArray alloc] init];
+        [self checkBackgroundMode];
     }
     [self.delegate tripManager:self didUpdateStatus:_status];
+}
+
+-(void) checkBackgroundMode {
+    if (_status == RUNNING || [DirectionsManager sharedManager].isDirecting) {
+        if([_locationManager respondsToSelector:@selector(allowsBackgroundLocationUpdates)]){
+            [_locationManager setAllowsBackgroundLocationUpdates:YES];
+        }
+    } else {
+        if([_locationManager respondsToSelector:@selector(allowsBackgroundLocationUpdates)]){
+            [_locationManager setAllowsBackgroundLocationUpdates:NO];
+        }
+    }
 }
 
 -(void)logoutOfManager {

@@ -83,17 +83,25 @@ NSMutableString *_currentString;
 -(void) selectCarID:(NSString *)carID {
     _carID = carID;
     [Database getCarFromID:carID withBlock:^(NSData *data, NSError *error){
-        carParser = [[NSXMLParser alloc] initWithData:data];
-        [carParser setDelegate:self];
-        [carParser parse];
+        if (!error) {
+            carParser = [[NSXMLParser alloc] initWithData:data];
+            [carParser setDelegate:self];
+            [carParser parse];
+        } else {
+            [self.delegate couldNotFindMPGForCarModelViewController:self];
+        }
     }];
 }
 
 -(void) getMPGForCar{
     [Database getMileageFromID:_carID withBlock:^(NSData *data, NSError *error) {
-        mpgParser = [[NSXMLParser alloc] initWithData:data];
-        [mpgParser setDelegate:self];
-        [mpgParser parse];
+        if (!error) {
+            mpgParser = [[NSXMLParser alloc] initWithData:data];
+            [mpgParser setDelegate:self];
+            [mpgParser parse];
+        } else {
+            [self.delegate couldNotFindMPGForCarModelViewController:self];
+        }
     }];
 }
 
@@ -166,26 +174,7 @@ NSMutableString *_currentString;
         }
     } else if([parser isEqual:mpgParser]){
         if ([elementName isEqualToString:@"avgMpg"]) {
-            PFUser *currentUser = [PFUser currentUser];
-            currentUser[@"mpg"] = [NSNumber numberWithDouble: [_currentString doubleValue]];
-            _currentString = [NSMutableString new];
-            currentUser[@"gas_type"] = _gasType;
-            currentUser[@"car_year"] = _year;
-            currentUser[@"car_make"] = _make;
-            currentUser[@"car_model"] = _model;
-            currentUser[@"using_car"] = [NSNumber numberWithBool: YES];
-            [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (succeeded) {
-                    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-                    if (self.navigationController.parentViewController) {
-                        [self.navigationController willMoveToParentViewController:nil];
-                        [self.navigationController.view removeFromSuperview];
-                        [self.navigationController removeFromParentViewController];
-                    }
-                } else {
-                    // There was a problem, check error.description
-                }
-            }];
+            [self.delegate carModelViewController:self didFindMPG:[NSNumber numberWithDouble: [_currentString doubleValue]]];
         }
     } else {
         if ([elementName isEqualToString:@"mpgData"]) {
@@ -193,26 +182,7 @@ NSMutableString *_currentString;
                 _currentString = [NSMutableString new];
                 [self getMPGForCar];
             } else {
-                _currentString = [NSMutableString new];
-                PFUser *currentUser = [PFUser currentUser];
-                currentUser[@"gas_type"] = _gasType;
-                currentUser[@"car_year"] = _year;
-                currentUser[@"car_make"] = _make;
-                currentUser[@"car_model"] = _model;
-                currentUser[@"using_car"] = [NSNumber numberWithBool: YES];
-                [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                    if (succeeded) {
-                        CustomMPGViewController *vc = [CustomMPGViewController new];
-                        [self.navigationController pushViewController:vc animated:YES];
-//                        if (self.navigationController.parentViewController) {
-//                            [self.navigationController willMoveToParentViewController:nil];
-//                            [self.navigationController.view removeFromSuperview];
-//                            [self.navigationController removeFromParentViewController];
-//                        }
-                    } else {
-                        // There was a problem, check error.description
-                    }
-                }];
+                [self.delegate couldNotFindMPGForCarModelViewController:self];
             }
         } else if([elementName isEqualToString:@"fuelType1"]) {
             _gasType = _currentString;

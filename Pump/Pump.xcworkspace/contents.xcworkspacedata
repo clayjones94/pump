@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:../../../../Downloads/School.gpx">
+   </FileRef>
+   <FileRef
       location = "group:/Users/clayjones/Documents/iOS/pump/Pump/en.xcodeproj">
    </FileRef>
    <FileRef

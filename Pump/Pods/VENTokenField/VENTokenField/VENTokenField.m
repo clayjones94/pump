@@ -212,7 +212,7 @@ static const CGFloat VENTokenFieldDefaultMaxHeight          = 150.0;
 
     [self layoutToLabelInView:self.scrollView origin:CGPointZero currentX:&currentX];
     [self layoutTokensWithCurrentX:&currentX currentY:&currentY];
-    [self layoutInputTextFieldWithCurrentX:&currentX currentY:&currentY];
+    [self layoutInputTextFieldWithCurrentX:&currentX currentY:&currentY clearInput:shouldAdjustFrame];
 
     if (shouldAdjustFrame) {
         [self adjustHeightForCurrentY:currentY];
@@ -248,7 +248,7 @@ static const CGFloat VENTokenFieldDefaultMaxHeight          = 150.0;
     [self addSubview:self.scrollView];
 }
 
-- (void)layoutInputTextFieldWithCurrentX:(CGFloat *)currentX currentY:(CGFloat *)currentY
+- (void)layoutInputTextFieldWithCurrentX:(CGFloat *)currentX currentY:(CGFloat *)currentY clearInput:(BOOL)clearInput
 {
     CGFloat inputTextFieldWidth = self.scrollView.contentSize.width - *currentX;
     if (inputTextFieldWidth < self.minInputWidth) {
@@ -258,7 +258,9 @@ static const CGFloat VENTokenFieldDefaultMaxHeight          = 150.0;
     }
 
     VENBackspaceTextField *inputTextField = self.inputTextField;
-    inputTextField.text = @"";
+    if (clearInput) {
+        inputTextField.text = @"";
+    }
     inputTextField.frame = CGRectMake(*currentX, *currentY + 1, inputTextFieldWidth, [self heightForToken] - 1);
     inputTextField.tintColor = self.colorScheme;
     [self.scrollView addSubview:inputTextField];
@@ -415,6 +417,12 @@ static const CGFloat VENTokenFieldDefaultMaxHeight          = 150.0;
     [self.invisibleTextField setAutocorrectionType:self.autocorrectionType];
 }
 
+- (void)setInputTextFieldKeyboardAppearance:(UIKeyboardAppearance)inputTextFieldKeyboardAppearance
+{
+    _inputTextFieldKeyboardAppearance = inputTextFieldKeyboardAppearance;
+    [self.inputTextField setKeyboardAppearance:self.inputTextFieldKeyboardAppearance];
+}
+
 - (void)setInputTextFieldKeyboardType:(UIKeyboardType)inputTextFieldKeyboardType
 {
     _inputTextFieldKeyboardType = inputTextFieldKeyboardType;
@@ -551,6 +559,19 @@ static const CGFloat VENTokenFieldDefaultMaxHeight          = 150.0;
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     [self unhighlightAllTokens];
+    NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    for (NSString *delimiter in self.delimiters) {
+        if (newString.length > delimiter.length &&
+            [[newString substringFromIndex:newString.length - delimiter.length] isEqualToString:delimiter]) {
+            NSString *enteredString = [newString substringToIndex:newString.length - delimiter.length];
+            if ([self.delegate respondsToSelector:@selector(tokenField:didEnterText:)]) {
+                if (enteredString.length) {
+                    [self.delegate tokenField:self didEnterText:enteredString];
+                    return NO;
+                }
+            }
+        }
+    }
     return YES;
 }
 

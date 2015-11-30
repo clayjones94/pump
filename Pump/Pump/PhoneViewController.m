@@ -108,11 +108,6 @@
                                          @"verification_code" : code
                                        }
                                 block:^(id object, NSError *error) {
-                                    [[[UIAlertView alloc] initWithTitle:@"Code sent!"
-                                                                message:@"Your SMS verification code has been sent!"
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"Ok"
-                                                      otherButtonTitles:nil, nil] show];
                                     VerifyPhoneViewController *vc = [[VerifyPhoneViewController alloc] init];
                                     [vc setCode:code];
                                     [vc setPhoneNumber:phoneNumber];

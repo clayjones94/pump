@@ -25,7 +25,7 @@
 
 @interface PlacesSearchView : UIView <UITextFieldDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate>
 @property id <PlacesSearchViewDelegate> delegate;
-@property (nonatomic) VENTokenField *tokenField;
+@property UITextField *searchBar;
 @property (nonatomic) NSArray *friends;
 @property (nonatomic) NSMutableArray *selectedFriends;
 @property (nonatomic) GMSCoordinateBounds *mapBounds;

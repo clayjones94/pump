@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "DecimalKeypad.h"
+#import "CarFlowViewController.h"
 
-@interface CustomMPGViewController : UIViewController <DecimalKeypadDelegate>
+@interface CustomMPGViewController : UIViewController <DecimalKeypadDelegate, CarFlowViewControllerDelegate>
 
 @end

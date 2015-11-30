@@ -42,13 +42,24 @@
     _path = path;
 }
 
--(void) startDirectionsToLocationDescription: (NSString *) destDescription {
+-(void) startDirectionsToLocationDescription: (NSString *) destDescription withBlock: (void (^)(NSError *error))block {
     [self fetchDirectionsFromLocationDescription:[TripManager sharedManager].locationManager.location.coordinate toLocationDescription:destDescription withBlock:^(NSArray *steps, GMSPath *path, NSError *error) {
         _steps = steps;
         _path = path;
-        [self.delegate manager:self didUpdatePath:path];
         _currentStep = 0;
-        [self.delegate managerDidChangeSteps:self];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (block) {
+                if (steps.count == 0) {
+                    block([[NSError alloc] initWithDomain:@"No data" code:500 userInfo:nil]);
+                } else {
+                    block(error);
+                }
+            }
+            if (_steps.count > 0) {
+                [self.delegate managerDidChangeSteps:self];
+                [self.delegate manager:self didUpdatePath:path];
+            }
+        });
     }];
 }
 
@@ -56,6 +67,7 @@
     if (_steps) {
         _isDirecting = YES;
         [self.delegate managerDidStartDirecting:self];
+        [self checkBackgroundMode];
     }
 }
 
@@ -65,6 +77,20 @@
     _path = nil;
     [self.delegate manager:self didUpdatePath:nil];
     _currentStep = 0;
+    [self.delegate managerDidEndDirecting:self];
+    [self checkBackgroundMode];
+}
+
+-(void) checkBackgroundMode {
+    if ([TripManager sharedManager].status == RUNNING || [DirectionsManager sharedManager].isDirecting) {
+        if([[TripManager sharedManager].locationManager respondsToSelector:@selector(allowsBackgroundLocationUpdates)]){
+            [[TripManager sharedManager].locationManager setAllowsBackgroundLocationUpdates:YES];
+        }
+    } else {
+        if([[TripManager sharedManager].locationManager respondsToSelector:@selector(allowsBackgroundLocationUpdates)]){
+            [[TripManager sharedManager].locationManager setAllowsBackgroundLocationUpdates:NO];
+        }
+    }
 }
 
 -(NSAttributedString *) currentInstruction {
@@ -72,7 +98,6 @@
         NSDictionary *stepDict = [_steps objectAtIndex:_currentStep];
         NSString * htmlString = stepDict[@"html_instructions"];
         NSAttributedString * attrStr = [[NSAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
-        NSLog(@"Current Instruction: %@", attrStr.string);
         return attrStr;
     } else {
         return [[NSAttributedString alloc] initWithString: @"Arrive at destination"];
@@ -84,7 +109,6 @@
         NSDictionary *stepDict = [_steps objectAtIndex:_currentStep + 1];
         NSString * htmlString = stepDict[@"html_instructions"];
         NSAttributedString * attrStr = [[NSAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
-        NSLog(@"Next Instruction: %@", attrStr.string);
         return attrStr;
     } else {
         return [[NSAttributedString alloc] initWithString: @"Arrive at destination"];
@@ -96,27 +120,6 @@
         NSDictionary *stepDict = [_steps objectAtIndex:_currentStep];
         NSString * maneuverString = stepDict[@"maneuver"];
         if (maneuverString) {
-//            NSDictionary *iconDict = @{
-//                    @"turn-sharp-left":[UIImage imageNamed:@"turn-sharp-left"],
-//                    @"uturn-right":[UIImage imageNamed:@"uturn-right"],
-//                    @"turn-slight-right":[UIImage imageNamed:@"turn-slight-right"],
-//                    @"merge":[UIImage imageNamed:@"merge"],
-//                    @"roundabout-left":[UIImage imageNamed:@"roundabout-left"],
-//                    @"roundabout-right":[UIImage imageNamed:@"roundabout-right"],
-//                    @"uturn-left":[UIImage imageNamed:@"uturn-left"],
-//                    @"turn-slight-left":[UIImage imageNamed:@"turn-slight-left"],
-//                    @"turn-left":[UIImage imageNamed:@"turn-left"],
-//                    @"ramp-right":[UIImage imageNamed:@"ramp-right"],
-//                    @"turn-right":[UIImage imageNamed:@"turn-right"],
-//                    @"fork-right":[UIImage imageNamed:@"fork-right"],
-//                    @"straight":[UIImage imageNamed:@"straight"],
-//                    @"fork-left":[UIImage imageNamed:@"fork-left"],
-//                    @"ferry-train":[UIImage imageNamed:@"ferry-train"],
-//                    @"turn-sharp-right":[UIImage imageNamed:@"turn-sharp-right"],
-//                    @"ramp-left":[UIImage imageNamed:@"ramp-left"],
-//                    @"ferry":[UIImage imageNamed:@"ferry"],
-//                    };
-            NSLog(@"Current Maneuver: %@", maneuverString);
             return [UIImage imageNamed:maneuverString];
         }
     } else {
@@ -130,27 +133,6 @@
         NSDictionary *stepDict = [_steps objectAtIndex:_currentStep + 1];
         NSString * maneuverString = stepDict[@"maneuver"];
         if (maneuverString) {
-            //            NSDictionary *iconDict = @{
-            //                    @"turn-sharp-left":[UIImage imageNamed:@"turn-sharp-left"],
-            //                    @"uturn-right":[UIImage imageNamed:@"uturn-right"],
-            //                    @"turn-slight-right":[UIImage imageNamed:@"turn-slight-right"],
-            //                    @"merge":[UIImage imageNamed:@"merge"],
-            //                    @"roundabout-left":[UIImage imageNamed:@"roundabout-left"],
-            //                    @"roundabout-right":[UIImage imageNamed:@"roundabout-right"],
-            //                    @"uturn-left":[UIImage imageNamed:@"uturn-left"],
-            //                    @"turn-slight-left":[UIImage imageNamed:@"turn-slight-left"],
-            //                    @"turn-left":[UIImage imageNamed:@"turn-left"],
-            //                    @"ramp-right":[UIImage imageNamed:@"ramp-right"],
-            //                    @"turn-right":[UIImage imageNamed:@"turn-right"],
-            //                    @"fork-right":[UIImage imageNamed:@"fork-right"],
-            //                    @"straight":[UIImage imageNamed:@"straight"],
-            //                    @"fork-left":[UIImage imageNamed:@"fork-left"],
-            //                    @"ferry-train":[UIImage imageNamed:@"ferry-train"],
-            //                    @"turn-sharp-right":[UIImage imageNamed:@"turn-sharp-right"],
-            //                    @"ramp-left":[UIImage imageNamed:@"ramp-left"],
-            //                    @"ferry":[UIImage imageNamed:@"ferry"],
-            //                    };
-            NSLog(@"Next Maneuver: %@", maneuverString);
             return [UIImage imageNamed:maneuverString];
         }
     } else {
@@ -196,17 +178,18 @@
             [self nextStep];
         }
 
-        if(!GMSGeometryIsLocationOnPathTolerance(currentLoc.coordinate, _path, NO, 15)) {
-            [self startDirectionsToLocationDescription:_destination];
+        if(_path && !GMSGeometryIsLocationOnPathTolerance(currentLoc.coordinate, _path, NO, 15)) {
+            [self startDirectionsToLocationDescription:_destination withBlock:nil];
         }
     }
 }
 
 -(void) nextStep {
     _currentStep ++;
-    [self.delegate managerDidChangeSteps:self];
     if (_currentStep == _steps.count) {
         [self endDirecting];
+    } else {
+        [self.delegate managerDidChangeSteps:self];
     }
     
 }
@@ -216,7 +199,9 @@
     _destination = endString;
     
     NSString *endText = [endString stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat: @"https://maps.googleapis.com/maps/api/directions/json?origin=%f,%f&destination=place_id:%@&key=AIzaSyBXLn6XVgKVl1rKT1BjgpN2IdkqPbFJ8E0", coor1.latitude, coor1.longitude, endText]]];
+    
+    NSUInteger secsUtc1970 = [[NSDate date]timeIntervalSince1970];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat: @"https://maps.googleapis.com/maps/api/directions/json?origin=%f,%f&destination=place_id:%@&departure_time=%lu&traffic_model=best_guess&key=AIzaSyBXLn6XVgKVl1rKT1BjgpN2IdkqPbFJ8E0", coor1.latitude, coor1.longitude, endText, (unsigned long)secsUtc1970]]];
     NSURLSession *session = [NSURLSession sharedSession];
     
     // Specify that it will be a POST request

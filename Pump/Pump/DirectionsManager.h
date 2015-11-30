@@ -16,6 +16,7 @@
 - (void) manager: (DirectionsManager *)manager didUpdatePath: (GMSPath *)path;
 -(void) managerDidChangeSteps:(DirectionsManager *)manager;
 -(void) managerDidStartDirecting:(DirectionsManager *)manager;
+-(void) managerDidEndDirecting:(DirectionsManager *)manager;
 @end
 
 @interface DirectionsManager : NSObject
@@ -28,7 +29,7 @@
 @property id <DirectionsManagerDelegate> delegate;
 -(void) startDirecting;
 -(void) endDirecting;
--(void) startDirectionsToLocationDescription: (NSString *) destDescription;
+-(void) startDirectionsToLocationDescription: (NSString *) destDescription withBlock: (void (^)(NSError *error))block;
 -(void) updateLocationWithBlock: (void (^)(CLLocationDistance stepDistance, CLLocationDistance totalDistance, NSTimeInterval totalTime))block;
 -(NSAttributedString *) currentInstruction;
 -(CLLocationDirection) currentDirection;

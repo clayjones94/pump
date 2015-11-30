@@ -55,15 +55,19 @@
         cell = [[PassengerTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"Passenger Cell"];
     }
     [cell setBackgroundColor:[UIColor clearColor]];
-    id passenger = [[TripManager sharedManager].passengers objectAtIndex:indexPath.row];
-    [cell setPassenger: passenger];
+    id passenger;
     
-    float cost;
-    if ([[TripManager sharedManager] includeUserAsPassenger]) {
-        cost = [TripManager sharedManager].distanceTraveled/1609.344 * [[[TripManager sharedManager] gasPrice] doubleValue] / [[[TripManager sharedManager] mpg] doubleValue] / ([TripManager sharedManager].passengers.count + 1);
+    float cost = [TripManager sharedManager].distanceTraveled/1609.344 * [[[TripManager sharedManager] gasPrice] doubleValue] / [[[TripManager sharedManager] mpg] doubleValue];
+    
+    if ([TripManager sharedManager].car) {
+        passenger = [TripManager sharedManager].car;
+        [cell setPassenger: passenger];
     } else {
-        cost = [TripManager sharedManager].distanceTraveled/1609.344 * [[[TripManager sharedManager] gasPrice] doubleValue] / [[[TripManager sharedManager] mpg] doubleValue] / ([TripManager sharedManager].passengers.count);
+        passenger = [[TripManager sharedManager].passengers objectAtIndex:indexPath.row];
+        [cell setPassenger: passenger];
+        cost = cost / ([TripManager sharedManager].passengers.count + 1);
     }
+    
     [cell setCost:cost];
     
     PaymentStatus status = [[[TripManager sharedManager].paymentStatuses objectAtIndex:indexPath.row] integerValue];;
@@ -78,24 +82,11 @@
 }
 
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0 || indexPath.row == [TripManager sharedManager].passengers.count + 1) {
-        return NO;
-    }
     return NO;
 }
 
 -(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (indexPath.row != 0 && indexPath.row != [TripManager sharedManager].passengers.count + 1) {
-//        return UITableViewCellEditingStyleDelete;
-//    }
     return UITableViewCellEditingStyleNone;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [[TripManager sharedManager].passengers removeObjectAtIndex:indexPath.row-1];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"Delete Passengers" object:nil];
-    [_tableView reloadData];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -103,7 +94,12 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSUInteger rowCount = [TripManager sharedManager].passengers.count;
+    NSUInteger rowCount;
+    if ([TripManager sharedManager].car) {
+        rowCount = 1;
+    } else {
+        rowCount = [TripManager sharedManager].passengers.count;
+    }
     CGFloat height;
     if (rowCount * 50 > _boundingFrame.size.height) {
         height = _boundingFrame.size.height;

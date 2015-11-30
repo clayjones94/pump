@@ -30,6 +30,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.view setBackgroundColor:[Utils defaultColor]];
+    [Utils addDefaultGradientToView:self.view];
 }
 
 -(void)viewDidLayoutSubviews {
@@ -39,8 +41,6 @@
     
     NSLog(@"%f", height);
     
-    [self.view setBackgroundColor:[Utils defaultColor]];
-    [Utils addDefaultGradientToView:self.view];
     
     UILabel *titleLabel = [[UILabel alloc] init];
     [titleLabel setAttributedText:[Utils defaultString:@"Select a year:" size:24 color:[UIColor whiteColor]]];

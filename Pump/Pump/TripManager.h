@@ -27,8 +27,11 @@
 -(void) tripManager: (TripManager *)manager didUpdatePath: (GMSPath *)path;
 -(void) tripManager: (TripManager *)manager didUpdateInstructions: (NSAttributedString *) instructions withIcon: (UIImage *)icon;
 - (void) tripManager: (TripManager *)manager didUpdateLocation: (CLLocationCoordinate2D) coor direction:(CLLocationDirection)direction;
+-(void) tripManager:(TripManager *)manager didSelectCar: (id) owner;
+-(void) tripManager:(TripManager *)manager didUpdateMPG: (NSNumber *) mpg;
 
 -(void) didStartDirectingTripManager: (TripManager *)manager;
+-(void) didEndDirectingTripManager: (TripManager *)manager;
 @end
 
 
@@ -37,13 +40,14 @@
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property GMSPolyline *polyline;
 @property CLLocationDistance distanceTraveled;
+@property CLLocationDistance distanceWhenStopped;
 @property (nonatomic) CLLocationDirection direction;
 @property (nonatomic)TripStatusType status;
 @property (nonatomic)NSNumber *mpg;
 @property (nonatomic)NSNumber *gasPrice;
 @property (nonatomic)NSMutableArray *passengers;
 @property (nonatomic) BOOL includeUserAsPassenger;
-@property (nonatomic) PFUser *car;
+@property (nonatomic) id car;
 @property (nonatomic) NSAttributedString *stepInstruction;
 @property (nonatomic) NSMutableArray *paymentStatuses;
 
