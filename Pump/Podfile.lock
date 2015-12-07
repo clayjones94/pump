@@ -18,15 +18,9 @@ PODS:
   - AFNetworking/UIKit (2.2.1):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - BBBadgeBarButtonItem (1.2)
   - CMDQueryStringSerialization (0.2.0)
   - FrameAccessor (1.3.2)
   - GoogleMaps (1.10.5)
-  - HMSegmentedControl (1.5.2)
-  - KLCPopup (1.0)
-  - SDWebImage (3.7.3):
-    - SDWebImage/Core (= 3.7.3)
-  - SDWebImage/Core (3.7.3)
   - SSKeychain (1.2.3)
   - VENCore (3.0.1):
     - CMDQueryStringSerialization (~> 0.2.0)
@@ -39,23 +33,15 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (= 2.2.1)
-  - BBBadgeBarButtonItem
   - GoogleMaps
-  - HMSegmentedControl
-  - KLCPopup
-  - SDWebImage (~> 3.7)
   - Venmo-iOS-SDK
   - VENTokenField
 
 SPEC CHECKSUMS:
   AFNetworking: 59a0b8e9ecd4e194d64b4967232cd2cc83490113
-  BBBadgeBarButtonItem: c2fbca0bff18e21b70defc9438a8a5048008e7ca
   CMDQueryStringSerialization: 15f9004212bbc72533bb533f63df79d90a00a7d8
   FrameAccessor: 0f7ba6ce37be9a5d0302a27c731dca70af8d438b
   GoogleMaps: da51c62c338c2d9c47cdad470a0d1e0e4b8544e4
-  HMSegmentedControl: 83b9686022d2176fb6457d2bdb61e5d6393fed7d
-  KLCPopup: 76c5a19227977f1e53d85236f9ef42257c168d98
-  SDWebImage: 1d2b1a1efda1ade1b00b6f8498865f8ddedc8a84
   SSKeychain: 3f42991739c6c60a9cf1bbd4dff6c0d3694bcf3d
   VENCore: 7adedc7c0e65e3ba922cc21c35f3d0e133d43df7
   Venmo-iOS-SDK: 456097c6df57544362719ea8db01541953aec44d

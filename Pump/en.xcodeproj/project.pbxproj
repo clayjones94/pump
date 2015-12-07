@@ -10,7 +10,6 @@
 		923C3FCE1BDB1B2D0000E6F4 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 923C3FCC1BDB1B2D0000E6F4 /* Bolts.framework */; };
 		923C3FD11BDBEBEA0000E6F4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 923C3FD01BDBEBEA0000E6F4 /* libsqlite3.tbd */; };
 		923C3FD31BDBEBFD0000E6F4 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 923C3FD21BDBEBFD0000E6F4 /* libz.tbd */; };
-		923C3FD41BDBEC550000E6F4 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 923C3FCD1BDB1B2D0000E6F4 /* Parse.framework */; };
 		924E01C61BFD602E00A58355 /* CarFlowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 924E01C51BFD602E00A58355 /* CarFlowViewController.m */; };
 		924E01C91C08DC6C00A58355 /* ChooseCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 924E01C81C08DC6C00A58355 /* ChooseCarViewController.m */; };
 		924E01CC1C08DCAB00A58355 /* ConnectWithVenmoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 924E01CB1C08DCAB00A58355 /* ConnectWithVenmoViewController.m */; };
@@ -64,7 +63,6 @@
 
 /* Begin PBXFileReference section */
 		923C3FCC1BDB1B2D0000E6F4 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = "parse-library-1.9.0/Bolts.framework"; sourceTree = "<group>"; };
-		923C3FCD1BDB1B2D0000E6F4 /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = "parse-library-1.9.0/Parse.framework"; sourceTree = "<group>"; };
 		923C3FD01BDBEBEA0000E6F4 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		923C3FD21BDBEBFD0000E6F4 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		924E01C41BFD602E00A58355 /* CarFlowViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CarFlowViewController.h; sourceTree = "<group>"; };
@@ -150,7 +148,6 @@
 				AE1408331BD8ACDD0086AE34 /* Social.framework in Frameworks */,
 				AE1408311BD8ACD60086AE34 /* Accounts.framework in Frameworks */,
 				AE14082B1BD8ACAC0086AE34 /* SystemConfiguration.framework in Frameworks */,
-				923C3FD41BDBEC550000E6F4 /* Parse.framework in Frameworks */,
 				AE1408271BD8AC9C0086AE34 /* Security.framework in Frameworks */,
 				AE1408251BD8AC920086AE34 /* QuartzCore.framework in Frameworks */,
 				AE1408231BD8AC890086AE34 /* CoreLocation.framework in Frameworks */,
@@ -280,6 +277,8 @@
 				924E01CE1C08DE7900A58355 /* Search Views */,
 				AEA930511BA86B710090981A /* PassengerView.h */,
 				AEA930521BA86B720090981A /* PassengerView.m */,
+				AEA930541BA86D400090981A /* PassengerTableViewCell.h */,
+				AEA930551BA86D400090981A /* PassengerTableViewCell.m */,
 				AEA31D671BCCF3CC00D08AF0 /* DecimalKeypad.h */,
 				AEA31D681BCCF3CC00D08AF0 /* DecimalKeypad.m */,
 			);
@@ -289,8 +288,6 @@
 		924E01D41C08EB6E00A58355 /* Add Passengers */ = {
 			isa = PBXGroup;
 			children = (
-				AEA930541BA86D400090981A /* PassengerTableViewCell.h */,
-				AEA930551BA86D400090981A /* PassengerTableViewCell.m */,
 				AEA930571BA876260090981A /* AddPassengersViewController.h */,
 				AEA930581BA876260090981A /* AddPassengersViewController.m */,
 			);
@@ -314,7 +311,6 @@
 				923C3FD21BDBEBFD0000E6F4 /* libz.tbd */,
 				923C3FD01BDBEBEA0000E6F4 /* libsqlite3.tbd */,
 				923C3FCC1BDB1B2D0000E6F4 /* Bolts.framework */,
-				923C3FCD1BDB1B2D0000E6F4 /* Parse.framework */,
 				AE1408321BD8ACDD0086AE34 /* Social.framework */,
 				AE1408301BD8ACD60086AE34 /* Accounts.framework */,
 				AE14082A1BD8ACAC0086AE34 /* SystemConfiguration.framework */,

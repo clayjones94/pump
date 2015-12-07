@@ -27,11 +27,12 @@
 
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    //    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    //    [cancelButton setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
-    //    [cancelButton setFrame:CGRectMake(10, 30 , 25, 25)];
-    //    [cancelButton addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
-    //    [self.view addSubview:cancelButton];
+    
+    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelButton setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
+    [cancelButton setFrame:CGRectMake(10, 30 , 25, 25)];
+    [cancelButton addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:cancelButton];
     //    //
     //    //    [self.view clipsToBounds];
     //    //    [self.view addSubview:topBar];
@@ -141,14 +142,8 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+-(void) cancel {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
-*/
 
 @end

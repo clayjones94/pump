@@ -11,7 +11,6 @@
 #import "Utils.h"
 #import "UserManager.h"
 #import "Database.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import <Venmo-iOS-SDK/Venmo.h>
 #import <Parse/Parse.h>
 #import "AddPassengersViewController.h"
@@ -258,9 +257,7 @@
 -(void) chargePassenger: (id) passenger atIndex: (NSUInteger) index {
     __block NSUInteger i = index;
     NSString *target;
-    if ([passenger isKindOfClass:[PFUser class]]) {
-        target = ((PFUser *)passenger)[@"phone"];
-    } else if ([passenger isKindOfClass:[CNContact class]]){
+    if ([passenger isKindOfClass:[CNContact class]]){
         target = ((CNContact *)passenger).phoneNumbers.firstObject.value.stringValue;
     }
     [passengerView updatePaymentStatus:PAYMENT_PROCESSING Passenger:passenger atIndex:index error:nil];

@@ -3,13 +3,9 @@
 
 target 'Pump' do
 pod 'AFNetworking', '2.2.1'
-pod 'KLCPopup'
 pod 'VENTokenField'
 pod 'Venmo-iOS-SDK'
 pod 'GoogleMaps'
-pod 'SDWebImage', '~>3.7'
-pod 'HMSegmentedControl'
-pod 'BBBadgeBarButtonItem'
 end
 
 target 'PumpTests' do

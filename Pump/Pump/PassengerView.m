@@ -10,7 +10,6 @@
 #import "PassengerTableViewCell.h"
 #import "TripManager.h"
 #import "Utils.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import <Venmo-iOS-SDK/Venmo.h>
 #import <Parse/Parse.h>
 

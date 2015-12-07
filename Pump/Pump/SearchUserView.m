@@ -8,7 +8,6 @@
 
 #import "SearchUserView.h"
 #import "Utils.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "Database.h"
 #import "SearchViewTableViewCell.h"
 #import <Parse/Parse.h>
@@ -31,8 +30,6 @@
     BOOL isVenmoFriends;
     UserManager *_userManager;
     UIActivityIndicatorView *_indicator;
-    
-    PFQuery *_userQuery;
 }
 
 @synthesize tokenField = _tokenField;
@@ -73,50 +70,12 @@
     
     
     [self contactPhonesNumbersWithBlock:^(BOOL finished) {
-//        [PFCloud callFunctionInBackground:@"retrieveUsersWithPhoneNumbers"
-//                           withParameters:@{ @"phone_numbers" : _contactNumbers
-//                                             }
-//                                    block:^(id object, NSError *error) {
-//                                        _contactUsers = object;
-//                                        [self filterOutPassengers];
-//                                        [_tableview reloadData];
-//                                    }];
+
     }];
-//    
-//    PFQuery *usernameQuery = [PFUser query];
-//    [usernameQuery whereKey:@"username" hasPrefix:@""];
-//    PFQuery *firstnameQuery = [PFUser query];
-//    [firstnameQuery whereKey:@"first_name" hasPrefix:@""];
-//    PFQuery *lastnameQuery = [PFUser query];
-//    [lastnameQuery whereKey:@"last_name" hasPrefix:@""];
-//    _userQuery = [PFQuery orQueryWithSubqueries:@[usernameQuery, firstnameQuery, lastnameQuery]];
-//    _userQuery.limit = 10;
-//    [_userQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-//        _pumpUsers = [NSMutableArray arrayWithArray: objects];
-//        [_tableview reloadData];
-//    }];
-//    
-//    [PFCloud callFunctionInBackground:@"retrieveRecentPassengers"
-//                       withParameters:nil
-//     
-//                                block:^(id object, NSError *error) {
-//                                    _recentUsers = object;
-//                                    [self filterOutPassengers];
-//                                    [_tableview reloadData];
-//                                }];
     
     
     
     return self;
-}
-
--(BOOL) array: (NSMutableArray *) array containsUser: (PFUser *)user {
-    for (PFUser *u in array) {
-        if ([user.objectId isEqualToString:u.objectId]) {
-            return YES;
-        }
-    }
-    return NO;
 }
 
 -(void)contactPhonesNumbersWithBlock: (void (^)(BOOL finished))block{
@@ -151,13 +110,6 @@
     return @"";
 }
 
--(void) filterOutPassengers {
-//    for (PFUser *user in [TripManager sharedManager].passengers) {
-//        [_contactUsers removeObjectIdenticalTo:user];
-//        [_recentUsers removeObjectIdenticalTo:user];
-//    }
-}
-
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [_tokenField resignFirstResponder];
 }
@@ -168,11 +120,10 @@
 
 -(NSString *)tokenField:(VENTokenField *)tokenField titleForTokenAtIndex:(NSUInteger)index {
     id user = [_selectedFriends objectAtIndex:index];
-    if ([user isKindOfClass:[PFUser class]]) {
-        return [NSString stringWithFormat:@"%@ %@", user[@"first_name_cased"],user[@"last_name_cased"]];
-    } else {
+    if ([user isKindOfClass:[CNContact class]]) {
         return [NSString stringWithFormat:@"%@ %@", ((CNContact *)user).givenName,((CNContact *)user).familyName];
     }
+    return @"";
 }
 
 -(NSString *)tokenFieldCollapsedText:(VENTokenField *)tokenField {
@@ -195,20 +146,6 @@
 }
 
 -(void)tokenField:(VENTokenField *)tokenField didChangeText:(NSString *)text {
-//    if (_filteredContacts.count < 10 && _filteredContactUsers.count < 10 && _filteredRecentUsers.count < 10) {
-//        PFQuery *usernameQuery = [PFUser query];
-//        [usernameQuery whereKey:@"username" hasPrefix:text.lowercaseString];
-//        PFQuery *firstnameQuery = [PFUser query];
-//        [firstnameQuery whereKey:@"first_name" hasPrefix:text.lowercaseString];
-//        PFQuery *lastnameQuery = [PFUser query];
-//        [lastnameQuery whereKey:@"last_name" hasPrefix:text.lowercaseString];
-//        _userQuery = [PFQuery orQueryWithSubqueries:@[usernameQuery, firstnameQuery, lastnameQuery]];
-//        _userQuery.limit = 10;
-//        [_userQuery findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-//            _pumpUsers = [NSMutableArray arrayWithArray: objects];
-//            [_tableview reloadData];
-//        }];
-//    }
     if(text.length == 0)
     {
         isFiltered = FALSE;
@@ -220,33 +157,6 @@
         _filteredContactUsers = [[NSMutableArray alloc] init];
         _filteredContacts = [[NSMutableArray alloc] init];;
         
-//        for (PFUser* friend in _recentUsers)
-//        {
-//            
-//            NSRange nameRange = [[NSString stringWithFormat: @"%@ %@", friend[@"first_name"], friend[@"last_name"]] rangeOfString:text options:NSCaseInsensitiveSearch];
-//            NSRange phoneRange = [friend[@"phone"] rangeOfString:text options:NSCaseInsensitiveSearch];
-//            NSRange usernameRange = [friend[@"username"] rangeOfString:text options:NSCaseInsensitiveSearch];
-//            
-//            if(nameRange.location != NSNotFound || phoneRange.location != NSNotFound ||  usernameRange.location != NSNotFound)
-//            {
-//                [_filteredRecentUsers addObject:friend];
-//            }
-//        }
-//        
-//        
-//        
-//        for (PFUser* friend in _contactUsers)
-//        {
-//            
-//            NSRange nameRange = [[NSString stringWithFormat: @"%@ %@", friend[@"first_name"], friend[@"last_name"]] rangeOfString:text options:NSCaseInsensitiveSearch];
-//            NSRange phoneRange = [friend[@"phone"] rangeOfString:text options:NSCaseInsensitiveSearch];
-//            NSRange usernameRange = [friend[@"username"] rangeOfString:text options:NSCaseInsensitiveSearch];
-//            
-//            if(nameRange.location != NSNotFound || phoneRange.location != NSNotFound ||  usernameRange.location != NSNotFound)
-//            {
-//                [_filteredContactUsers addObject:friend];
-//            }
-//        }
         
         for (CNContact* friend in _contacts)
         {
@@ -279,26 +189,6 @@
         cell = [[SearchViewTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"Friend Cell"];
     }
     
-    PFUser *user;
-    
-    if (isFiltered) {
-        if (indexPath.section == 0) {
-            user = [_filteredRecentUsers objectAtIndex:indexPath.row];
-        } else if(indexPath.section == 1) {
-            user = [_filteredContactUsers objectAtIndex:indexPath.row];
-        } else if(indexPath.section == 3){
-            user = [_pumpUsers objectAtIndex:indexPath.row];
-        }
-    } else {
-        if (indexPath.section == 0) {
-            user = [_recentUsers objectAtIndex:indexPath.row];
-        } else if(indexPath.section == 1) {
-            user = [_contactUsers objectAtIndex:indexPath.row];
-        } else if(indexPath.section == 3){
-            user = [_pumpUsers objectAtIndex:indexPath.row];
-        }
-    }
-    
 //    CGSize itemSize = CGSizeMake(40, 40);
 //    UIGraphicsBeginImageContextWithOptions(itemSize, NO, UIScreen.mainScreen.scale);
 //    CGRect imageRect = CGRectMake(30 - itemSize.width/2, 30 - itemSize.height/2, itemSize.width, itemSize.height);
@@ -309,9 +199,6 @@
 //    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[friendDict objectForKey:@"profile_picture_url"]]
 //                      placeholderImage:[UIImage imageNamed:@"profile_pic_default"]];
     
-    if (user) {
-        [cell setUser:user];
-    } else {
         if (isFiltered) {
             [cell setContact:_filteredContacts[indexPath.row]];
             if ([_selectedFriends containsObject:_filteredContacts[indexPath.row]]) {
@@ -327,14 +214,13 @@
                 cell.accessoryType = UITableViewCellAccessoryNone;
             }
         }
-    }
     
-    if ([_selectedFriends containsObject:user]) {
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
-    } else {
-        cell.accessoryType = UITableViewCellAccessoryNone;
-    }
-    
+//    if ([_selectedFriends containsObject:user]) {
+//        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+//    } else {
+//        cell.accessoryType = UITableViewCellAccessoryNone;
+//    }
+//    
     return cell;
 }
 

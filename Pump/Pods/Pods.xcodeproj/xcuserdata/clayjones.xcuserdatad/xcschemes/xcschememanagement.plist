@@ -9,11 +9,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>BBBadgeBarButtonItem.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>CMDQueryStringSerialization.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -24,22 +19,7 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>HMSegmentedControl.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>KLCPopup.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-Pump.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -67,16 +47,6 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>09671CC02296E0929124C2D77779CAAB</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>0E97C5D413CE6B4CFDFB353AC9C8F898</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>0F7B1940DE10624DFABB6A65D0BE9B4A</key>
 		<dict>
 			<key>primary</key>
@@ -87,37 +57,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2AB49797D14D57FA43A345254AFB9F18</key>
+		<key>4C381AFDAAA13D06229404C08514FB43</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2BD3873FF76BC84C0B05EBBCB2CB4323</key>
+		<key>5E7AE192AE0603884487A52BC5373D4F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>55F7A9FA18D797218B78952AF04C4493</key>
+		<key>80096251956980FBBEB054EE369430E2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>612F4059B702B96DD606E25772D3225A</key>
+		<key>850147F35F3A3A2CEC16027D53CFC9CC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A5F7A2DE23F453F03255B4CAD0D5F2A2</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>B916841F8395653061FD7E07415DE7D4</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C1071068DB988D25AD8E7E796905F326</key>
+		<key>D5611E052811FFDCA228918D2058C5CD</key>
 		<dict>
 			<key>primary</key>
 			<true/>

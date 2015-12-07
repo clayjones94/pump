@@ -214,9 +214,7 @@
 
 -(void)setPassenger:(id)passenger {
     _passenger = passenger;
-    if ([passenger isKindOfClass:[PFUser class]]) {
-        self.textLabel.attributedText = [Utils defaultString:[NSString stringWithFormat:@"%@ %@",_passenger[@"first_name_cased"], _passenger[@"last_name_cased"]] size:16 color:[UIColor blackColor]] ;
-    } else {
+    if ([passenger isKindOfClass:[CNContact class]]) {
         self.textLabel.attributedText = [Utils defaultString:[NSString stringWithFormat:@"%@ %@",((CNContact *)_passenger).givenName, ((CNContact *)_passenger).familyName] size:16 color:[UIColor blackColor]] ;
     }
 }

@@ -50,17 +50,9 @@
     
     _homevc = [[TripViewController alloc] init];
     _nav = [[UINavigationController alloc] initWithRootViewController:_homevc];
-    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:21];
-    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObjects:@[font, [UIColor whiteColor]]
-                                                                forKeys: @[NSFontAttributeName, NSForegroundColorAttributeName]];
 
-    CGSize newSize = CGSizeMake(60.0f, 40.0f);
-    UIGraphicsBeginImageContext(newSize);
-    [[UIImage imageNamed:@"PumpTitle-White"] drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
+    UIImage* newImage = [UIImage imageNamed:@"pump_bar_icon"];
     _nav.navigationBar.topItem.titleView = [[UIImageView alloc] initWithImage:newImage];
-    [_nav.navigationBar setTitleTextAttributes:attrsDictionary];
     
     [_nav.navigationBar.layer setBorderWidth:0];
     _nav.navigationBar.barTintColor = [Utils defaultColor];
@@ -77,17 +69,6 @@
     [self.window makeKeyAndVisible];
 
     return YES;
-}
-
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    [PFPush handlePush:userInfo];
-}
-
-- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
-{
-    PFInstallation *currentInstallation = [PFInstallation currentInstallation];
-    [currentInstallation setDeviceTokenFromData:deviceToken];
-    [currentInstallation saveInBackground];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error

@@ -56,13 +56,10 @@
     
 }
 
-@synthesize user = _user;
-
 -(void)viewDidLoad {
     [super viewDidLoad];
     [UserManager sharedManager];
     
-    [[PFUser currentUser] fetch];
     
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -71,7 +68,7 @@
     _indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
     UIButton *settingsButton = [[UIButton alloc] init];
-    [settingsButton setBackgroundImage:[UIImage imageNamed:@"Settings Filled-25"] forState:UIControlStateNormal];
+    [settingsButton setBackgroundImage:[UIImage imageNamed:@"settings"] forState:UIControlStateNormal];
     [settingsButton setFrame:CGRectMake(0, 0, 25, 25)];
     [settingsButton addTarget:self action:@selector(settingsSelected) forControlEvents:UIControlEventTouchUpInside];
     
@@ -125,11 +122,6 @@
         }
     }];
     [self resignFirstResponder];
-}
-
--(void)setUser:(PFUser *)user {
-    _user = user;
-    [TripManager sharedManager].car = _user;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -499,7 +491,7 @@
     [_infoBar addSubview:_iconView];
     
     _carOwnerBar = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 24)];
-    [_carOwnerBar setBackgroundColor:[Utils greenColor]];
+    [_carOwnerBar setBackgroundColor:[Utils defaultColor]];
     
     _cancelCarButton = [[UIButton alloc] init];
     [_cancelCarButton setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];

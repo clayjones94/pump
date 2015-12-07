@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "TripManager.h"
-#import "KLCPopup.h"
 #import <GoogleMaps/GoogleMaps.h>
 #import <CoreLocation/CoreLocation.h>
 #import "DecimalKeypad.h"
@@ -16,5 +15,4 @@
 #import "DirectionsManager.h"
 
 @interface TripViewController : UIViewController <TripManagerDelegate, GMSMapViewDelegate, UIAlertViewDelegate, DecimalKeypadDelegate, PlacesSearchViewDelegate>
-@property (nonatomic) PFUser *user;
 @end

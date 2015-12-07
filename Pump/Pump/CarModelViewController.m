@@ -37,8 +37,15 @@ NSMutableString *_currentString;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [super viewDidLoad];
-    
+    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelButton setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
+    [cancelButton setFrame:CGRectMake(0, 0, 25, 25)];
+    [cancelButton addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: cancelButton];
+}
+
+-(void)cancel {
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)viewDidLayoutSubviews {

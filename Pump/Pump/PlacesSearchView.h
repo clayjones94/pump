@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "Utils.h"
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "Database.h"
 #import "SearchViewTableViewCell.h"
 #import <Parse/Parse.h>

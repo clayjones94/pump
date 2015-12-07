@@ -32,6 +32,16 @@
     [super viewDidLoad];
     [self.view setBackgroundColor:[Utils defaultColor]];
     [Utils addDefaultGradientToView:self.view];
+    
+    UIButton *cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [cancelButton setImage:[UIImage imageNamed:@"cancel"] forState:UIControlStateNormal];
+    [cancelButton setFrame:CGRectMake(0, 0, 25, 25)];
+    [cancelButton addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView: cancelButton];
+}
+
+-(void)cancel {
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 -(void)viewDidLayoutSubviews {
@@ -39,26 +49,15 @@
     CGFloat width = self.view.frame.size.width;
     CGFloat height = self.view.frame.size.height;
     
-    NSLog(@"%f", height);
-    
+    UIImageView *carImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"red_car"]];
+    [carImage setFrame:CGRectMake(width/2 - carImage.frame.size.width/2, height * .25 - carImage.frame.size.height/2, carImage.frame.size.width, carImage.frame.size.height)];
+    [self.view addSubview:carImage];
     
     UILabel *titleLabel = [[UILabel alloc] init];
     [titleLabel setAttributedText:[Utils defaultString:@"Select a year:" size:24 color:[UIColor whiteColor]]];
     [titleLabel sizeToFit];
-    [titleLabel setFrame:CGRectMake(width/2 - titleLabel.frame.size.width/2, height * .30 - titleLabel.frame.size.height/2, titleLabel.frame.size.width, titleLabel.frame.size.height)];
+    [titleLabel setFrame:CGRectMake(width/2 - titleLabel.frame.size.width/2, height * .45 - titleLabel.frame.size.height/2, titleLabel.frame.size.width, titleLabel.frame.size.height)];
     [self.view addSubview:titleLabel];
-    
-    //    UITextField *field = [[UITextField alloc] initWithFrame:CGRectMake(width/2 - TEXT_FIELD_WIDTH/2, height * .30 - 10, 30, TEXT_FIELD_WIDTH)];
-    //    [field setBackgroundColor:[UIColor clearColor]];
-    //    [field setTextColor:[UIColor whiteColor]];
-    //    [field setFont:[UIFont fontWithName:@"AppleSDGothicNeo-Regular" size:26]];
-    //    [field setTextAlignment:NSTextAlignmentCenter];
-    //    [field setUserInteractionEnabled:NO];
-    //    [field.layer setBorderColor:[UIColor whiteColor].CGColor];
-    //    [field.layer setBorderWidth:1];
-    //    [field.layer setCornerRadius:TEXT_FIELD_WIDTH/2];
-    //    [field setText:@"Select year"];
-    //    [self.view addSubview:field];
     
     picker = [[UIPickerView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height * .95 -30) - height/2, width, height/2)];
     picker.delegate = self;
