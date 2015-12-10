@@ -9,9 +9,6 @@
 #import "ConnectWithVenmoViewController.h"
 #import "Utils.h"
 #import <Venmo-iOS-SDK/Venmo.h>
-#import <Parse/Parse.h>
-#import "PhoneViewController.h"
-#import "FindCarViewController.h"
 
 @interface ConnectWithVenmoViewController ()
 
