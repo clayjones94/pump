@@ -173,8 +173,6 @@
     if (owner) {
         if ([owner isKindOfClass:[CNContact class]]) {
             [_carOwnerLabel setAttributedText:[Utils defaultString:[NSString stringWithFormat:@"Driving %@'s car: %@ mpg",((CNContact *)owner).givenName, mpg] size:14 color:[UIColor whiteColor]]];
-        } else {
-            [_carOwnerLabel setAttributedText:[Utils defaultString:[NSString stringWithFormat:@"Driving %@'s car: %@ mpg",((PFUser *)owner)[@"first_name_cased"], mpg] size:14 color:[UIColor whiteColor]]];
         }
         
         [self.view addSubview:_carOwnerBar];

@@ -12,7 +12,6 @@
 #import "UserManager.h"
 #import "Database.h"
 #import <Venmo-iOS-SDK/Venmo.h>
-#import <Parse/Parse.h>
 #import "AddPassengersViewController.h"
 #import "ConnectWithVenmoViewController.h"
 

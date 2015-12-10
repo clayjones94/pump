@@ -9,7 +9,6 @@
 #import "CarModelViewController.h"
 #import "Utils.h"
 #import "Database.h"
-#import <Parse/Parse.h>
 #import "CustomMPGViewController.h"
 
 #define TEXT_FIELD_WIDTH 180

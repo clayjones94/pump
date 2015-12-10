@@ -11,7 +11,6 @@
 #import "Constants.h"
 #import <MapKit/MapKit.h>
 #import <GoogleMaps/GoogleMaps.h>
-#import <Parse/Parse.h>
 #import "DirectionsManager.h"
 
 #define degreesToRadians(x) (M_PI * x / 180.0)

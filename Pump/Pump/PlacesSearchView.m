@@ -18,8 +18,6 @@
     UserManager *_userManager;
     UIActivityIndicatorView *_indicator;
     GMSPlacesClient *_placesClient;
-    
-    PFQuery *_userQuery;
     CGRect maxFrame;
     BOOL tableHidden;
     GMSAutocompletePrediction *_place;
@@ -84,18 +82,6 @@
     maxFrame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, 50*3 + 40);
     [_tableview setFrame:CGRectMake(0, 40, frame.size.width, 50*3)];
     [_searchBar setFrame:CGRectMake(0, 0, frame.size.width, 40)];
-}
-
--(void) layoutSubviews {
-}
-
--(BOOL) array: (NSMutableArray *) array containsUser: (PFUser *)user {
-    for (PFUser *u in array) {
-        if ([user.objectId isEqualToString:u.objectId]) {
-            return YES;
-        }
-    }
-    return NO;
 }
 
 -(void)setTableHidden:(BOOL)hidden {

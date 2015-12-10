@@ -8,7 +8,6 @@
 
 #import "TripManager.h"
 #import "Database.h"
-#import <Parse/Parse.h>
 
 @implementation TripManager {
     NSMutableArray *_runningLocations;

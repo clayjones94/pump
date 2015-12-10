@@ -11,7 +11,6 @@
 #import "TripManager.h"
 #import "Utils.h"
 #import <Venmo-iOS-SDK/Venmo.h>
-#import <Parse/Parse.h>
 
 @implementation PassengerView {
     CGRect _boundingFrame;

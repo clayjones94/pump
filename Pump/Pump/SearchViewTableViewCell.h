@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <Parse/Parse.h>
 @import Contacts;
 
 @interface SearchViewTableViewCell : UITableViewCell
 
-@property (nonatomic) PFUser *user;
 @property (nonatomic) CNContact *contact;
 
 @end

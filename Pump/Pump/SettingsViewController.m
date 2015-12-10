@@ -13,7 +13,6 @@
 #import "Constants.h"
 #import "Database.h"
 #import "TripManager.h"
-#import <Parse/Parse.h>
 #import "CustomMPGViewController.h"
 
 @interface SettingsViewController ()

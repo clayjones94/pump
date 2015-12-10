@@ -10,7 +10,6 @@
 #import "Utils.h"
 #import "Database.h"
 #import "SearchViewTableViewCell.h"
-#import <Parse/Parse.h>
 #import "TripManager.h"
 #import "UserManager.h"
 
