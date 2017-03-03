@@ -13,6 +13,8 @@
 		924E01C61BFD602E00A58355 /* CarFlowViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 924E01C51BFD602E00A58355 /* CarFlowViewController.m */; };
 		924E01C91C08DC6C00A58355 /* ChooseCarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 924E01C81C08DC6C00A58355 /* ChooseCarViewController.m */; };
 		924E01CC1C08DCAB00A58355 /* ConnectWithVenmoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 924E01CB1C08DCAB00A58355 /* ConnectWithVenmoViewController.m */; };
+		92710CE61D7DA71B00D3B7FF /* bikehike_course (1).gpx in Resources */ = {isa = PBXBuildFile; fileRef = 92710CE51D7DA71B00D3B7FF /* bikehike_course (1).gpx */; };
+		92710CE81D7DA7A100D3B7FF /* new_route.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 92710CE71D7DA7A100D3B7FF /* new_route.gpx */; };
 		92987F561BE04DE30076C817 /* PlacesSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 92987F551BE04DE30076C817 /* PlacesSearchView.m */; };
 		92987F591BE04F5B0076C817 /* PlacesTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 92987F581BE04F5B0076C817 /* PlacesTableViewCell.m */; };
 		92987F5D1BE079E40076C817 /* DirectionsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 92987F5C1BE079E40076C817 /* DirectionsManager.m */; };
@@ -71,6 +73,8 @@
 		924E01C81C08DC6C00A58355 /* ChooseCarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseCarViewController.m; sourceTree = "<group>"; };
 		924E01CA1C08DCAB00A58355 /* ConnectWithVenmoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectWithVenmoViewController.h; sourceTree = "<group>"; };
 		924E01CB1C08DCAB00A58355 /* ConnectWithVenmoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectWithVenmoViewController.m; sourceTree = "<group>"; };
+		92710CE51D7DA71B00D3B7FF /* bikehike_course (1).gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "bikehike_course (1).gpx"; path = "../../../../../Downloads/bikehike_course (1).gpx"; sourceTree = "<group>"; };
+		92710CE71D7DA7A100D3B7FF /* new_route.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = new_route.gpx; path = ../../../../../Downloads/new_route.gpx; sourceTree = "<group>"; };
 		92987F541BE04DE30076C817 /* PlacesSearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlacesSearchView.h; sourceTree = "<group>"; };
 		92987F551BE04DE30076C817 /* PlacesSearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlacesSearchView.m; sourceTree = "<group>"; };
 		92987F571BE04F5B0076C817 /* PlacesTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlacesTableViewCell.h; sourceTree = "<group>"; };
@@ -349,6 +353,8 @@
 		AE2F448A1B8E3C9D00F57579 /* Pump */ = {
 			isa = PBXGroup;
 			children = (
+				92710CE51D7DA71B00D3B7FF /* bikehike_course (1).gpx */,
+				92710CE71D7DA7A100D3B7FF /* new_route.gpx */,
 				924E01CD1C08DE0A00A58355 /* Managers */,
 				924E01D11C08DEF800A58355 /* Other files */,
 				924E01D21C08EAE400A58355 /* View Controllers */,
@@ -480,7 +486,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				92710CE61D7DA71B00D3B7FF /* bikehike_course (1).gpx in Resources */,
 				AE65D6B91B92979900FF4519 /* Default-568h@2x.png in Resources */,
+				92710CE81D7DA7A100D3B7FF /* new_route.gpx in Resources */,
 				AE2F44991B8E3C9D00F57579 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

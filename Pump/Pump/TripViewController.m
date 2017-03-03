@@ -159,9 +159,9 @@
 -(void)tripManager:(TripManager *)manager didSelectCar:(id)owner {
     [self updateCarLabel:owner withMPG:[TripManager sharedManager].mpg];
     if (owner) {
-        [_carOwnerBar addSubview:_cancelCarButton];
+//        [_carOwnerBar addSubview:_cancelCarButton];
     } else if(_cancelCarButton.superview) {
-        [_cancelCarButton removeFromSuperview];
+//        [_cancelCarButton removeFromSuperview];
     }
 }
 
@@ -175,12 +175,12 @@
             [_carOwnerLabel setAttributedText:[Utils defaultString:[NSString stringWithFormat:@"Driving %@'s car: %@ mpg",((CNContact *)owner).givenName, mpg] size:14 color:[UIColor whiteColor]]];
         }
         
-        [self.view addSubview:_carOwnerBar];
+//        [self.view addSubview:_carOwnerBar];
     } else {
         [_carOwnerLabel setAttributedText:[Utils defaultString:[NSString stringWithFormat:@"Driving my car: %@ mpg", mpg] size:14 color:[UIColor whiteColor]]];
     }
-    [_carOwnerLabel sizeToFit];
-    [_carOwnerLabel setFrame:CGRectMake(_carOwnerBar.frame.size.width/2 - _carOwnerLabel.frame.size.width/2, _carOwnerBar.frame.size.height/2 - _carOwnerLabel.frame.size.height/2, _carOwnerLabel.frame.size.width, _carOwnerLabel.frame.size.height)];
+//    [_carOwnerLabel sizeToFit];
+//    [_carOwnerLabel setFrame:CGRectMake(_carOwnerBar.frame.size.width/2 - _carOwnerLabel.frame.size.width/2, _carOwnerBar.frame.size.height/2 - _carOwnerLabel.frame.size.height/2, _carOwnerLabel.frame.size.width, _carOwnerLabel.frame.size.height)];
 }
 
 -(void)tripManager:(TripManager *)manager didUpdateStepDistance:(CLLocationDistance)distance totalDistance:(CLLocationDistance)totalDistance totalTime:(NSTimeInterval)totalTime {
@@ -388,7 +388,7 @@
     CGFloat width = self.view.frame.size.width;
     
     if (![DirectionsManager sharedManager].isDirecting) {
-        [searchview setFrame:CGRectMake(width * .05, 100, width * .9, height)];
+        [searchview setFrame:CGRectMake(width * .05, 80, width * .9, height)];
         [searchview setTableHidden:YES];
         if (!searchview.superview) {
             [self.view addSubview:searchview];
@@ -421,7 +421,7 @@
 -(void)createSearchView {
     CGFloat height = self.view.frame.size.height;
     CGFloat width = self.view.frame.size.width;
-    searchview = [[PlacesSearchView alloc] initWithFrame:CGRectMake(width * .05, 100, width * .9, height)];
+    searchview = [[PlacesSearchView alloc] initWithFrame:CGRectMake(width * .05, 40, width * .9, height)];
     [searchview.layer setShadowColor:[UIColor blackColor].CGColor];
     [searchview.layer setShadowRadius:4];
     [searchview.layer setShadowOffset:CGSizeMake(2, 2)];
@@ -499,16 +499,16 @@
     [_cancelCarButton setFrame:CGRectMake(_carOwnerBar.frame.size.width - _cancelCarButton.frame.size.width - 10, (_carOwnerBar.frame.size.height - _cancelCarButton.frame.size.height)/2, _cancelCarButton.frame.size.width, _cancelCarButton.frame.size.height)];
     [_carOwnerBar addSubview:_cancelCarButton];
     
-    if ([TripManager sharedManager].car) {
-        [_carOwnerBar addSubview:_cancelCarButton];
-    } else if(_cancelCarButton.superview) {
-        [_cancelCarButton removeFromSuperview];
-    }
+//    if ([TripManager sharedManager].car) {
+//        [_carOwnerBar addSubview:_cancelCarButton];
+//    } else if(_cancelCarButton.superview) {
+//        [_cancelCarButton removeFromSuperview];
+//    }
     
     UITapGestureRecognizer *tapBar = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(selectFriend)];
     [_carOwnerBar addGestureRecognizer:tapBar];
     _carOwnerLabel = [[UILabel alloc] init];
-    [_carOwnerBar addSubview:_carOwnerLabel];
+//    [_carOwnerBar addSubview:_carOwnerLabel];
     CGRect frame = _carOwnerBar.frame;
     if (self.navigationController.navigationBarHidden && _infoBar.superview) {
         frame.origin.y = _infoBar.frame.size.height;
@@ -516,8 +516,8 @@
         frame.origin.y = 64;
     }
     [_carOwnerBar setFrame:frame];
-    [self updateCarLabel:[TripManager sharedManager].car withMPG:[TripManager sharedManager].mpg];
-    [self.view addSubview:_carOwnerBar];
+//    [self updateCarLabel:[TripManager sharedManager].car withMPG:[TripManager sharedManager].mpg];
+//    [self.view addSubview:_carOwnerBar];
 }
 
 -(void) cancelCar {
